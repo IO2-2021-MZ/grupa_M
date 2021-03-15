@@ -10,7 +10,7 @@ namespace webApi.Services
 {
     public interface IRestaurantService
     {
-        Restaurant GetRestaurantById(int id);
+        Restaurant GetRestaurantById(int? id);
         int CreateNewRestaurant(NewRestaurant newRestaurant);
         void DeleteRestaurant(int id);
         Section GetSectionByRestaurantsId(int id);
@@ -22,8 +22,8 @@ namespace webApi.Services
         void RemovePositionFromMenu(int id);
         IEnumerable<Restaurant> GetAllRestaurants();
         IEnumerable<OrderR> GetAllOrdersForRestaurants(int id);
-        IEnumerable<ReviewR> GetAllReviewsForRestaurants(int id);
-        IEnumerable<ComplaintR> GetAllComplaitsForRestaurants(int id);
+        IEnumerable<ReviewR> GetAllReviewsForRestaurants(int? id);
+        IEnumerable<ComplaintR> GetAllComplaitsForRestaurants(int? id);
         void SetFavouriteRestaurant(int id);
         void ActivateRestaurant(int id);
         void ReactivateRestaurant(int id);

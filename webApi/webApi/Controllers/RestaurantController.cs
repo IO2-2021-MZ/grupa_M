@@ -25,8 +25,8 @@ namespace webApi.Controllers
             _restaurantService = restaurantService;
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<Restaurant> GetRestaurant([FromRoute] int id)
+        [HttpGet]
+        public ActionResult<Restaurant> GetRestaurant([FromQuery] int? id)
         {
             Restaurant restaurant = _restaurantService.GetRestaurantById(id);
             return Ok(restaurant);
@@ -39,14 +39,14 @@ namespace webApi.Controllers
             return Created($"/restaurant/{id}", null);
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult DeleteRestaurant([FromRoute] int id)
+        [HttpDelete]
+        public ActionResult DeleteRestaurant([FromQuery] int id)
         {
             _restaurantService.DeleteRestaurant(id);
             return NoContent();
         }
 
-        [HttpGet("menu/{id}")]
+        [HttpGet("menu")]
         public ActionResult<Section> GetSectionByRestaurantsId([FromQuery] int id)
         {
             Section section = _restaurantService.GetSectionByRestaurantsId(id);
@@ -60,35 +60,35 @@ namespace webApi.Controllers
             return Created($"/restaurant/menu/section/{id}", null);
         }
 
-        [HttpPatch("menu/section/{id}")]
+        [HttpPatch("menu/section")]
         public ActionResult UpdateSection([FromQuery] int id, [FromBody] string newName)
         {
             _restaurantService.UpdateSection(id, newName);
             return Ok();
         }
 
-        [HttpDelete("menu/section/{id}")]
+        [HttpDelete("menu/section")]
         public ActionResult DeleteSection([FromQuery] int id)
         {
             _restaurantService.DeleteSection(id);
             return Ok();
         }
 
-        [HttpPost("menu/position/{id}")]
+        [HttpPost("menu/position")]
         public ActionResult CreatePosition([FromQuery] int id, [FromBody] NewPositionFromMenu newPosition)
         {
             int positionId = _restaurantService.CreateNewPositionFromMenu(id, newPosition);
             return Created($"restaurant/menu/position/{positionId}", null);
         }
 
-        [HttpPatch("menu/position/{id}")]
+        [HttpPatch("menu/position")]
         public ActionResult UpdatePositionFromMenu([FromQuery] int id, NewPositionFromMenu newPosition)
         {
             _restaurantService.UpdatePositionFromMenu(id, newPosition);
             return Ok();
         }
 
-        [HttpDelete("menu/position/{id}")]
+        [HttpDelete("menu/position")]
         public ActionResult DeletePositionFromMenu([FromQuery] int id)
         {
             _restaurantService.RemovePositionFromMenu(id);
@@ -102,63 +102,63 @@ namespace webApi.Controllers
             return Ok(restaurants);
         }
 
-        [HttpGet("order/all/{id}")]
+        [HttpGet("order/all")]
         public ActionResult<IEnumerable<OrderR>> GetAllOrdersForRestaurant([FromQuery] int id)
         {
             IEnumerable<OrderR> orders = _restaurantService.GetAllOrdersForRestaurants(id);
             return Ok(orders);
         }
 
-        [HttpGet("review/all/{id}")]
-        public ActionResult<IEnumerable<OrderR>> GetAllReviewsForRestaurant([FromQuery] int id)
+        [HttpGet("review/all")]
+        public ActionResult<IEnumerable<OrderR>> GetAllReviewsForRestaurant([FromQuery] int? id)
         {
             IEnumerable<ReviewR> reviews = _restaurantService.GetAllReviewsForRestaurants(id);
             return Ok(reviews);
         }
 
         [HttpGet("complaint/all/{id}")]
-        public ActionResult<IEnumerable<ComplaintR>> GetAllComplaintsForRestaurant([FromQuery] int id)
+        public ActionResult<IEnumerable<ComplaintR>> GetAllComplaintsForRestaurant([FromQuery] int? id)
         {
             IEnumerable<ComplaintR> complaints = _restaurantService.GetAllComplaitsForRestaurants(id);
             return Ok(complaints);
         }
 
-        [HttpPost("favourite/{id}")]
+        [HttpPost("favourite")]
         public ActionResult SetFavouriteRestaurant([FromQuery] int id)
         {
             _restaurantService.SetFavouriteRestaurant(id);
             return Ok();
         }
 
-        [HttpPost("activate/{id}")]
+        [HttpPost("activate")]
         public ActionResult ActivateRestaurant([FromQuery] int id)
         {
             _restaurantService.ActivateRestaurant(id);
             return Ok();
         }
 
-        [HttpPost("reactivate/{id}")]
+        [HttpPost("reactivate")]
         public ActionResult ReactivateRestaurant([FromQuery] int id)
         {
             _restaurantService.ReactivateRestaurant(id);
             return Ok();
         }
 
-        [HttpPost("deativate/{id}")]
+        [HttpPost("deativate")]
         public ActionResult DeactivateRestaurant([FromQuery] int id)
         {
             _restaurantService.DeactivateRestaurant(id);
             return Ok();
         }
 
-        [HttpPost("block/{id}")]
+        [HttpPost("block")]
         public ActionResult BlockRestaurant([FromQuery] int id)
         {
             _restaurantService.BlockRestaurant(id);
             return Ok();
         }
 
-        [HttpPost("unblock/{id}")]
+        [HttpPost("unblock")]
         public ActionResult UnblockRestaurant([FromQuery] int id)
         {
             _restaurantService.UnblockRestaurant(id);

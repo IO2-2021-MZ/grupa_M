@@ -59,7 +59,7 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ComplaintR> GetAllComplaitsForRestaurants(int id)
+        public IEnumerable<ComplaintR> GetAllComplaitsForRestaurants(int? id)
         {
             throw new NotImplementedException();
         }
@@ -74,12 +74,12 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<ReviewR> GetAllReviewsForRestaurants(int id)
+        public IEnumerable<ReviewR> GetAllReviewsForRestaurants(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public Restaurant GetRestaurantById(int id)
+        public Restaurant GetRestaurantById(int? id)
         {
             throw new NotImplementedException();
         }
