@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using webApi.Models;
+using webApi.Services;
 
 namespace webApi
 {
@@ -34,6 +35,7 @@ namespace webApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "webApi", Version = "v1" });
             });
+            services.AddScoped<IUserService, UserService>();    //Wstrzykiwaæ od ogólnego do szczegó³owego
             services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
         }
 
