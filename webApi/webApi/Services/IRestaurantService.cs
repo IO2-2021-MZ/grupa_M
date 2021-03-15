@@ -14,7 +14,7 @@ namespace webApi.Services
         int CreateNewRestaurant(NewRestaurant newRestaurant);
         void DeleteRestaurant(int id);
         Section GetSectionByRestaurantsId(int id);
-        int CreateSection(string sectionName);
+        int CreateSection(int id, string sectionName);
         void UpdateSection(int id, string newSectionName);
         void DeleteSection(int id);
         int CreateNewPositionFromMenu(int id, NewPositionFromMenu newPosition);

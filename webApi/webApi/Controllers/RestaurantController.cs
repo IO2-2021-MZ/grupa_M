@@ -54,9 +54,10 @@ namespace webApi.Controllers
         }
 
         [HttpPost("menu/section")]
-        public ActionResult CreateSection([FromQuery] string section)
+        public ActionResult CreateSection([FromQuery] int id,[FromQuery] string section)
         {
-            int id = _restaurantService.CreateSection(section);
+            //id z tokenu po zalogowaniu
+            int sectionId = _restaurantService.CreateSection(id, section);
             return Created($"/restaurant/menu/section/{id}", null);
         }
 
@@ -105,6 +106,7 @@ namespace webApi.Controllers
         [HttpGet("order/all")]
         public ActionResult<IEnumerable<OrderR>> GetAllOrdersForRestaurant([FromQuery] int id)
         {
+            //id z tokenu po zalogowaniu
             IEnumerable<OrderR> orders = _restaurantService.GetAllOrdersForRestaurants(id);
             return Ok(orders);
         }
@@ -140,6 +142,7 @@ namespace webApi.Controllers
         [HttpPost("reactivate")]
         public ActionResult ReactivateRestaurant([FromQuery] int id)
         {
+            //id z tokenu po zalogowaniu
             _restaurantService.ReactivateRestaurant(id);
             return Ok();
         }
@@ -147,6 +150,7 @@ namespace webApi.Controllers
         [HttpPost("deativate")]
         public ActionResult DeactivateRestaurant([FromQuery] int id)
         {
+            //id z tokenu po zalogowaniu
             _restaurantService.DeactivateRestaurant(id);
             return Ok();
         }
