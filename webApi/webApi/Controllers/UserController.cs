@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using webApi.Models;
+using webApi.Services;
 
 namespace webApi.Controllers
 {
@@ -24,5 +25,33 @@ namespace webApi.Controllers
         {
             return Ok(_context.Addresses.ToList());
         }
+        private readonly IUserService _userService;
+
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
+        [HttpGet]
+        public IActionResult GetUser([FromQuery] int id)
+        {
+            
+            var user = _userService.GetUserWithId(id);
+            if(user == null)
+            {
+                return BadRequest("Resource not Found");
+            }
+            return Ok(user);
+        }
+        [HttpPost]
+        public IActionResult PostUser()
+        {
+            return Ok();
+        }
+        [HttpDelete]
+        public IActionResult DeleteUser()
+        {
+            return Ok();
+        }
+       
     }
 }

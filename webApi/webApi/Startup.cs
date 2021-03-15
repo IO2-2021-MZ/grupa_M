@@ -13,6 +13,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using webApi.Models;
+<<<<<<< HEAD
+=======
+using webApi.Services;
+>>>>>>> UserFirsTMethod
 
 namespace webApi
 {
@@ -34,6 +38,10 @@ namespace webApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "webApi", Version = "v1" });
             });
+<<<<<<< HEAD
+=======
+            services.AddScoped<IUserService, UserService>();    //Wstrzykiwaæ od ogólnego do szczegó³owego
+>>>>>>> UserFirsTMethod
             services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
         }
 
