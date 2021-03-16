@@ -13,18 +13,6 @@ namespace webApi.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IO2_RestaurantsContext _context;
-
-        public UserController(IO2_RestaurantsContext context)
-        {
-            _context = context;
-        }
-
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok(_context.Addresses.ToList());
-        }
         private readonly IUserService _userService;
 
         public UserController(IUserService userService)
@@ -34,9 +22,9 @@ namespace webApi.Controllers
         [HttpGet]
         public IActionResult GetUser([FromQuery] int id)
         {
-            
+
             var user = _userService.GetUserWithId(id);
-            if(user == null)
+            if (user == null)
             {
                 return BadRequest("Resource not Found");
             }
@@ -52,6 +40,6 @@ namespace webApi.Controllers
         {
             return Ok();
         }
-       
+
     }
 }
