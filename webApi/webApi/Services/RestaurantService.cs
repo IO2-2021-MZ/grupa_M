@@ -118,5 +118,10 @@ namespace webApi.Services
         {
             throw new NotImplementedException();
         }
+        public int CreateSection(int id, string sectionName)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

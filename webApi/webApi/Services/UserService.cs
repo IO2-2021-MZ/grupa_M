@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,20 @@ namespace webApi.Services
 
     public interface IUserService
     {
-        public User GetUserWithId(int id);
+        public User GetUserWithId(int? id);
     }
     public class UserService : IUserService
     {
         IO2_RestaurantsContext _context;
-
-        public UserService(IO2_RestaurantsContext context)
+        private readonly IMapper _mapper;
+        public UserService(IO2_RestaurantsContext context,IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        public User GetUserWithId(int id)
+        public User GetUserWithId(int? id)
         {
-            return _context.Users.Include(user => user.Address).FirstOrDefault(user => user.Id == id);
+            return _context.Users.FirstOrDefault(user => user.Id == id);
         }
     }
 }
