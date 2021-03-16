@@ -10,7 +10,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using webApi.Models;
 using webApi.Services;
@@ -34,10 +36,15 @@ namespace webApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "webApi", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
+
             //Wstrzykiwaæ od ogólnego do szczegó³owego
             services.AddScoped<IUserService, UserService>();    
             services.AddScoped<IRestaurantService, RestaurantService>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
         }
 

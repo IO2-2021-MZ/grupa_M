@@ -15,7 +15,7 @@ using webApi.Services;
 namespace webApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("restaurant")]
     public class RestaurantController : ControllerBase
     {
         private readonly IRestaurantService _restaurantService;
