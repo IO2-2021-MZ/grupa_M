@@ -39,7 +39,7 @@ namespace webApi.Controllers
             var review = _reviewService.GetReviewById(id);
             if (review == null)
             {
-                return BadRequest("Resource not Found");
+                return NotFound("Resource not Found");
             }
             return Ok(review);
         }

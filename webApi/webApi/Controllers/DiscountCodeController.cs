@@ -39,7 +39,7 @@ namespace webApi.Controllers
             var discountCode = _discountCodeService.GetDiscountCodeById(id);
             if (discountCode == null)
             {
-                return BadRequest("Resource not Found");
+                return NotFound("Resource not Found");
             }
             return Ok(discountCode);
         }
