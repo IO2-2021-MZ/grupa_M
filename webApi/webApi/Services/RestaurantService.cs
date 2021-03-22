@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using webApi.DataTransferObjects.Dish;
 using webApi.DataTransferObjects.Order;
 using webApi.DataTransferObjects.Restaurant;
 using webApi.DataTransferObjects.Review;
+using webApi.Exceptions;
 using webApi.Models;
 
 namespace webApi.Services
@@ -81,7 +83,14 @@ namespace webApi.Services
 
         public Restaurant GetRestaurantById(int? id)
         {
-            throw new NotImplementedException();
+            Restaurant restaurant = _context
+                .Restaurants
+                .Include(r => r.Sections)
+                .Include(r => r.Reviews)
+                .FirstOrDefault(r => r.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resource not found!");
+            return restaurant;
         }
 
         public Section GetSectionByRestaurantsId(int id)
