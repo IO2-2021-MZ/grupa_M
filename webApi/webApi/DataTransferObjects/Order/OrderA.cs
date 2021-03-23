@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace webApi.DataTransferObjects.Order
 {
-    public class OrderA
+    public class OrderA:Order
     {
     }
 }

@@ -7,14 +7,13 @@ using webApi.DataTransferObjects.Dish;
 using webApi.DataTransferObjects.Order;
 using webApi.DataTransferObjects.Restaurant;
 using webApi.DataTransferObjects.Review;
-using webApi.Models;
 
 namespace webApi.Services
 {
     public class ReviewService : IReviewService
     {
-        private IO2_RestaurantsContext _context;
-        public ReviewService(IO2_RestaurantsContext context)
+        private Models.IO2_RestaurantsContext _context;
+        public ReviewService(Models.IO2_RestaurantsContext context)
         {
             _context = context;
         }

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using webApi.DataTransferObjects.Complaint;
-using webApi.Models;
 using webApi.Services;
 
 namespace webApi.Controllers

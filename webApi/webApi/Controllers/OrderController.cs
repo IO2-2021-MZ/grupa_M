@@ -9,7 +9,6 @@ using webApi.DataTransferObjects.Dish;
 using webApi.DataTransferObjects.Order;
 using webApi.DataTransferObjects.Restaurant;
 using webApi.DataTransferObjects.Review;
-using webApi.Models;
 using webApi.Services;
 
 namespace webApi.Controllers
