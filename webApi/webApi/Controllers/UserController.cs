@@ -64,7 +64,7 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult PostUser([FromBody] NewUser newUser)
+        public IActionResult PostUser([FromBody] NewCustomer newUser)
         {
             // Mapping exapmple
             return Ok();
