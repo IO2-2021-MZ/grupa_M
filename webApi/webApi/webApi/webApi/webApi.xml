@@ -387,6 +387,16 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
+        <member name="T:webApi.Controllers.UserController">
+            <summary>
+            User Controller
+            </summary>
+        </member>
+        <member name="M:webApi.Controllers.UserController.#ctor(webApi.Services.IUserService)">
+            <summary>
+            User Controller constructor
+            </summary>
+        </member>
         <member name="M:webApi.Controllers.UserController.GetUser(System.Nullable{System.Int32})">
             <summary>
             Returns user Details
@@ -394,6 +404,59 @@
             <param name="id"> User Id </param>
             <returns> Returns user Details </returns>
             <response code="200">Return User details</response>
+            <response code="400">Bad Request</response> 
+            <response code="401">UnAuthorised</response>
+            <response code="404">Resource Not Found</response> 
+        </member>
+        <member name="M:webApi.Controllers.UserController.PostUser(webApi.DataTransferObjects.User.NewUser)">
+            <summary>
+            Creates new User
+            </summary>
+            <param name="newUser"> New user data </param>
+            <returns> Returns user  id  </returns>
+            <response code="200">Returns user  id</response>
+            <response code="400">Bad Request</response> 
+            <response code="401">UnAuthorised</response>
+            <response code="404">Resource Not Found</response> 
+        </member>
+        <member name="M:webApi.Controllers.UserController.DeleteUser(System.Nullable{System.Int32})">
+            <summary>
+            Delete user with exact id
+            </summary>
+            <param name="id"> User Id </param>
+            <response code="200">Return Ok status </response>
+            <response code="400">Bad Request</response> 
+            <response code="401">UnAuthorised</response>
+            <response code="404">Resource Not Found</response> 
+        </member>
+        <member name="M:webApi.Controllers.UserController.GetAllOrders(System.Nullable{System.Int32})">
+            <summary>
+            Returns orders of exact user
+            </summary>
+            <param name="id"> User Id </param>
+            <returns> Returns user Details </returns>
+            <response code="200">Return user's orders </response>
+            <response code="400">Bad Request</response> 
+            <response code="401">UnAuthorised</response>
+            <response code="404">Resource Not Found</response> 
+        </member>
+        <member name="M:webApi.Controllers.UserController.GetAllComplaint(System.Nullable{System.Int32})">
+            <summary>
+            Returns all complaints of user with exact id
+            </summary>
+            <param name="id"> User Id </param>
+            <returns> List of Complaints </returns>
+            <response code="200"> List of Complaints</response>
+            <response code="400">Bad Request</response> 
+            <response code="401">UnAuthorised</response>
+            <response code="404">Resource Not Found</response> 
+        </member>
+        <member name="M:webApi.Controllers.UserController.GetAllUsers">
+            <summary>
+            Returns all users
+            </summary>
+            <returns> Returns all users  </returns>
+            <response code="200">Returns all users</response>
             <response code="400">Bad Request</response> 
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
