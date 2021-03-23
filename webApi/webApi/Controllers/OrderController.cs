@@ -35,7 +35,7 @@ namespace webApi.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        public ActionResult<Restaurant> GetOrder([FromQuery] int? id)
+        public ActionResult<Order> GetOrder([FromQuery] int? id)
         {
             Order order = _orderService.GetOrderById(id);
             return Ok(order);
