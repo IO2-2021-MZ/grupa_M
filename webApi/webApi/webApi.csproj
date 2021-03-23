@@ -9,41 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\**" />
-    <Compile Remove="DataTransferObjects\**" />
-    <Compile Remove="Enums\**" />
-    <Compile Remove="Exceptions\**" />
-    <Compile Remove="Helpers\**" />
-    <Compile Remove="MIddleware\**" />
-    <Compile Remove="Services\**" />
-    <Compile Remove="webApi\**" />
-    <Content Remove="Controllers\**" />
-    <Content Remove="DataTransferObjects\**" />
-    <Content Remove="Enums\**" />
-    <Content Remove="Exceptions\**" />
-    <Content Remove="Helpers\**" />
-    <Content Remove="MIddleware\**" />
-    <Content Remove="Services\**" />
-    <Content Remove="webApi\**" />
-    <EmbeddedResource Remove="Controllers\**" />
-    <EmbeddedResource Remove="DataTransferObjects\**" />
-    <EmbeddedResource Remove="Enums\**" />
-    <EmbeddedResource Remove="Exceptions\**" />
-    <EmbeddedResource Remove="Helpers\**" />
-    <EmbeddedResource Remove="MIddleware\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <EmbeddedResource Remove="webApi\**" />
-    <None Remove="Controllers\**" />
-    <None Remove="DataTransferObjects\**" />
-    <None Remove="Enums\**" />
-    <None Remove="Exceptions\**" />
-    <None Remove="Helpers\**" />
-    <None Remove="MIddleware\**" />
-    <None Remove="Services\**" />
-    <None Remove="webApi\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
