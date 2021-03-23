@@ -37,6 +37,7 @@ drop table if exists [Address]
 drop table if exists Dish
 drop table if exists Section
 drop table if exists Sections_Dish
+drop table if exists Order_Dish
 
 GO
 
@@ -44,31 +45,23 @@ CREATE TABLE [Address] (
 	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
 	city varchar(50) NOT NULL,
 	street varchar(50) NOT NULL,
-	postal_code varchar(6) NOT NULL,
+	post_code varchar(6) NOT NULL,
 )
 
 GO
 
-CREATE TABLE Discount_Code(
+
+CREATE TABLE Restaurant (
 	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
-	code varchar(20) NOT NULL,
-	date_from datetime NOT NULL,
-	date_to datetime NOT NULL,
-)
-
-GO
-
-CREATE TABLE [User] (
-	id int IDENTITY(1, 1) NOT NULL PRIMARY KEY,
-	[name] varchar(50) NOT NULL,
-	surname varchar(50) NOT NULL,
-	email varchar(50) NOT NULL,
-	role int NOT NULL,
-	creation_date datetime NOT NULL,
-	password_hash varchar(100) NOT NULL,
+	[name] varchar(100) NOT NULL,
+	contact_information varchar(100) NOT NULL,
+	rating decimal NOT NULL,
+	[state] int NOT NULL,
+	[owing] decimal NOT NULL,
+	date_of_joining datetime NOT NULL,
 	address_id int NOT NULL,
 
-	CONSTRAINT FK_User_Address FOREIGN KEY
+	CONSTRAINT FK_Restaurant_Address FOREIGN KEY
 	(
 		address_id
 	) REFERENCES [Address]
@@ -79,16 +72,65 @@ CREATE TABLE [User] (
 
 GO
 
+CREATE TABLE Discount_Code(
+
+    id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+    [percent] int NOT NULL,
+    code varchar(50) NOT NULL,
+    date_from datetime NOT NULL,
+    date_to datetime NOT NULL,
+
+		restaurant_id int NOT NULL,
+
+	CONSTRAINT FK_Address_Restaurant FOREIGN KEY
+	(
+		restaurant_id
+	) REFERENCES Restaurant
+	(
+		id
+	) ON DELETE CASCADE
+)
+
+GO
+
+CREATE TABLE [User] (
+	id int IDENTITY(1, 1) NOT NULL PRIMARY KEY,
+	[name] varchar(50) NOT NULL,
+	surname varchar(50) NOT NULL,
+	email varchar(50) NOT NULL,
+	is_restaurateur bit NOT NULL,
+	is_administrator bit NOT NULL,
+	creation_date datetime NOT NULL,
+	password_hash varchar(100) NOT NULL,
+	address_id int,
+	restaurant_id int,
+
+	CONSTRAINT FK_User_Address FOREIGN KEY
+	(
+		address_id
+	) REFERENCES [Address],
+
+	CONSTRAINT FK_User_Restaurant FOREIGN KEY
+	(
+		restaurant_id
+	) REFERENCES Restaurant
+)
+
+GO
+
 CREATE TABLE [Order] (
 	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
 	payment_method int NOT NULL,
-	order_state int NOT NULL,
-	creation_date datetime NOT NULL,
-	original_price decimal NOT NULL,
-	final_price decimal NOT NULL,
-	customer_id int NOT NULL,
+	[state] int NOT NULL,
+	[date] datetime NOT NULL,
+
 	address_id int NOT NULL,
-	code_id int NOT NULL,
+	discount_code_id int,
+	customer_id int,
+	restaurant_id int NOT NULL,
+	employee_id int,
+
+	--! positions_ids - realziowane przez Order_Dish
 
 	CONSTRAINT FK_Orders_Users FOREIGN KEY
 	(
@@ -100,29 +142,16 @@ CREATE TABLE [Order] (
 	) REFERENCES [Address],
 	CONSTRAINT FK_Order_Discount_Code FOREIGN KEY
 	(
-		code_id
-	) REFERENCES Discount_Code
-)
-
-GO
-
-CREATE TABLE Restaurant (
-	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
-	[name] varchar(100) NOT NULL,
-	email varchar(100) NOT NULL,
-	phone varchar(9) NOT NULL,
-	rating decimal NOT NULL,
-	[state] int NOT NULL,
-	creation_date datetime NOT NULL,
-	address_id int NOT NULL,
-
-	CONSTRAINT FK_Restaurant_Address FOREIGN KEY
+		discount_code_id
+	) REFERENCES Discount_Code,
+	CONSTRAINT FK_Order_Restaurant FOREIGN KEY
 	(
-		address_id
-	) REFERENCES [Address]
+		restaurant_id
+	) REFERENCES Restaurant,
+	CONSTRAINT FK_Order_Employee FOREIGN KEY
 	(
-		id
-	) ON DELETE CASCADE
+		employee_id
+	) REFERENCES [User]
 )
 
 GO
@@ -182,14 +211,31 @@ GO
 
 CREATE TABLE Section_Dish(
 	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+	section_id int NOT NULL,
 	dish_id int NOT NULL,
-	order_id int NOT NULL,
 
+	CONSTRAINT FK_Section_Dish_Section FOREIGN KEY
+	(
+		section_id
+	) REFERENCES Section,
 	CONSTRAINT FK_Section_Dish_Dish FOREIGN KEY
 	(
 		dish_id
+	) REFERENCES Dish
+)
+
+GO
+
+CREATE TABLE Order_Dish(
+	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+	dish_id int NOT NULL,
+	order_id int NOT NULL,
+
+	CONSTRAINT FK_Order_Dish_Dish FOREIGN KEY
+	(
+		dish_id
 	) REFERENCES Dish,
-	CONSTRAINT FK_Section_Dish_Section FOREIGN KEY
+	CONSTRAINT FK_Order_Dish_Order FOREIGN KEY
 	(
 		order_id
 	) REFERENCES Section
@@ -200,19 +246,19 @@ GO
 CREATE TABLE Complaint(
     id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
     content varchar (MAX) NOT NULL,
-    answer varchar (MAX),
-    state int NOT NULL,
+    response varchar (MAX),
+    [open] bit NOT NULL,
     customer_id int NOT NULL,
     order_id int NOT NULL,
  
     CONSTRAINT FK_Complaint_User FOREIGN KEY
     (
         customer_id
-    ) REFERENCES Section
+    ) REFERENCES [User]
     (
         id
     ) ON DELETE CASCADE,
-	CONSTRAINT FK_Complaint_Order FOREIGN KEY
+    CONSTRAINT FK_Complaint_Order FOREIGN KEY
     (
         order_id
     ) REFERENCES [Order]
