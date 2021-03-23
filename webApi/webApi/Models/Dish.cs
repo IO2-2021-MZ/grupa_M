@@ -9,6 +9,7 @@ namespace webApi.Models
     {
         public Dish()
         {
+            OrderDishes = new HashSet<OrderDish>();
             SectionDishes = new HashSet<SectionDish>();
         }
 
@@ -19,6 +20,7 @@ namespace webApi.Models
         public int SectionId { get; set; }
 
         public virtual Section Section { get; set; }
+        public virtual ICollection<OrderDish> OrderDishes { get; set; }
         public virtual ICollection<SectionDish> SectionDishes { get; set; }
     }
 }

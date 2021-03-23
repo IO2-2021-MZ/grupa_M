@@ -5,13 +5,13 @@ using System.Collections.Generic;
 
 namespace webApi.Models
 {
-    public partial class SectionDish
+    public partial class OrderDish
     {
         public int Id { get; set; }
-        public int SectionId { get; set; }
         public int DishId { get; set; }
+        public int OrderId { get; set; }
 
         public virtual Dish Dish { get; set; }
-        public virtual Section Section { get; set; }
+        public virtual Section Order { get; set; }
     }
 }

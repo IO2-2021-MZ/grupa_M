@@ -17,7 +17,7 @@ namespace webApi.Models
         public int Id { get; set; }
         public string City { get; set; }
         public string Street { get; set; }
-        public string PostalCode { get; set; }
+        public string PostCode { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Restaurant> Restaurants { get; set; }

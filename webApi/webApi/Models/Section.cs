@@ -9,8 +9,8 @@ namespace webApi.Models
     {
         public Section()
         {
-            Complaints = new HashSet<Complaint>();
             Dishes = new HashSet<Dish>();
+            OrderDishes = new HashSet<OrderDish>();
             SectionDishes = new HashSet<SectionDish>();
         }
 
@@ -19,8 +19,8 @@ namespace webApi.Models
         public int RestaurantId { get; set; }
 
         public virtual Restaurant Restaurant { get; set; }
-        public virtual ICollection<Complaint> Complaints { get; set; }
         public virtual ICollection<Dish> Dishes { get; set; }
+        public virtual ICollection<OrderDish> OrderDishes { get; set; }
         public virtual ICollection<SectionDish> SectionDishes { get; set; }
     }
 }

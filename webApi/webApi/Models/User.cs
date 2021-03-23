@@ -9,7 +9,9 @@ namespace webApi.Models
     {
         public User()
         {
-            Orders = new HashSet<Order>();
+            Complaints = new HashSet<Complaint>();
+            OrderCustomers = new HashSet<Order>();
+            OrderEmployees = new HashSet<Order>();
             Reviews = new HashSet<Review>();
         }
 
@@ -17,13 +19,18 @@ namespace webApi.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Email { get; set; }
-        public int Role { get; set; }
+        public bool IsRestaurateur { get; set; }
+        public bool IsAdministrator { get; set; }
         public DateTime CreationDate { get; set; }
         public string PasswordHash { get; set; }
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
+        public int? RestaurantId { get; set; }
 
         public virtual Address Address { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
+        public virtual ICollection<Complaint> Complaints { get; set; }
+        public virtual ICollection<Order> OrderCustomers { get; set; }
+        public virtual ICollection<Order> OrderEmployees { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
     }
 }

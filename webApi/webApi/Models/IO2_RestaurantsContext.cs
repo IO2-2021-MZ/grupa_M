@@ -22,6 +22,7 @@ namespace webApi.Models
         public virtual DbSet<DiscountCode> DiscountCodes { get; set; }
         public virtual DbSet<Dish> Dishes { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDish> OrderDishes { get; set; }
         public virtual DbSet<Restaurant> Restaurants { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<Section> Sections { get; set; }
@@ -32,7 +33,7 @@ namespace webApi.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=IO2_Restaurants;Trusted_Connection=True;");
             }
         }
@@ -53,11 +54,11 @@ namespace webApi.Models
                     .IsUnicode(false)
                     .HasColumnName("city");
 
-                entity.Property(e => e.PostalCode)
+                entity.Property(e => e.PostCode)
                     .IsRequired()
                     .HasMaxLength(6)
                     .IsUnicode(false)
-                    .HasColumnName("postal_code");
+                    .HasColumnName("post_code");
 
                 entity.Property(e => e.Street)
                     .IsRequired()
@@ -72,10 +73,6 @@ namespace webApi.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Answer)
-                    .IsUnicode(false)
-                    .HasColumnName("answer");
-
                 entity.Property(e => e.Content)
                     .IsRequired()
                     .IsUnicode(false)
@@ -83,9 +80,13 @@ namespace webApi.Models
 
                 entity.Property(e => e.CustomerId).HasColumnName("customer_id");
 
+                entity.Property(e => e.Open).HasColumnName("open");
+
                 entity.Property(e => e.OrderId).HasColumnName("order_id");
 
-                entity.Property(e => e.State).HasColumnName("state");
+                entity.Property(e => e.Response)
+                    .IsUnicode(false)
+                    .HasColumnName("response");
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Complaints)
@@ -106,7 +107,7 @@ namespace webApi.Models
 
                 entity.Property(e => e.Code)
                     .IsRequired()
-                    .HasMaxLength(20)
+                    .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("code");
 
@@ -117,6 +118,15 @@ namespace webApi.Models
                 entity.Property(e => e.DateTo)
                     .HasColumnType("datetime")
                     .HasColumnName("date_to");
+
+                entity.Property(e => e.Percent).HasColumnName("percent");
+
+                entity.Property(e => e.RestaurantId).HasColumnName("restaurant_id");
+
+                entity.HasOne(d => d.Restaurant)
+                    .WithMany(p => p.DiscountCodes)
+                    .HasForeignKey(d => d.RestaurantId)
+                    .HasConstraintName("FK_Address_Restaurant");
             });
 
             modelBuilder.Entity<Dish>(entity =>
@@ -156,25 +166,21 @@ namespace webApi.Models
 
                 entity.Property(e => e.AddressId).HasColumnName("address_id");
 
-                entity.Property(e => e.CodeId).HasColumnName("code_id");
-
-                entity.Property(e => e.CreationDate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("creation_date");
-
                 entity.Property(e => e.CustomerId).HasColumnName("customer_id");
 
-                entity.Property(e => e.FinalPrice)
-                    .HasColumnType("decimal(18, 0)")
-                    .HasColumnName("final_price");
+                entity.Property(e => e.Date)
+                    .HasColumnType("datetime")
+                    .HasColumnName("date");
 
-                entity.Property(e => e.OrderState).HasColumnName("order_state");
+                entity.Property(e => e.DiscountCodeId).HasColumnName("discount_code_id");
 
-                entity.Property(e => e.OriginalPrice)
-                    .HasColumnType("decimal(18, 0)")
-                    .HasColumnName("original_price");
+                entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
 
                 entity.Property(e => e.PaymentMethod).HasColumnName("payment_method");
+
+                entity.Property(e => e.RestaurantId).HasColumnName("restaurant_id");
+
+                entity.Property(e => e.State).HasColumnName("state");
 
                 entity.HasOne(d => d.Address)
                     .WithMany(p => p.Orders)
@@ -182,17 +188,49 @@ namespace webApi.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Order_Address");
 
-                entity.HasOne(d => d.Code)
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.OrderCustomers)
+                    .HasForeignKey(d => d.CustomerId)
+                    .HasConstraintName("FK_Orders_Users");
+
+                entity.HasOne(d => d.DiscountCode)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.CodeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasForeignKey(d => d.DiscountCodeId)
                     .HasConstraintName("FK_Order_Discount_Code");
 
-                entity.HasOne(d => d.Customer)
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.OrderEmployees)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .HasConstraintName("FK_Order_Employee");
+
+                entity.HasOne(d => d.Restaurant)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.CustomerId)
+                    .HasForeignKey(d => d.RestaurantId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Orders_Users");
+                    .HasConstraintName("FK_Order_Restaurant");
+            });
+
+            modelBuilder.Entity<OrderDish>(entity =>
+            {
+                entity.ToTable("Order_Dish");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DishId).HasColumnName("dish_id");
+
+                entity.Property(e => e.OrderId).HasColumnName("order_id");
+
+                entity.HasOne(d => d.Dish)
+                    .WithMany(p => p.OrderDishes)
+                    .HasForeignKey(d => d.DishId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Order_Dish_Dish");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.OrderDishes)
+                    .HasForeignKey(d => d.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Order_Dish_Order");
             });
 
             modelBuilder.Entity<Restaurant>(entity =>
@@ -203,15 +241,15 @@ namespace webApi.Models
 
                 entity.Property(e => e.AddressId).HasColumnName("address_id");
 
-                entity.Property(e => e.CreationDate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("creation_date");
-
-                entity.Property(e => e.Email)
+                entity.Property(e => e.ContactInformation)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false)
-                    .HasColumnName("email");
+                    .HasColumnName("contact_information");
+
+                entity.Property(e => e.DateOfJoining)
+                    .HasColumnType("datetime")
+                    .HasColumnName("date_of_joining");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -219,11 +257,9 @@ namespace webApi.Models
                     .IsUnicode(false)
                     .HasColumnName("name");
 
-                entity.Property(e => e.Phone)
-                    .IsRequired()
-                    .HasMaxLength(9)
-                    .IsUnicode(false)
-                    .HasColumnName("phone");
+                entity.Property(e => e.Owing)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasColumnName("owing");
 
                 entity.Property(e => e.Rating)
                     .HasColumnType("decimal(18, 0)")
@@ -296,7 +332,7 @@ namespace webApi.Models
 
                 entity.Property(e => e.DishId).HasColumnName("dish_id");
 
-                entity.Property(e => e.OrderId).HasColumnName("order_id");
+                entity.Property(e => e.SectionId).HasColumnName("section_id");
 
                 entity.HasOne(d => d.Dish)
                     .WithMany(p => p.SectionDishes)
@@ -304,9 +340,9 @@ namespace webApi.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Section_Dish_Dish");
 
-                entity.HasOne(d => d.Order)
+                entity.HasOne(d => d.Section)
                     .WithMany(p => p.SectionDishes)
-                    .HasForeignKey(d => d.OrderId)
+                    .HasForeignKey(d => d.SectionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Section_Dish_Section");
             });
@@ -329,6 +365,10 @@ namespace webApi.Models
                     .IsUnicode(false)
                     .HasColumnName("email");
 
+                entity.Property(e => e.IsAdministrator).HasColumnName("is_administrator");
+
+                entity.Property(e => e.IsRestaurateur).HasColumnName("is_restaurateur");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -341,7 +381,7 @@ namespace webApi.Models
                     .IsUnicode(false)
                     .HasColumnName("password_hash");
 
-                entity.Property(e => e.Role).HasColumnName("role");
+                entity.Property(e => e.RestaurantId).HasColumnName("restaurant_id");
 
                 entity.Property(e => e.Surname)
                     .IsRequired()
@@ -353,6 +393,11 @@ namespace webApi.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.AddressId)
                     .HasConstraintName("FK_User_Address");
+
+                entity.HasOne(d => d.Restaurant)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RestaurantId)
+                    .HasConstraintName("FK_User_Restaurant");
             });
 
             OnModelCreatingPartial(modelBuilder);
