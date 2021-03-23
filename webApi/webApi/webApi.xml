@@ -93,6 +93,59 @@
             <response code="400">Bad Request</response> 
             <response code="401">UnAuthorised</response> 
         </member>
+        <member name="M:webApi.Controllers.OrderController.GetOrder(System.Nullable{System.Int32})">
+            <summary>
+            Returns Order Details
+            </summary>
+            <param name="id"> Order Id </param>
+            <returns> Returns Order Details </returns>
+            <response code="200">Return order details</response>
+            <response code="400">Bad Request</response> 
+            <response code="401">Unauthorized</response>
+            <response code="404">Resource Not Found</response> 
+        </member>
+        <member name="M:webApi.Controllers.OrderController.CreateOrder(webApi.DataTransferObjects.Order.NewOrder)">
+            <summary>
+            Creates New Order
+            </summary>
+            <returns> Creates New Order </returns>
+            <response code="200">Order successfully created</response>
+            <response code="400">Bad Request</response> 
+            <response code="401">Unauthorized</response>
+        </member>
+        <member name="M:webApi.Controllers.OrderController.RefuseOrder(System.Int32)">
+            <summary>
+            Refuses Order
+            </summary>
+            <param name="id"> Order Id </param>
+            <returns> Refuses Order </returns>
+            <response code="200">Order refused</response>
+            <response code="400">Bad Request</response> 
+            <response code="401">Unauthorized</response>
+            <response code="404">Resource Not Found</response> 
+        </member>
+        <member name="M:webApi.Controllers.OrderController.AcceptOrder(System.Int32)">
+            <summary>
+            Accepts Order
+            </summary>
+            <param name="id"> Order Id </param>
+            <returns> Accepts Order </returns>
+            <response code="200">Order accepted</response>
+            <response code="400">Bad Request</response> 
+            <response code="401">Unauthorized</response>
+            <response code="404">Resource Not Found</response> 
+        </member>
+        <member name="M:webApi.Controllers.OrderController.RealiseOrder(System.Int32)">
+            <summary>
+            Marks Order As Realized
+            </summary>
+            <param name="id"> Order Id </param>
+            <returns> Marks Order As Realized </returns>
+            <response code="200">Order has been marked as realized</response>
+            <response code="400">Bad Request</response> 
+            <response code="401">Unauthorized</response>
+            <response code="404">Resource Not Found</response> 
+        </member>
         <member name="M:webApi.Controllers.RestaurantController.GetRestaurant(System.Nullable{System.Int32})">
             <summary>
             Returns Restaurant Details
