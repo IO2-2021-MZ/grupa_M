@@ -34,7 +34,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        public ActionResult<DiscountCode> GetDiscountCode([FromQuery] int? id)
+        public ActionResult<TransferDiscountCode> GetDiscountCode([FromQuery] int? id)
         {
             var discountCode = _discountCodeService.GetDiscountCodeById(id);
             if (discountCode == null)
@@ -82,9 +82,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("all")]
-        public ActionResult<IEnumerable<DiscountCode>> GetAllDiscountCodes()
+        public ActionResult<IEnumerable<TransferDiscountCode>> GetAllDiscountCodes()
         {
-            IEnumerable<DiscountCode> discountCodes = _discountCodeService.GetAllDiscountCodes();
+            IEnumerable<TransferDiscountCode> discountCodes = _discountCodeService.GetAllDiscountCodes();
             return Ok(discountCodes);
         }
 

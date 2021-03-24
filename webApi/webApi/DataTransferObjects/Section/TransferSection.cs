@@ -7,7 +7,7 @@ using webApi.DataTransferObjects.Dish;
 
 namespace webApi.DataTransferObjects.Section
 {
-    public class Section
+    public class TransferSection
     {
         [Required]
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace webApi.DataTransferObjects.Section
         [Required]
         public int RestaurantId { get; set; }
         [Required]
-        public ICollection<PositionFromMenu> Positions { get; set; }
+        public ICollection<TransferPositionFromMenu> Positions { get; set; }
     }
 }

@@ -71,7 +71,7 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Restaurant> GetAllRestaurants()
+        public IEnumerable<TransferRestaurant> GetAllRestaurants()
         {
             throw new NotImplementedException();
         }
@@ -81,12 +81,12 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public Restaurant GetRestaurantById(int? id)
+        public TransferRestaurant GetRestaurantById(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public Section GetSectionByRestaurantsId(int id)
+        public TransferSection GetSectionByRestaurantsId(int id)
         {
             throw new NotImplementedException();
         }

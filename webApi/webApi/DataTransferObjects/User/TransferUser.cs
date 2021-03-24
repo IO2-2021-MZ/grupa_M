@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webApi.DataTransferObjects.DiscountCode
+namespace webApi.DataTransferObjects.User
 {
-    public class DiscountCode
+    public class TransferUser
     {
     }
 }

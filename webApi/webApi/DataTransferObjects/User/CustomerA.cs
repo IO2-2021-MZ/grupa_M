@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace webApi.DataTransferObjects.User
 {
-    public class CustomerA:User
+    public class CustomerA:TransferUser
     {
     }
 }

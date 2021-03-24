@@ -8,10 +8,10 @@ namespace webApi.Services
 
     public interface IComplaintService
     {
-        public Complaint GetComplaintById(int? id);
+        public TransferComplaint GetComplaintById(int? id);
         int CreateNewComplaint(NewComplaint newComplaint);
         void DeleteComplaint(int id);
-        IEnumerable<Complaint> GetAllComplaints();
+        IEnumerable<TransferComplaint> GetAllComplaints();
         void CloseComplaint(int id);
 
     }
@@ -37,12 +37,12 @@ namespace webApi.Services
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Complaint> GetAllComplaints()
+        public IEnumerable<TransferComplaint> GetAllComplaints()
         {
             throw new System.NotImplementedException();
         }
 
-        public Complaint GetComplaintById(int? id)
+        public TransferComplaint GetComplaintById(int? id)
         {
             throw new System.NotImplementedException();
         }

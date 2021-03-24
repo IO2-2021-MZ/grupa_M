@@ -23,12 +23,12 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DiscountCode> GetAllDiscountCodes()
+        public IEnumerable<TransferDiscountCode> GetAllDiscountCodes()
         {
             throw new NotImplementedException();
         }
 
-        public DiscountCode GetDiscountCodeById(int? id)
+        public TransferDiscountCode GetDiscountCodeById(int? id)
         {
             throw new NotImplementedException();
         }

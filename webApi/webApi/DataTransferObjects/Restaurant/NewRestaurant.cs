@@ -14,6 +14,6 @@ namespace webApi.DataTransferObjects.Restaurant
         [EmailAddress]
         public string ContactInformation { get; set; }
         [Required]
-        public Address.Address Address { get; set; }
+        public Address.TransferAddress Address { get; set; }
     }
 }

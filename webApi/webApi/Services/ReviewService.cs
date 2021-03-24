@@ -28,7 +28,7 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public Review GetReviewById(int? id)
+        public TransferReview GetReviewById(int? id)
         {
             throw new NotImplementedException();
         }

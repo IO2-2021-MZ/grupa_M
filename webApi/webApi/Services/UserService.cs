@@ -11,7 +11,7 @@ namespace webApi.Services
 
     public interface IUserService
     {
-        public User GetUserWithId(int? id);
+        public TransferUser GetUserWithId(int? id);
     }
     public class UserService : IUserService
     {
@@ -22,7 +22,7 @@ namespace webApi.Services
             _context = context;
             _mapper = mapper;
         }
-        public User GetUserWithId(int? id)
+        public TransferUser GetUserWithId(int? id)
         {
             //return _context.Users.FirstOrDefault(user => user.Id == id);
             throw new NotImplementedException();

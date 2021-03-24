@@ -8,7 +8,7 @@ using webApi.Enums;
 
 namespace webApi.DataTransferObjects.Restaurant
 {
-    public class Restaurant
+    public class TransferRestaurant
     {
         [Required]
         public int Id { get; set; }
@@ -26,6 +26,6 @@ namespace webApi.DataTransferObjects.Restaurant
         [Required]
         public decimal AggregatePayment { get; set; }
         [Required]
-        public Address.Address Address { get; set; }
+        public Address.TransferAddress Address { get; set; }
     }
 }

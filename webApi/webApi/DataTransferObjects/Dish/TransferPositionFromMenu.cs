@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webApi.DataTransferObjects.Order
+namespace webApi.DataTransferObjects.Dish
 {
-    public class Order
+    public class TransferPositionFromMenu
     {
     }
 }

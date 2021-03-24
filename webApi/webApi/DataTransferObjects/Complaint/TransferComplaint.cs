@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace webApi.DataTransferObjects.Complaint
 {
-    public class Complaint
+    public class TransferComplaint
     {
     }
 }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webApi.DataTransferObjects.Review
+namespace webApi.DataTransferObjects.DiscountCode
 {
-    public class Review
+    public class TransferDiscountCode
     {
     }
 }

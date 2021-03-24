@@ -13,6 +13,6 @@ namespace webApi.DataTransferObjects.Restaurant
         public string ContactInformation { get; set; }
         public decimal Rating { get; set; }
         public RestaurantState State { get; set; }
-        public Address.Address Address { get; set; }
+        public Address.TransferAddress Address { get; set; }
     }
 }

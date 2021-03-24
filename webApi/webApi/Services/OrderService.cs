@@ -28,7 +28,7 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public Order GetOrderById(int? id)
+        public TransferOrder GetOrderById(int? id)
         {
             throw new NotImplementedException();
         }

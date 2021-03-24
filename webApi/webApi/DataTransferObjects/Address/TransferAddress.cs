@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace webApi.DataTransferObjects.Address
 {
-    public class Address
+    public class TransferAddress
     {
         public string City { get; set; }
         public string Street { get; set; }

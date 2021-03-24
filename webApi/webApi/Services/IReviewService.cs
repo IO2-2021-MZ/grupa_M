@@ -9,7 +9,7 @@ namespace webApi.Services
 {
     public interface IReviewService
     {
-        public Review GetReviewById(int? id);
+        public TransferReview GetReviewById(int? id);
         int CreateNewReview(NewReview newReview);
         void DeleteReview(int id);
     }

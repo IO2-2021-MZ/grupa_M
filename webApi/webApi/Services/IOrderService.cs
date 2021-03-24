@@ -9,7 +9,7 @@ namespace webApi.Services
 {
     public interface IOrderService
     {
-        Order GetOrderById(int? id);
+        TransferOrder GetOrderById(int? id);
         int CreateNewOrder(NewOrder newOrder);
         void RefuseOrder(int id);
         void AcceptOrder(int id);

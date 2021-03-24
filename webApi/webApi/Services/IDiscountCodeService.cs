@@ -10,9 +10,9 @@ namespace webApi.Services
 {
     public interface IDiscountCodeService
     {
-        public DiscountCode GetDiscountCodeById(int? id);
+        public TransferDiscountCode GetDiscountCodeById(int? id);
         int CreateNewDiscountCode(NewDiscountCode newDiscountCode);
         void DeleteDiscountCode(int id);
-        IEnumerable<DiscountCode> GetAllDiscountCodes();
+        IEnumerable<TransferDiscountCode> GetAllDiscountCodes();
     }
 }
