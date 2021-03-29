@@ -44,6 +44,7 @@ namespace webApi
             //Wstrzykiwaæ od ogólnego do szczegó³owego
             services.AddScoped<IUserService, UserService>();    
             services.AddScoped<IRestaurantService, RestaurantService>();
+            services.AddScoped<IDiscountCodeService, DiscountCodeService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
         }
