@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using webApi.DataTransferObjects.DiscountCodeDTO;
+using webApi.DataTransferObjects.ReviewDBO;
 using webApi.DataTransferObjects.User;
 using webApi.Models;
 
@@ -16,6 +17,9 @@ namespace webApi.Helpers
 
             CreateMap<DiscountCode, NewDiscountCode>() // example of mapping
                 .ReverseMap();
+
+            CreateMap<Review, NewReview>() // example of mapping
+               .ReverseMap()
         }
     }
 }

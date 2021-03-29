@@ -1,3 +1,4 @@
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using webApi.DataTransferObjects.Complaint;
 using webApi.DataTransferObjects.Dish;
 using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.Restaurant;
-using webApi.DataTransferObjects.Review;
+using webApi.DataTransferObjects.ReviewDBO;
 using webApi.Models;
 
 namespace webApi.Services
@@ -14,24 +15,37 @@ namespace webApi.Services
     public class ReviewService : IReviewService
     {
         private IO2_RestaurantsContext _context;
-        public ReviewService(IO2_RestaurantsContext context)
+        private readonly IMapper _mapper;
+        public ReviewService(IO2_RestaurantsContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public int CreateNewReview(NewReview newReview)
         {
-            throw new NotImplementedException();
+            var nr = _mapper.Map<Review>(newReview);
+            _context.Reviews.Add(nr);
+            _context.SaveChanges();
+
+            return nr.Id;
         }
 
-        public void DeleteReview(int id)
+        public bool DeleteReview(int id)
         {
-            throw new NotImplementedException();
+            var reviewToDelete = _context.Reviews.FirstOrDefault(r => r.Id == id);
+
+            if (reviewToDelete == null) return false;
+
+            _context.Reviews.Remove(reviewToDelete);
+            return true;
         }
 
         public Review GetReviewById(int? id)
         {
-            throw new NotImplementedException();
+            if (id == null) return null;
+
+            return _context.Reviews.FirstOrDefault(code => code.Id == id.Value);
         }
     }
 }

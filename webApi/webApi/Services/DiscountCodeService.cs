@@ -30,7 +30,7 @@ namespace webApi.Services
             _context.DiscountCodes.Add(ndc);
             _context.SaveChanges();
 
-            throw new NotImplementedException();
+            return ndc.Id;
         }
 
         public bool DeleteDiscountCode(int id)
