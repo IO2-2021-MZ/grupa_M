@@ -56,6 +56,7 @@ namespace webApi.Controllers
         public ActionResult CreateReview([FromBody] NewDiscountCode newDiscountCode)
         {
             // Mapping example
+            _discountCodeService.CreateNewDiscountCode(newDiscountCode);
             return Ok();
         }
 
@@ -72,6 +73,7 @@ namespace webApi.Controllers
         public ActionResult DeleteDiscountCode([FromQuery] int id)
         {
             // Mapping example
+            _discountCodeService.DeleteDiscountCode(id);
             return Ok();
         }
 

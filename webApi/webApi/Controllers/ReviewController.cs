@@ -56,6 +56,7 @@ namespace webApi.Controllers
         public ActionResult CreateReview([FromBody] NewReview newReview)
         {
             // Mapping example
+            _reviewService.CreateNewReview(newReview);
             return Ok();
         }
 
@@ -72,6 +73,7 @@ namespace webApi.Controllers
         public ActionResult DeleteReview([FromQuery] int id)
         {
             // Mapping example
+            _reviewService.DeleteReview(id);
             return Ok();
         }
     }
