@@ -8,7 +8,7 @@ delete from [User]
 set identity_insert [Address] on
 
 insert into [Address] 
-	(id,city,street,postal_code)
+	(id,city,street,post_code)
 values
 	(1, 'Warsaw', 'Aleje Jerozolimskie', '96-500'),
 	(2,'London', 'Aleje Jerozolimskie', '96-500'),
