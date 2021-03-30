@@ -6,9 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using webApi.DataTransferObjects.Complaint;
 using webApi.DataTransferObjects.Dish;
-using webApi.DataTransferObjects.Order;
+using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.Restaurant;
 using webApi.DataTransferObjects.Review;
+using webApi.DataTransferObjects.ReviewDBO;
+using webApi.Models;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -54,6 +56,7 @@ namespace webApi.Controllers
         public ActionResult CreateReview([FromBody] NewReview newReview)
         {
             // Mapping example
+            _reviewService.CreateNewReview(newReview);
             return Ok();
         }
 
@@ -70,6 +73,7 @@ namespace webApi.Controllers
         public ActionResult DeleteReview([FromQuery] int id)
         {
             // Mapping example
+            _reviewService.DeleteReview(id);
             return Ok();
         }
     }

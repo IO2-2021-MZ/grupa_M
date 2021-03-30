@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webApi.DataTransferObjects.Order
+namespace webApi.DataTransferObjects.OrderDTO
 {
     public class OrderR:TransferOrder
     {
