@@ -1,17 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webApi.DataTransferObjects.Complaint;
+using webApi.DataTransferObjects.ComplaintDTO;
 
 namespace webApi.Services
 {
 
     public interface IComplaintService
     {
-        public TransferComplaint GetComplaintById(int? id);
+        public ComplaintDTO GetComplaintById(int? id);
         int CreateNewComplaint(NewComplaint newComplaint);
         void DeleteComplaint(int id);
-        IEnumerable<TransferComplaint> GetAllComplaints();
+        IEnumerable<ComplaintDTO> GetAllComplaints();
         void CloseComplaint(int id);
 
     }
@@ -37,12 +37,12 @@ namespace webApi.Services
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<TransferComplaint> GetAllComplaints()
+        public IEnumerable<ComplaintDTO> GetAllComplaints()
         {
             throw new System.NotImplementedException();
         }
 
-        public TransferComplaint GetComplaintById(int? id)
+        public ComplaintDTO GetComplaintById(int? id)
         {
             throw new System.NotImplementedException();
         }

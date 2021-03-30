@@ -14,7 +14,7 @@
             <response code="400">Bad Request</response> 
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.ComplaintController.CreateComplaint(webApi.DataTransferObjects.Complaint.NewComplaint)">
+        <member name="M:webApi.Controllers.ComplaintController.CreateComplaint(webApi.DataTransferObjects.ComplaintDTO.NewComplaint)">
             <summary>
             Creates New Complaint
             </summary>
@@ -64,7 +64,7 @@
             <response code="400">Bad Request</response> 
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.DiscountCodeController.CreateReview(webApi.DataTransferObjects.Dish.NewDiscountCode)">
+        <member name="M:webApi.Controllers.DiscountCodeController.CreateReview(webApi.DataTransferObjects.DiscountCodeDTO.NewDiscountCode)">
             <summary>
             Creates New DiscountCode
             </summary>
@@ -104,7 +104,7 @@
             <response code="401">Unauthorized</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.OrderController.CreateOrder(webApi.DataTransferObjects.Order.NewOrder)">
+        <member name="M:webApi.Controllers.OrderController.CreateOrder(webApi.DataTransferObjects.OrderDTO.NewOrder)">
             <summary>
             Creates New Order
             </summary>
@@ -156,7 +156,7 @@
             <response code="400">Bad Request</response> 
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.RestaurantController.CreateRestaurant(webApi.DataTransferObjects.Restaurant.NewRestaurant)">
+        <member name="M:webApi.Controllers.RestaurantController.CreateRestaurant(webApi.DataTransferObjects.RestaurantDTO.NewRestaurant)">
             <summary>
             Creates New Restaurant
             </summary>
@@ -220,7 +220,7 @@
             <response code="401">UnAuthorised</response> 
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.RestaurantController.CreatePosition(System.Int32,webApi.DataTransferObjects.Dish.NewPositionFromMenu)">
+        <member name="M:webApi.Controllers.RestaurantController.CreatePosition(System.Int32,webApi.DataTransferObjects.DishDTO.NewPositionFromMenu)">
             <summary>
             Creates New Dish
             </summary>
@@ -231,7 +231,7 @@
             <response code="400">Bad Request</response> 
             <response code="401">UnAuthorised</response> 
         </member>
-        <member name="M:webApi.Controllers.RestaurantController.UpdatePositionFromMenu(System.Int32,webApi.DataTransferObjects.Dish.NewPositionFromMenu)">
+        <member name="M:webApi.Controllers.RestaurantController.UpdatePositionFromMenu(System.Int32,webApi.DataTransferObjects.DishDTO.NewPositionFromMenu)">
             <summary>
             Updates Dish
             </summary>
@@ -367,7 +367,7 @@
             <response code="400">Bad Request</response> 
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.ReviewController.CreateReview(webApi.DataTransferObjects.Review.NewReview)">
+        <member name="M:webApi.Controllers.ReviewController.CreateReview(webApi.DataTransferObjects.ReviewDTO.NewReview)">
             <summary>
             Creates New Review
             </summary>
@@ -408,7 +408,7 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.UserController.PostUser(webApi.DataTransferObjects.User.NewCustomer)">
+        <member name="M:webApi.Controllers.UserController.PostUser(webApi.DataTransferObjects.UserDTO.NewCustomer)">
             <summary>
             Creates new User
             </summary>

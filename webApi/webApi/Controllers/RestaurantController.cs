@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using webApi.DataTransferObjects.Complaint;
-using webApi.DataTransferObjects.Dish;
+using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
-using webApi.DataTransferObjects.Restaurant;
-using webApi.DataTransferObjects.Review;
-using webApi.DataTransferObjects.Section;
+using webApi.DataTransferObjects.RestaurantDTO;
+using webApi.DataTransferObjects.ReviewDTO;
+using webApi.DataTransferObjects.SectionDTO;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -34,9 +30,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        public ActionResult<TransferRestaurant> GetRestaurant([FromQuery] int? id)
+        public ActionResult<RestaurantDTO> GetRestaurant([FromQuery] int? id)
         {
-            TransferRestaurant restaurant = _restaurantService.GetRestaurantById(id);
+            RestaurantDTO restaurant = _restaurantService.GetRestaurantById(id);
             return Ok(restaurant);
         }
 
@@ -79,9 +75,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet("menu")]
-        public ActionResult<TransferSection> GetSectionByRestaurantsId([FromQuery] int id)
+        public ActionResult<SectionDTO> GetSectionByRestaurantsId([FromQuery] int id)
         {
-            TransferSection section = _restaurantService.GetSectionByRestaurantsId(id);
+            SectionDTO section = _restaurantService.GetSectionByRestaurantsId(id);
             return Ok(section);
         }
 
@@ -192,9 +188,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("all")]
-        public ActionResult<IEnumerable<TransferRestaurant>> GetAllRestaurants()
+        public ActionResult<IEnumerable<RestaurantDTO>> GetAllRestaurants()
         {
-            IEnumerable<TransferRestaurant> restaurants = _restaurantService.GetAllRestaurants();
+            IEnumerable<RestaurantDTO> restaurants = _restaurantService.GetAllRestaurants();
             return Ok(restaurants);
         }
 

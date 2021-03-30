@@ -1,18 +1,18 @@
 using System.Collections.Generic;
-using webApi.DataTransferObjects.Complaint;
+using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.DiscountCodeDTO;
-using webApi.DataTransferObjects.Dish;
+using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
-using webApi.DataTransferObjects.Restaurant;
-using webApi.DataTransferObjects.Review;
+using webApi.DataTransferObjects.RestaurantDTO;
+using webApi.DataTransferObjects.ReviewDTO;
 
 namespace webApi.Services
 {
     public interface IDiscountCodeService
     {
-        public TransferDiscountCode GetDiscountCodeById(int? id);
+        public DiscountCodeDTO GetDiscountCodeById(int? id);
         int CreateNewDiscountCode(NewDiscountCode newDiscountCode);
         bool DeleteDiscountCode(int id);
-        IEnumerable<DiscountCode> GetAllDiscountCodes();
+        IEnumerable<DiscountCodeDTO> GetAllDiscountCodes();
     }
 }

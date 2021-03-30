@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webApi.DataTransferObjects.Complaint;
-using webApi.DataTransferObjects.Dish;
-using webApi.DataTransferObjects.Order;
-using webApi.DataTransferObjects.Restaurant;
-using webApi.DataTransferObjects.Review;
+using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.DataTransferObjects.DishDTO;
+using webApi.DataTransferObjects.OrderDTO;
+using webApi.DataTransferObjects.RestaurantDTO;
+using webApi.DataTransferObjects.ReviewDTO;
 
 namespace webApi.Services
 {
@@ -28,7 +28,7 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public TransferOrder GetOrderById(int? id)
+        public OrderDTO GetOrderById(int? id)
         {
             throw new NotImplementedException();
         }

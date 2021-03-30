@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webApi.DataTransferObjects.Complaint;
-using webApi.DataTransferObjects.Dish;
+using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
-using webApi.DataTransferObjects.Restaurant;
-using webApi.DataTransferObjects.ReviewDBO;
+using webApi.DataTransferObjects.RestaurantDTO;
+using webApi.DataTransferObjects.ReviewDTO;
 using webApi.Models;
 
 namespace webApi.Services
@@ -41,11 +41,11 @@ namespace webApi.Services
             return true;
         }
 
-        public TransferReview GetReviewById(int? id)
+        public ReviewDTO GetReviewById(int? id)
         {
             if (id == null) return null;
 
-            return _context.Reviews.FirstOrDefault(code => code.Id == id.Value);
+            return _mapper.Map<ReviewDTO>(_context.Reviews.FirstOrDefault(code => code.Id == id.Value));
         }
     }
 }

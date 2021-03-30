@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webApi.DataTransferObjects.User;
+using webApi.DataTransferObjects.UserDTO;
 using webApi.Services;
 
 namespace webApi.Controllers

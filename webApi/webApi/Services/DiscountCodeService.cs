@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webApi.DataTransferObjects.Complaint;
+using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.DiscountCodeDTO;
-using webApi.DataTransferObjects.Dish;
+using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
-using webApi.DataTransferObjects.Restaurant;
-using webApi.DataTransferObjects.Review;
+using webApi.DataTransferObjects.RestaurantDTO;
+using webApi.DataTransferObjects.ReviewDTO;
+using webApi.Models;
 
 namespace webApi.Services
 {
@@ -42,17 +43,18 @@ namespace webApi.Services
             return true;
         }
 
-        public IEnumerable<TransferDiscountCode> GetAllDiscountCodes()
+        public IEnumerable<DiscountCodeDTO> GetAllDiscountCodes()
         {
             var queryResult = (from Codes in _context.DiscountCodes select Codes).OrderBy(x => x.Id).ToList();
-            return queryResult;
+            var result = _mapper.Map<List<DiscountCodeDTO>>(queryResult);
+            return result;
         }
 
-        public TransferDiscountCode GetDiscountCodeById(int? id)
+        public DiscountCodeDTO GetDiscountCodeById(int? id)
         {
             if(id == null) return null;
 
-            return _context.DiscountCodes.FirstOrDefault(code => code.Id == id.Value);
+            return _mapper.Map<DiscountCodeDTO>(_context.DiscountCodes.FirstOrDefault(code => code.Id == id.Value));
         }
     }
 }

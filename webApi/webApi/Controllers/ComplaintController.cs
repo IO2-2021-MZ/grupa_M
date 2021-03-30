@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webApi.DataTransferObjects.Complaint;
+using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -34,9 +34,9 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<TransferComplaint> GetComplaint([FromQuery] int? id)
+        public ActionResult<ComplaintDTO> GetComplaint([FromQuery] int? id)
         {
-            TransferComplaint complaint = _complaintService.GetComplaintById(id);
+            ComplaintDTO complaint = _complaintService.GetComplaintById(id);
             return Ok(complaint);
         }
 
@@ -90,9 +90,9 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<IEnumerable<TransferComplaint>> GetAllComplaints()
+        public ActionResult<IEnumerable<ComplaintDTO>> GetAllComplaints()
         {
-            IEnumerable<TransferComplaint> complaints = _complaintService.GetAllComplaints();
+            IEnumerable<ComplaintDTO> complaints = _complaintService.GetAllComplaints();
             return Ok(complaints);
         }
 

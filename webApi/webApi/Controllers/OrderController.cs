@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webApi.DataTransferObjects.Complaint;
-using webApi.DataTransferObjects.Dish;
-using webApi.DataTransferObjects.Order;
-using webApi.DataTransferObjects.Restaurant;
-using webApi.DataTransferObjects.Review;
+using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.DataTransferObjects.DishDTO;
+using webApi.DataTransferObjects.OrderDTO;
+using webApi.DataTransferObjects.RestaurantDTO;
+using webApi.DataTransferObjects.ReviewDTO;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -34,9 +34,9 @@ namespace webApi.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        public ActionResult<TransferOrder> GetOrder([FromQuery] int? id)
+        public ActionResult<OrderDTO> GetOrder([FromQuery] int? id)
         {
-            TransferOrder order = _orderService.GetOrderById(id);
+            OrderDTO order = _orderService.GetOrderById(id);
             return Ok(order);
         }
 

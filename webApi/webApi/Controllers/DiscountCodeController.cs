@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webApi.DataTransferObjects.Complaint;
+using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.DiscountCodeDTO;
-using webApi.DataTransferObjects.Dish;
+using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
-using webApi.DataTransferObjects.Restaurant;
-using webApi.DataTransferObjects.Review;
+using webApi.DataTransferObjects.RestaurantDTO;
+using webApi.DataTransferObjects.ReviewDTO;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -34,7 +34,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        public ActionResult<TransferDiscountCode> GetDiscountCode([FromQuery] int? id)
+        public ActionResult<DiscountCodeDTO> GetDiscountCode([FromQuery] int? id)
         {
             var discountCode = _discountCodeService.GetDiscountCodeById(id);
             if (discountCode == null)
@@ -84,9 +84,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("all")]
-        public ActionResult<IEnumerable<TransferDiscountCode>> GetAllDiscountCodes()
+        public ActionResult<IEnumerable<DiscountCodeDTO>> GetAllDiscountCodes()
         {
-            IEnumerable<TransferDiscountCode> discountCodes = _discountCodeService.GetAllDiscountCodes();
+            IEnumerable<DiscountCodeDTO> discountCodes = _discountCodeService.GetAllDiscountCodes();
             return Ok(discountCodes);
         }
 

@@ -4,12 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webApi.DataTransferObjects.Complaint;
-using webApi.DataTransferObjects.Dish;
+using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
-using webApi.DataTransferObjects.Restaurant;
-using webApi.DataTransferObjects.Review;
-using webApi.DataTransferObjects.ReviewDBO;
+using webApi.DataTransferObjects.RestaurantDTO;
+using webApi.DataTransferObjects.ReviewDTO;
+using webApi.DataTransferObjects.ReviewDTO;
 using webApi.Models;
 using webApi.Services;
 
@@ -35,7 +35,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        public ActionResult<TransferReview> GetReview([FromQuery] int? id)
+        public ActionResult<ReviewDTO> GetReview([FromQuery] int? id)
         {
             var review = _reviewService.GetReviewById(id);
             if (review == null)

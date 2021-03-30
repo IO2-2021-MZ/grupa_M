@@ -4,14 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webApi.DataTransferObjects.User;
+using webApi.DataTransferObjects.UserDTO;
 
 namespace webApi.Services
 {
 
     public interface IUserService
     {
-        public TransferUser GetUserWithId(int? id);
+        public UserDTO GetUserWithId(int? id);
     }
     public class UserService : IUserService
     {
@@ -22,7 +22,7 @@ namespace webApi.Services
             _context = context;
             _mapper = mapper;
         }
-        public TransferUser GetUserWithId(int? id)
+        public UserDTO GetUserWithId(int? id)
         {
             //return _context.Users.FirstOrDefault(user => user.Id == id);
             throw new NotImplementedException();

@@ -1,15 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using webApi.DataTransferObjects.Complaint;
-using webApi.DataTransferObjects.Dish;
+using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
-using webApi.DataTransferObjects.Restaurant;
-using webApi.DataTransferObjects.Review;
-using webApi.DataTransferObjects.Section;
-using webApi.Exceptions;
+using webApi.DataTransferObjects.RestaurantDTO;
+using webApi.DataTransferObjects.ReviewDTO;
+using webApi.DataTransferObjects.SectionDTO;
 
 namespace webApi.Services
 {
@@ -71,7 +67,7 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TransferRestaurant> GetAllRestaurants()
+        public IEnumerable<RestaurantDTO> GetAllRestaurants()
         {
             throw new NotImplementedException();
         }
@@ -81,12 +77,12 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public TransferRestaurant GetRestaurantById(int? id)
+        public RestaurantDTO GetRestaurantById(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public TransferSection GetSectionByRestaurantsId(int id)
+        public SectionDTO GetSectionByRestaurantsId(int id)
         {
             throw new NotImplementedException();
         }

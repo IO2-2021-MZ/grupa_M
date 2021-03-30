@@ -1,16 +1,16 @@
 using System.Collections.Generic;
-using webApi.DataTransferObjects.Complaint;
-using webApi.DataTransferObjects.Dish;
+using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
-using webApi.DataTransferObjects.Restaurant;
-using webApi.DataTransferObjects.ReviewDBO;
+using webApi.DataTransferObjects.RestaurantDTO;
+using webApi.DataTransferObjects.ReviewDTO;
 using webApi.Models;
 
 namespace webApi.Services
 {
     public interface IReviewService
     {
-        public TransferReview GetReviewById(int? id);
+        public ReviewDTO GetReviewById(int? id);
         int CreateNewReview(NewReview newReview);
         bool DeleteReview(int id);
     }
