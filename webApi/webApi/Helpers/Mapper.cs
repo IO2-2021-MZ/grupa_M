@@ -12,7 +12,7 @@ namespace webApi.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, NewUser>() // example of mapping
+            CreateMap<Models.User, NewCustomer>() // example of mapping
                .ReverseMap();
 
             CreateMap<DiscountCode, NewDiscountCode>() // example of mapping

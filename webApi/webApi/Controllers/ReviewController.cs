@@ -35,7 +35,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        public ActionResult<Review> GetReview([FromQuery] int? id)
+        public ActionResult<TransferReview> GetReview([FromQuery] int? id)
         {
             var review = _reviewService.GetReviewById(id);
             if (review == null)

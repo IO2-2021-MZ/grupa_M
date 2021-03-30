@@ -9,7 +9,6 @@ using webApi.DataTransferObjects.Dish;
 using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.Restaurant;
 using webApi.DataTransferObjects.Review;
-using webApi.Models;
 
 namespace webApi.Services
 {
@@ -43,13 +42,13 @@ namespace webApi.Services
             return true;
         }
 
-        public IEnumerable<DiscountCode> GetAllDiscountCodes()
+        public IEnumerable<TransferDiscountCode> GetAllDiscountCodes()
         {
             var queryResult = (from Codes in _context.DiscountCodes select Codes).OrderBy(x => x.Id).ToList();
             return queryResult;
         }
 
-        public DiscountCode GetDiscountCodeById(int? id)
+        public TransferDiscountCode GetDiscountCodeById(int? id)
         {
             if(id == null) return null;
 

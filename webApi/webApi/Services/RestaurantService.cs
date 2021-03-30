@@ -8,15 +8,15 @@ using webApi.DataTransferObjects.Dish;
 using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.Restaurant;
 using webApi.DataTransferObjects.Review;
+using webApi.DataTransferObjects.Section;
 using webApi.Exceptions;
-using webApi.Models;
 
 namespace webApi.Services
 {
     public class RestaurantService : IRestaurantService
     {
-        private IO2_RestaurantsContext _context;
-        public RestaurantService(IO2_RestaurantsContext context)
+        private Models.IO2_RestaurantsContext _context;
+        public RestaurantService(Models.IO2_RestaurantsContext context)
         {
             _context = context;
         }
@@ -71,7 +71,7 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Restaurant> GetAllRestaurants()
+        public IEnumerable<TransferRestaurant> GetAllRestaurants()
         {
             throw new NotImplementedException();
         }
@@ -81,19 +81,12 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public Restaurant GetRestaurantById(int? id)
+        public TransferRestaurant GetRestaurantById(int? id)
         {
-            Restaurant restaurant = _context
-                .Restaurants
-                .Include(r => r.Sections)
-                .Include(r => r.Reviews)
-                .FirstOrDefault(r => r.Id == id);
-
-            if (restaurant is null) throw new NotFoundException("Resource not found!");
-            return restaurant;
+            throw new NotImplementedException();
         }
 
-        public Section GetSectionByRestaurantsId(int id)
+        public TransferSection GetSectionByRestaurantsId(int id)
         {
             throw new NotImplementedException();
         }

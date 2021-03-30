@@ -9,7 +9,7 @@ using webApi.DataTransferObjects.Dish;
 using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.Restaurant;
 using webApi.DataTransferObjects.Review;
-using webApi.Models;
+using webApi.DataTransferObjects.Section;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -34,9 +34,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        public ActionResult<Restaurant> GetRestaurant([FromQuery] int? id)
+        public ActionResult<TransferRestaurant> GetRestaurant([FromQuery] int? id)
         {
-            Restaurant restaurant = _restaurantService.GetRestaurantById(id);
+            TransferRestaurant restaurant = _restaurantService.GetRestaurantById(id);
             return Ok(restaurant);
         }
 
@@ -79,9 +79,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet("menu")]
-        public ActionResult<Section> GetSectionByRestaurantsId([FromQuery] int id)
+        public ActionResult<TransferSection> GetSectionByRestaurantsId([FromQuery] int id)
         {
-            Section section = _restaurantService.GetSectionByRestaurantsId(id);
+            TransferSection section = _restaurantService.GetSectionByRestaurantsId(id);
             return Ok(section);
         }
 
@@ -192,9 +192,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("all")]
-        public ActionResult<IEnumerable<Restaurant>> GetAllRestaurants()
+        public ActionResult<IEnumerable<TransferRestaurant>> GetAllRestaurants()
         {
-            IEnumerable<Restaurant> restaurants = _restaurantService.GetAllRestaurants();
+            IEnumerable<TransferRestaurant> restaurants = _restaurantService.GetAllRestaurants();
             return Ok(restaurants);
         }
 

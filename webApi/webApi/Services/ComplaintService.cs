@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using webApi.Models;
 using webApi.DataTransferObjects.Complaint;
 
 namespace webApi.Services
@@ -9,17 +8,17 @@ namespace webApi.Services
 
     public interface IComplaintService
     {
-        public Complaint GetComplaintById(int? id);
+        public TransferComplaint GetComplaintById(int? id);
         int CreateNewComplaint(NewComplaint newComplaint);
         void DeleteComplaint(int id);
-        IEnumerable<Complaint> GetAllComplaints();
+        IEnumerable<TransferComplaint> GetAllComplaints();
         void CloseComplaint(int id);
 
     }
     public class ComplaintService : IComplaintService
     {
-        IO2_RestaurantsContext _context;
-        public ComplaintService(IO2_RestaurantsContext context)
+        Models.IO2_RestaurantsContext _context;
+        public ComplaintService(Models.IO2_RestaurantsContext context)
         {
             _context = context;
         }
@@ -38,14 +37,14 @@ namespace webApi.Services
             throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Complaint> GetAllComplaints()
+        public IEnumerable<TransferComplaint> GetAllComplaints()
         {
             throw new System.NotImplementedException();
         }
 
-        public Complaint GetComplaintById(int? id)
+        public TransferComplaint GetComplaintById(int? id)
         {
-            return _context.Complaints.FirstOrDefault(complaint => complaint.Id == id);
+            throw new System.NotImplementedException();
         }
 
 

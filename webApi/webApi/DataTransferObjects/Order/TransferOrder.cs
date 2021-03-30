@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webApi.DataTransferObjects.User
+namespace webApi.DataTransferObjects.Order
 {
-    public class NewUser
+    public class TransferOrder
     {
     }
 }

@@ -23,6 +23,7 @@ namespace webApi.Models
         public int State { get; set; }
         public decimal Owing { get; set; }
         public DateTime DateOfJoining { get; set; }
+        public decimal AggregatePayment { get; set; }
         public int AddressId { get; set; }
 
         public virtual Address Address { get; set; }

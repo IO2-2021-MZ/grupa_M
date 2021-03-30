@@ -408,7 +408,7 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.UserController.PostUser(webApi.DataTransferObjects.User.NewUser)">
+        <member name="M:webApi.Controllers.UserController.PostUser(webApi.DataTransferObjects.User.NewCustomer)">
             <summary>
             Creates new User
             </summary>

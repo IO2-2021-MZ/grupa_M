@@ -241,6 +241,10 @@ namespace webApi.Models
 
                 entity.Property(e => e.AddressId).HasColumnName("address_id");
 
+                entity.Property(e => e.AggregatePayment)
+                    .HasColumnType("decimal(18, 0)")
+                    .HasColumnName("aggregate_payment");
+
                 entity.Property(e => e.ContactInformation)
                     .IsRequired()
                     .HasMaxLength(100)

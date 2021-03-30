@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace webApi.DataTransferObjects.OrderDTO
+namespace webApi.DataTransferObjects.DiscountCode
 {
-    public class OrderR:TransferOrder
+    public class TransferDiscountCode
     {
     }
 }

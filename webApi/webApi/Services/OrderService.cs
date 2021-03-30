@@ -7,14 +7,13 @@ using webApi.DataTransferObjects.Dish;
 using webApi.DataTransferObjects.Order;
 using webApi.DataTransferObjects.Restaurant;
 using webApi.DataTransferObjects.Review;
-using webApi.Models;
 
 namespace webApi.Services
 {
     public class OrderService : IOrderService
     {
-        private IO2_RestaurantsContext _context;
-        public OrderService(IO2_RestaurantsContext context)
+        private Models.IO2_RestaurantsContext _context;
+        public OrderService(Models.IO2_RestaurantsContext context)
         {
             _context = context;
         }
@@ -29,7 +28,7 @@ namespace webApi.Services
             throw new NotImplementedException();
         }
 
-        public Order GetOrderById(int? id)
+        public TransferOrder GetOrderById(int? id)
         {
             throw new NotImplementedException();
         }

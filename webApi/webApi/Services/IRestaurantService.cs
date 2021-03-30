@@ -4,23 +4,23 @@ using webApi.DataTransferObjects.Dish;
 using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.Restaurant;
 using webApi.DataTransferObjects.Review;
-using webApi.Models;
+using webApi.DataTransferObjects.Section;
 
 namespace webApi.Services
 {
     public interface IRestaurantService
     {
-        Restaurant GetRestaurantById(int? id);
+        TransferRestaurant GetRestaurantById(int? id);
         int CreateNewRestaurant(NewRestaurant newRestaurant);
         void DeleteRestaurant(int id);
-        Section GetSectionByRestaurantsId(int id);
+        TransferSection GetSectionByRestaurantsId(int id);
         int CreateSection(int id, string sectionName);
         void UpdateSection(int id, string newSectionName);
         void DeleteSection(int id);
         int CreateNewPositionFromMenu(int id, NewPositionFromMenu newPosition);
         void UpdatePositionFromMenu(int id, NewPositionFromMenu newPosition);
         void RemovePositionFromMenu(int id);
-        IEnumerable<Restaurant> GetAllRestaurants();
+        IEnumerable<TransferRestaurant> GetAllRestaurants();
         IEnumerable<OrderR> GetAllOrdersForRestaurants(int id);
         IEnumerable<ReviewR> GetAllReviewsForRestaurants(int? id);
         IEnumerable<ComplaintR> GetAllComplaitsForRestaurants(int? id);

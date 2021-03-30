@@ -59,6 +59,7 @@ CREATE TABLE Restaurant (
 	[state] int NOT NULL,
 	[owing] decimal NOT NULL,
 	date_of_joining datetime NOT NULL,
+	aggregate_payment decimal NOT NULL,
 	address_id int NOT NULL,
 
 	CONSTRAINT FK_Restaurant_Address FOREIGN KEY

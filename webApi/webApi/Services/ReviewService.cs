@@ -41,7 +41,7 @@ namespace webApi.Services
             return true;
         }
 
-        public Review GetReviewById(int? id)
+        public TransferReview GetReviewById(int? id)
         {
             if (id == null) return null;
 
