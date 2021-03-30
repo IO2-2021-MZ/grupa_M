@@ -1,20 +1,28 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.RestaurantDTO;
 using webApi.DataTransferObjects.ReviewDTO;
 using webApi.DataTransferObjects.SectionDTO;
+using webApi.Exceptions;
+using webApi.Models;
 
 namespace webApi.Services
 {
     public class RestaurantService : IRestaurantService
     {
-        private Models.IO2_RestaurantsContext _context;
-        public RestaurantService(Models.IO2_RestaurantsContext context)
+        private readonly IO2_RestaurantsContext _context;
+        private readonly IMapper _mapper;
+
+        public RestaurantService(IO2_RestaurantsContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public void ActivateRestaurant(int id)
@@ -29,12 +37,31 @@ namespace webApi.Services
 
         public int CreateNewPositionFromMenu(int id, NewPositionFromMenu newPosition)
         {
-            throw new NotImplementedException();
+            var dish = _mapper.Map<Dish>(newPosition);
+
+            var section = _context
+                .Sections
+                .FirstOrDefault(s => s.Id == id);
+
+            if (section is null) throw new NotFoundException("Resources not found");
+
+            _context.Dishes.Add(dish);
+
+            var sectionDish = new SectionDish()
+            {
+                DishId = dish.Id,
+                SectionId = section.Id
+            };
+
+            return dish.Id;
         }
 
         public int CreateNewRestaurant(NewRestaurant newRestaurant)
         {
-            throw new NotImplementedException();
+            var restaurant = _mapper.Map<Restaurant>(newRestaurant);
+            _context.Restaurants.Add(restaurant);
+            _context.SaveChanges();
+            return restaurant.Id;
         }
 
         public int CreateSection(string sectionName)
@@ -49,7 +76,14 @@ namespace webApi.Services
 
         public void DeleteRestaurant(int id)
         {
-            throw new NotImplementedException();
+            var restaurant = _context
+                .Restaurants
+                .FirstOrDefault(r => r.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resource not found");
+
+            _context.Restaurants.Remove(restaurant);
+            _context.SaveChanges();
         }
 
         public void DeleteSection(int id)
@@ -79,7 +113,14 @@ namespace webApi.Services
 
         public RestaurantDTO GetRestaurantById(int? id)
         {
-            throw new NotImplementedException();
+            var restaurant = _context
+                            .Restaurants
+                            .FirstOrDefault(r => r.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resource not found");
+
+            var restaurantDTO = _mapper.Map<RestaurantDTO>(restaurant);
+            return restaurantDTO;
         }
 
         public SectionDTO GetSectionByRestaurantsId(int id)
