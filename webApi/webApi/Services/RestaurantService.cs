@@ -53,6 +53,9 @@ namespace webApi.Services
                 SectionId = section.Id
             };
 
+            _context.SectionDishes.Add(sectionDish);
+            _context.SaveChanges();
+
             return dish.Id;
         }
 
@@ -64,9 +67,18 @@ namespace webApi.Services
             return restaurant.Id;
         }
 
-        public int CreateSection(string sectionName)
+        public int CreateSection(int id, string sectionName)
         {
-            throw new NotImplementedException();
+            var section = new Section()
+            {
+                Name = sectionName,
+                RestaurantId = id
+            };
+
+            _context.Sections.Add(section);
+            _context.SaveChanges();
+
+            return section.Id;
         }
 
         public void DeactivateRestaurant(int id)
@@ -88,7 +100,12 @@ namespace webApi.Services
 
         public void DeleteSection(int id)
         {
-            throw new NotImplementedException();
+            var section = _context.Sections.FirstOrDefault(s => s.Id == id);
+
+            if (section is null) throw new NotFoundException("Resources not found");
+
+            _context.Sections.Remove(section);
+            _context.SaveChanges();
         }
 
         public IEnumerable<ComplaintR> GetAllComplaitsForRestaurants(int? id)
@@ -125,7 +142,14 @@ namespace webApi.Services
 
         public SectionDTO GetSectionByRestaurantsId(int id)
         {
-            throw new NotImplementedException();
+            var section = _context.Sections
+                            .FirstOrDefault(s => s.RestaurantId == id);
+
+            if (section is null) throw new NotFoundException("Resources not found");
+
+            var sectionDTO = _mapper.Map<SectionDTO>(section);
+            return sectionDTO;
+
         }
 
         public void ReactivateRestaurant(int id)
@@ -135,7 +159,15 @@ namespace webApi.Services
 
         public void RemovePositionFromMenu(int id)
         {
-            throw new NotImplementedException();
+            var dish = _context.Dishes
+                .FirstOrDefault(d => d.Id == id);
+
+            if (dish is null) throw new NotFoundException("Resource not found");
+
+            _context.Dishes.Remove(dish);
+            var sectionDishList = _context.SectionDishes.Where(sd => sd.DishId == id);
+            _context.SectionDishes.RemoveRange(sectionDishList);
+            _context.SaveChanges();
         }
 
         public void SetFavouriteRestaurant(int id)
@@ -150,17 +182,25 @@ namespace webApi.Services
 
         public void UpdatePositionFromMenu(int id, NewPositionFromMenu newPosition)
         {
-            throw new NotImplementedException();
+            var dish = _context.Dishes
+                .FirstOrDefault(d => d.Id == id);
+
+            if (dish is null) throw new NotFoundException("Resource not found");
+
+            dish.Name = newPosition.Name;
+            dish.Price = newPosition.Price;
+            if (newPosition.Description is not null)
+                dish.Description = newPosition.Description;
+
+            _context.SaveChanges();
         }
 
         public void UpdateSection(int id, string newSectionName)
         {
-            throw new NotImplementedException();
-        }
-        public int CreateSection(int id, string sectionName)
-        {
-            throw new NotImplementedException();
-        }
+            var section = _context.Sections.FirstOrDefault(s => s.Id == id);
 
+            section.Name = newSectionName;
+            _context.SaveChanges();
+        }
     }
 }
