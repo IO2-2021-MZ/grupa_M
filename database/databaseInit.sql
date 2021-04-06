@@ -36,7 +36,6 @@ drop table if exists Restaurant
 drop table if exists [Address]
 drop table if exists Dish
 drop table if exists Section
-drop table if exists Sections_Dish
 drop table if exists Order_Dish
 
 GO
@@ -210,22 +209,6 @@ CREATE TABLE Dish(
 
 GO
 
-CREATE TABLE Section_Dish(
-	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
-	section_id int NOT NULL,
-	dish_id int NOT NULL,
-
-	CONSTRAINT FK_Section_Dish_Section FOREIGN KEY
-	(
-		section_id
-	) REFERENCES Section,
-	CONSTRAINT FK_Section_Dish_Dish FOREIGN KEY
-	(
-		dish_id
-	) REFERENCES Dish
-)
-
-GO
 
 CREATE TABLE Order_Dish(
 	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,

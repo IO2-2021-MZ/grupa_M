@@ -46,14 +46,6 @@ namespace webApi.Services
             if (section is null) throw new NotFoundException("Resources not found");
 
             _context.Dishes.Add(dish);
-
-            var sectionDish = new SectionDish()
-            {
-                DishId = dish.Id,
-                SectionId = section.Id
-            };
-
-            _context.SectionDishes.Add(sectionDish);
             _context.SaveChanges();
 
             return dish.Id;
@@ -165,8 +157,6 @@ namespace webApi.Services
             if (dish is null) throw new NotFoundException("Resource not found");
 
             _context.Dishes.Remove(dish);
-            var sectionDishList = _context.SectionDishes.Where(sd => sd.DishId == id);
-            _context.SectionDishes.RemoveRange(sectionDishList);
             _context.SaveChanges();
         }
 
