@@ -26,7 +26,6 @@ namespace webApi.Models
         public virtual DbSet<Restaurant> Restaurants { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<Section> Sections { get; set; }
-        public virtual DbSet<SectionDish> SectionDishes { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -326,29 +325,6 @@ namespace webApi.Models
                     .WithMany(p => p.Sections)
                     .HasForeignKey(d => d.RestaurantId)
                     .HasConstraintName("FK_Section_Restaurant");
-            });
-
-            modelBuilder.Entity<SectionDish>(entity =>
-            {
-                entity.ToTable("Section_Dish");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.DishId).HasColumnName("dish_id");
-
-                entity.Property(e => e.SectionId).HasColumnName("section_id");
-
-                entity.HasOne(d => d.Dish)
-                    .WithMany(p => p.SectionDishes)
-                    .HasForeignKey(d => d.DishId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Section_Dish_Dish");
-
-                entity.HasOne(d => d.Section)
-                    .WithMany(p => p.SectionDishes)
-                    .HasForeignKey(d => d.SectionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Section_Dish_Section");
             });
 
             modelBuilder.Entity<User>(entity =>
