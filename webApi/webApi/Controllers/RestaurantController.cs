@@ -158,7 +158,7 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpPatch("menu/position")]
-        public ActionResult UpdatePositionFromMenu([FromQuery] int id, NewPositionFromMenu newPosition)
+        public ActionResult UpdatePositionFromMenu([FromQuery] int id, [FromBody]NewPositionFromMenu newPosition)
         {
             _restaurantService.UpdatePositionFromMenu(id, newPosition);
             return Ok();
