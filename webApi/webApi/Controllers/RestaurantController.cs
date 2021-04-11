@@ -47,7 +47,7 @@ namespace webApi.Controllers
         public ActionResult CreateRestaurant([FromBody] NewRestaurant newRestaurant)
         {
             int id = _restaurantService.CreateNewRestaurant(newRestaurant);
-            return Created($"/restaurant/{id}", null);
+            return Ok($"/restaurant/{id}");
         }
 
         /// <summary>
@@ -75,10 +75,10 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet("menu")]
-        public ActionResult<SectionDTO> GetSectionByRestaurantsId([FromQuery] int id)
+        public ActionResult<List<SectionDTO>> GetSectionByRestaurantsId([FromQuery] int id)
         {
-            SectionDTO section = _restaurantService.GetSectionByRestaurantsId(id);
-            return Ok(section);
+            List<SectionDTO> sections = _restaurantService.GetSectionByRestaurantsId(id);
+            return Ok(sections);
         }
 
         /// <summary>

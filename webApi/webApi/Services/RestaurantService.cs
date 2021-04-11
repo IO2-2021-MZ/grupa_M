@@ -54,6 +54,24 @@ namespace webApi.Services
         public int CreateNewRestaurant(NewRestaurant newRestaurant)
         {
             var restaurant = _mapper.Map<Restaurant>(newRestaurant);
+            restaurant.State = 1;
+            var address = _mapper.Map<Address>(newRestaurant.Address);
+            int addressId;
+
+            Address add = _context.Addresses.FirstOrDefault(a => a.City == address.City && a.PostCode == address.PostCode && a.Street == address.Street);
+
+            if (add is null)
+            {
+                _context.Addresses.Add(address);
+                _context.SaveChanges();
+                addressId = address.Id;
+            }
+            else
+            {
+                addressId = add.Id;
+            }
+
+            restaurant.AddressId = addressId;
             _context.Restaurants.Add(restaurant);
             _context.SaveChanges();
             return restaurant.Id;
@@ -132,15 +150,21 @@ namespace webApi.Services
             return restaurantDTO;
         }
 
-        public SectionDTO GetSectionByRestaurantsId(int id)
+        public List<SectionDTO> GetSectionByRestaurantsId(int id)
         {
-            var section = _context.Sections
-                            .FirstOrDefault(s => s.RestaurantId == id);
+            var restaurant = _context.Restaurants.FirstOrDefault(r => r.Id == id);
 
-            if (section is null) throw new NotFoundException("Resources not found");
+            if (restaurant is null) throw new NotFoundException("Resource not found!");
 
-            var sectionDTO = _mapper.Map<SectionDTO>(section);
-            return sectionDTO;
+            var sections = _context.Sections
+                            .Where(s => s.RestaurantId == id)
+                            .Include(s => s.Dishes)
+                            .ToList();
+
+            if (sections is null) throw new NotFoundException("Resources not found");
+
+            var sectionDTOs = _mapper.Map<List<SectionDTO>>(sections);
+            return sectionDTOs;
 
         }
 
