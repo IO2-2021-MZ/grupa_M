@@ -37,6 +37,10 @@ namespace webApi.Controllers
         public ActionResult<ComplaintDTO> GetComplaint([FromQuery] int? id)
         {
             ComplaintDTO complaint = _complaintService.GetComplaintById(id);
+            if(complaint == null)
+            {
+                return NotFound("Resource not Found");
+            }
             return Ok(complaint);
         }
 
@@ -55,7 +59,7 @@ namespace webApi.Controllers
         public ActionResult CreateComplaint([FromBody] NewComplaint newComplaint)
         {
             int id = _complaintService.CreateNewComplaint(newComplaint);
-            return Created($"/complaint/{id}", null);
+            return Ok();
         }
 
         /// <summary>
@@ -75,7 +79,7 @@ namespace webApi.Controllers
         public ActionResult DeleteComplaint([FromQuery] int id)
         {
             _complaintService.DeleteComplaint(id);
-            return NoContent();
+            return Ok();
         }
 
         /// <summary>
