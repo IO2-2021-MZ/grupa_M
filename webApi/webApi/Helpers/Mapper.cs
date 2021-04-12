@@ -28,10 +28,12 @@ namespace webApi.Helpers
 
             CreateMap<Restaurant, RestaurantDTO>()
                 .ForMember(dest => dest.State, opts => opts.MapFrom(src => (RestaurantState)src.State))
-                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }));
+                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }))
+                .ForMember(dest => dest.State, opts => opts.MapFrom(src => ((RestaurantState)src.State).ToString("G")));
 
             CreateMap<NewRestaurant, Restaurant>()
-                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => null as object));
+                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => null as object))
+                .ForMember(dest => dest.State, opts => opts.MapFrom(src => 1));
 
             CreateMap<AddressDTO, Address>();
 

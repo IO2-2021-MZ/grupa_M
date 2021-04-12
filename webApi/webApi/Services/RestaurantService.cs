@@ -207,6 +207,18 @@ namespace webApi.Services
             return reviewDTOs;
         }
 
+        public PositionFromMenuDTO GetDishById(int id)
+        {
+            var dish = _context
+                          .Dishes
+                          .FirstOrDefault(r => r.Id == id);
+
+            if (dish is null) throw new NotFoundException("Resource not found");
+
+            var dishDTO = _mapper.Map<PositionFromMenuDTO>(dish);
+            return dishDTO;
+        }
+
         public RestaurantDTO GetRestaurantById(int? id)
         {
             var restaurant = _context

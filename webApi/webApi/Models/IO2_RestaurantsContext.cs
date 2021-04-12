@@ -79,6 +79,8 @@ namespace webApi.Models
 
                 entity.Property(e => e.CustomerId).HasColumnName("customer_id");
 
+                entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+
                 entity.Property(e => e.Open).HasColumnName("open");
 
                 entity.Property(e => e.OrderId).HasColumnName("order_id");
@@ -88,9 +90,14 @@ namespace webApi.Models
                     .HasColumnName("response");
 
                 entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.Complaints)
+                    .WithMany(p => p.ComplaintCustomers)
                     .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK_Complaint_User");
+
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.ComplaintEmployees)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .HasConstraintName("FK_Order_Complaint_User2");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.Complaints)

@@ -30,5 +30,6 @@ namespace webApi.Services
         void DeactivateRestaurant(int id);
         void BlockRestaurant(int id);
         void UnblockRestaurant(int id);
+        PositionFromMenuDTO GetDishById(int id);
     }
 }

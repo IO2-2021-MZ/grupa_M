@@ -14,9 +14,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using webApi.MIddleware;
-using webApi.Models;
-using webApi.Services;
+//using webApi.MIddleware;
+//using webApi.Models;
+//using webApi.Services;
 
 namespace webApi
 {
@@ -43,12 +43,12 @@ namespace webApi
             });
 
             //Wstrzykiwaæ od ogólnego do szczegó³owego
-            services.AddScoped<IUserService, UserService>();    
-            services.AddScoped<IRestaurantService, RestaurantService>();
-            services.AddScoped<IDiscountCodeService, DiscountCodeService>();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
-            services.AddScoped<ErrorHandlingMiddleware>();
+            //services.AddScoped<IUserService, UserService>();    
+            //services.AddScoped<IRestaurantService, RestaurantService>();
+            //services.AddScoped<IDiscountCodeService, DiscountCodeService>();
+            //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            //services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
+            //services.AddScoped<ErrorHandlingMiddleware>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +62,7 @@ namespace webApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "webApi v1"));
             }
             
-            app.UseMiddleware<ErrorHandlingMiddleware>();
+            //app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseHttpsRedirection();
 

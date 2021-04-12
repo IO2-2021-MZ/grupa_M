@@ -65,6 +65,20 @@ namespace webApi.Controllers
             _restaurantService.DeleteRestaurant(id);
             return NoContent();
         }
+        /// <summary>
+        /// Deletes Restaurant
+        /// </summary>
+        /// <param name="id"> Dish Id </param>
+        /// <returns> Delete Restaurant </returns>
+        /// <response code="200">Dish returned</response>
+        /// <response code="400">Bad Request</response> 
+        /// <response code="404">Resource Not Found</response> 
+        [HttpDelete]
+        public ActionResult GetDish([FromQuery] int id)
+        {
+            var dish = _restaurantService.GetDishById(id);
+            return Ok(dish);
+        }
 
         /// <summary>
         /// Returns Menu Details
@@ -206,7 +220,7 @@ namespace webApi.Controllers
         public ActionResult<IEnumerable<OrderR>> GetAllOrdersForRestaurant([FromQuery] int id)
         {
             //id z tokenu po zalogowaniu
-            IEnumerable<OrderR> orders = _restaurantService.GetAllOrdersForRestaurants(id);
+            IEnumerable<OrderDTO> orders = _restaurantService.GetAllOrdersForRestaurants(id);
             return Ok(orders);
         }
 
@@ -221,7 +235,7 @@ namespace webApi.Controllers
         [HttpGet("review/all")]
         public ActionResult<IEnumerable<OrderR>> GetAllReviewsForRestaurant([FromQuery] int? id)
         {
-            IEnumerable<ReviewR> reviews = _restaurantService.GetAllReviewsForRestaurants(id);
+            IEnumerable<ReviewDTO> reviews = _restaurantService.GetAllReviewsForRestaurants(id);
             return Ok(reviews);
         }
 
@@ -236,7 +250,7 @@ namespace webApi.Controllers
         [HttpGet("complaint/all")]
         public ActionResult<IEnumerable<ComplaintR>> GetAllComplaintsForRestaurant([FromQuery] int? id)
         {
-            IEnumerable<ComplaintR> complaints = _restaurantService.GetAllComplaitsForRestaurants(id);
+            IEnumerable<ComplaintDTO> complaints = _restaurantService.GetAllComplaitsForRestaurants(id);
             return Ok(complaints);
         }
 
