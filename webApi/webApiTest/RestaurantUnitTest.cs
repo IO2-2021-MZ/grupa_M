@@ -167,7 +167,7 @@ namespace webApiTest
         [Test]
         public void DeleteRestaurantTest()
         {
-            var rest = context.Restaurants.FirstOrDefault(r => r.Name == "New Restaurant");
+            var rest = context.Restaurants.FirstOrDefault(r => r.Name == "Top Restauracja");
 
             var response = restaurantController.GetRestaurant(rest.Id);
             var result = response.Result as ObjectResult;
@@ -238,9 +238,9 @@ namespace webApiTest
             var secs = result.Value as List<SectionDTO>;
 
             Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(true, secs.Any(item => item.Name == "Nowa sekcja"));
+            Assert.AreEqual(true, secs.Any(item => item.Name == "Zupy"));
  
-            var response2 = restaurantController.DeleteSection(context.Sections.FirstOrDefault(item => item.Name == "Nowa sekcja").Id);
+            var response2 = restaurantController.DeleteSection(context.Sections.FirstOrDefault(item => item.Name == "Zupy").Id);
             var result2 = response2 as ObjectResult;
 
             Assert.AreEqual(200, result.StatusCode);
@@ -249,7 +249,7 @@ namespace webApiTest
             result = response.Result as ObjectResult;
             secs = result.Value as List<SectionDTO>;
 
-            Assert.AreEqual(false, secs.Any(item => item.Name == "Nowa sekcja"));
+            Assert.AreEqual(false, secs.Any(item => item.Name == "Zupy"));
 
             Assert.Catch<NotFoundException>(() =>
             {
@@ -402,10 +402,10 @@ namespace webApiTest
         [Test]
         public void ReactivateRestaurantTest()
         {
-            var response = restaurantController.ReactivateRestaurant(3);
+            var response = restaurantController.ReactivateRestaurant(2);
             var result = response as OkResult;
 
-            var restaurant = context.Restaurants.FirstOrDefault(item => item.Id == 3);
+            var restaurant = context.Restaurants.FirstOrDefault(item => item.Id == 2);
 
 
             Assert.AreEqual(200, result.StatusCode);
@@ -456,10 +456,10 @@ namespace webApiTest
         [Test]
         public void UnblockRestaurantTest()
         {
-            var response = restaurantController.UnblockRestaurant(3);
+            var response = restaurantController.UnblockRestaurant(2);
             var result = response as OkResult;
 
-            var restaurant = context.Restaurants.FirstOrDefault(item => item.Id == 3);
+            var restaurant = context.Restaurants.FirstOrDefault(item => item.Id == 2);
 
             Assert.AreEqual(200, result.StatusCode);
             Assert.AreEqual(1, restaurant.State);
