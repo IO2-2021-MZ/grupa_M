@@ -12,6 +12,6 @@ namespace webApi.Models
         public int OrderId { get; set; }
 
         public virtual Dish Dish { get; set; }
-        public virtual Section Order { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

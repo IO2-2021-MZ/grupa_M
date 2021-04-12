@@ -47,7 +47,7 @@ namespace webApi.Controllers
         public ActionResult CreateRestaurant([FromBody] NewRestaurant newRestaurant)
         {
             int id = _restaurantService.CreateNewRestaurant(newRestaurant);
-            return Created($"/restaurant/{id}", null);
+            return Ok($"/restaurant/{id}");
         }
 
         /// <summary>
@@ -75,10 +75,10 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet("menu")]
-        public ActionResult<SectionDTO> GetSectionByRestaurantsId([FromQuery] int id)
+        public ActionResult<List<SectionDTO>> GetSectionByRestaurantsId([FromQuery] int id)
         {
-            SectionDTO section = _restaurantService.GetSectionByRestaurantsId(id);
-            return Ok(section);
+            List<SectionDTO> sections = _restaurantService.GetSectionByRestaurantsId(id);
+            return Ok(sections);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace webApi.Controllers
         {
             //id z tokenu po zalogowaniu
             int sectionId = _restaurantService.CreateSection(id, section);
-            return Created($"/restaurant/menu/section/{sectionId}", null);
+            return Ok($"/restaurant/menu/section/{sectionId}");
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace webApi.Controllers
         public ActionResult CreatePosition([FromQuery] int id, [FromBody] NewPositionFromMenu newPosition)
         {
             int positionId = _restaurantService.CreateNewPositionFromMenu(id, newPosition);
-            return Created($"restaurant/menu/position/{positionId}", null);
+            return Ok($"restaurant/menu/position/{positionId}");
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpPatch("menu/position")]
-        public ActionResult UpdatePositionFromMenu([FromQuery] int id, NewPositionFromMenu newPosition)
+        public ActionResult UpdatePositionFromMenu([FromQuery] int id, [FromBody]NewPositionFromMenu newPosition)
         {
             _restaurantService.UpdatePositionFromMenu(id, newPosition);
             return Ok();

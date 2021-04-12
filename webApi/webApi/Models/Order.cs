@@ -10,6 +10,7 @@ namespace webApi.Models
         public Order()
         {
             Complaints = new HashSet<Complaint>();
+            OrderDishes = new HashSet<OrderDish>();
         }
 
         public int Id { get; set; }
@@ -28,5 +29,6 @@ namespace webApi.Models
         public virtual User Employee { get; set; }
         public virtual Restaurant Restaurant { get; set; }
         public virtual ICollection<Complaint> Complaints { get; set; }
+        public virtual ICollection<OrderDish> OrderDishes { get; set; }
     }
 }

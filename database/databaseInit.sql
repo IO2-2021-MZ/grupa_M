@@ -27,18 +27,6 @@ GO
 use "IO2_Restaurants"
 GO
 
-drop table if exists [Order]
-drop table if exists [User]
-drop table if exists Complaint
-drop table if exists Review
-drop table if exists Discount_Code
-drop table if exists Restaurant
-drop table if exists [Address]
-drop table if exists Dish
-drop table if exists Section
-drop table if exists Order_Dish
-
-GO
 
 CREATE TABLE [Address] (
 	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
@@ -130,7 +118,7 @@ CREATE TABLE [Order] (
 	restaurant_id int NOT NULL,
 	employee_id int,
 
-	--! positions_ids - realziowane przez Order_Dish
+	--! positions_ids - realizowane przez Order_Dish
 
 	CONSTRAINT FK_Orders_Users FOREIGN KEY
 	(
@@ -222,7 +210,7 @@ CREATE TABLE Order_Dish(
 	CONSTRAINT FK_Order_Dish_Order FOREIGN KEY
 	(
 		order_id
-	) REFERENCES Section
+	) REFERENCES [Order]
 )
 
 GO
