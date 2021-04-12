@@ -27,12 +27,26 @@ namespace webApi.Services
 
         public void ActivateRestaurant(int id)
         {
-            throw new NotImplementedException();
+            var restaurant = _context
+                .Restaurants
+                .FirstOrDefault(item => item.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resource not found");
+
+            restaurant.State = 0;
+            _context.SaveChanges();
         }
 
         public void BlockRestaurant(int id)
         {
-            throw new NotImplementedException();
+            var restaurant = _context
+                .Restaurants
+                .FirstOrDefault(item => item.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resource not found");
+
+            restaurant.State = 2;
+            _context.SaveChanges();
         }
 
         public int CreateNewPositionFromMenu(int id, NewPositionFromMenu newPosition)
@@ -103,7 +117,14 @@ namespace webApi.Services
 
         public void DeactivateRestaurant(int id)
         {
-            throw new NotImplementedException();
+            var restaurant = _context
+                .Restaurants
+                .FirstOrDefault(item => item.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resource not found");
+
+            restaurant.State = 1;
+            _context.SaveChanges();
         }
 
         public void DeleteRestaurant(int id)
@@ -128,30 +149,69 @@ namespace webApi.Services
             _context.SaveChanges();
         }
 
-        public IEnumerable<ComplaintR> GetAllComplaitsForRestaurants(int? id)
+        public IEnumerable<ComplaintDTO> GetAllComplaitsForRestaurants(int? id)
         {
-            throw new NotImplementedException();
+            var restaurant = _context
+                .Restaurants
+                .Include(item => item.Orders)
+                .FirstOrDefault(item => item.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resource not found");
+
+            var complaints = _context
+                .Complaints
+                .Include(item => item.Order)
+                .Join(_context.Orders.Where(item => item.RestaurantId == id), x => x.OrderId, y => y.Id, (x, y) => x)
+                .ToList();
+
+            var complaintDTOs = _mapper.Map<List<ComplaintDTO>>(complaints);
+            return complaintDTOs;
         }
 
-        public IEnumerable<OrderR> GetAllOrdersForRestaurants(int id)
+        public IEnumerable<OrderDTO> GetAllOrdersForRestaurants(int id)
         {
-            throw new NotImplementedException();
+            var restaurant = _context
+                .Restaurants
+                .Include(item => item.Orders)
+                .FirstOrDefault(item => item.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resource not found");
+
+            var orderDTOs = _mapper.Map<List<OrderDTO>>(restaurant.Orders);
+
+            return orderDTOs;
         }
 
         public IEnumerable<RestaurantDTO> GetAllRestaurants()
         {
-            throw new NotImplementedException();
+            var restaurants = _context
+                .Restaurants
+                .Include(item => item.Address)
+                .ToList();
+
+            var restaurantDTOs = _mapper.Map<List<RestaurantDTO>>(restaurants);
+            return restaurantDTOs;
         }
 
-        public IEnumerable<ReviewR> GetAllReviewsForRestaurants(int? id)
+        public IEnumerable<ReviewDTO> GetAllReviewsForRestaurants(int? id)
         {
-            throw new NotImplementedException();
+            var restaurant = _context
+               .Restaurants
+               .Include(item => item.Reviews)
+               .FirstOrDefault(item => item.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resource not found");
+
+            var reviewDTOs = _mapper.Map<List<ReviewDTO>>(restaurant.Orders);
+
+            return reviewDTOs;
         }
 
         public RestaurantDTO GetRestaurantById(int? id)
         {
             var restaurant = _context
                             .Restaurants
+                            .Include(item => item.Address)
                             .FirstOrDefault(r => r.Id == id);
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
@@ -180,7 +240,14 @@ namespace webApi.Services
 
         public void ReactivateRestaurant(int id)
         {
-            throw new NotImplementedException();
+            var restaurant = _context
+               .Restaurants
+               .FirstOrDefault(item => item.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resource not found");
+
+            restaurant.State = 0;
+            _context.SaveChanges();
         }
 
         public void RemovePositionFromMenu(int id)
@@ -201,7 +268,14 @@ namespace webApi.Services
 
         public void UnblockRestaurant(int id)
         {
-            throw new NotImplementedException();
+            var restaurant = _context
+               .Restaurants
+               .FirstOrDefault(item => item.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resource not found");
+
+            restaurant.State = 1;
+            _context.SaveChanges();
         }
 
         public void UpdatePositionFromMenu(int id, NewPositionFromMenu newPosition)

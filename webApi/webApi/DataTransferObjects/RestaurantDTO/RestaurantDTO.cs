@@ -20,7 +20,7 @@ namespace webApi.DataTransferObjects.RestaurantDTO
         [Required]
         public decimal Rating { get; set; }
         [Required]
-        public RestaurantState State { get; set; }
+        public string State { get; set; }
         [Required]
         public decimal Owing { get; set; }
         [Required]
