@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using webApi.DataTransferObjects.AddressDTO;
+using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.DiscountCodeDTO;
 using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.RestaurantDTO;
@@ -39,6 +40,8 @@ namespace webApi.Helpers
 
             CreateMap<Dish, NewPositionFromMenu>().ReverseMap();
 
+            CreateMap<Complaint, NewComplaint>()
+               .ReverseMap();
         }
     }
 }

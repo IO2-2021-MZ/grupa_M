@@ -1,52 +1,67 @@
+using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.Models;
 
 namespace webApi.Services
 {
 
-    public interface IComplaintService
-    {
-        public ComplaintDTO GetComplaintById(int? id);
-        int CreateNewComplaint(NewComplaint newComplaint);
-        void DeleteComplaint(int id);
-        IEnumerable<ComplaintDTO> GetAllComplaints();
-        void CloseComplaint(int id);
-
-    }
     public class ComplaintService : IComplaintService
     {
-        Models.IO2_RestaurantsContext _context;
-        public ComplaintService(Models.IO2_RestaurantsContext context)
+        IO2_RestaurantsContext _context;
+        private readonly IMapper _mapper;
+        public ComplaintService(IO2_RestaurantsContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
-        public void CloseComplaint(int id)
-        {
-            throw new System.NotImplementedException();
-        }
+        
 
         public int CreateNewComplaint(NewComplaint newComplaint)
         {
-            throw new System.NotImplementedException();
+            var nc = _mapper.Map<Complaint>(newComplaint);
+            _context.Complaints.Add(nc);
+            _context.SaveChanges();
+
+            return nc.Id;
         }
 
-        public void DeleteComplaint(int id)
+        public bool DeleteComplaint(int id)
         {
-            throw new System.NotImplementedException();
+            var complaintToDelete = _context.Complaints.FirstOrDefault(c => c.Id == id);
+
+            if (complaintToDelete == null) return false;
+
+            _context.Complaints.Remove(complaintToDelete);
+            return true;
         }
 
         public IEnumerable<ComplaintDTO> GetAllComplaints()
         {
-            throw new System.NotImplementedException();
+            var queryResult = (from Complaints in _context.Complaints select Complaints).OrderBy(x => x.Id).ToList();
+            var result = _mapper.Map<List<ComplaintDTO>>(queryResult);
+            return result;
         }
 
         public ComplaintDTO GetComplaintById(int? id)
         {
-            throw new System.NotImplementedException();
-        }
+            if (id == null) return null;
 
+            return _mapper.Map<ComplaintDTO>(_context.Complaints.FirstOrDefault(code => code.Id == id.Value));
+        }
+        public bool CloseComplaint(int id)
+        {
+            throw new NotImplementedException();
+            //var complaintToDelete = _context.Complaints.FirstOrDefault(c => c.Id == id);
+
+            //if (complaintToDelete == null) return false;
+
+            //complaintToDelete.Open = false;
+            //return true;
+        }
 
     }
 }
