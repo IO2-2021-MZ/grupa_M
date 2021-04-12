@@ -37,6 +37,8 @@ namespace webApi.Services
 
         public int CreateNewPositionFromMenu(int id, NewPositionFromMenu newPosition)
         {
+            if (newPosition is null) throw new BadRequestException("Bad request");
+
             var dish = _mapper.Map<Dish>(newPosition);
 
             var section = _context
@@ -53,6 +55,8 @@ namespace webApi.Services
 
         public int CreateNewRestaurant(NewRestaurant newRestaurant)
         {
+            if (newRestaurant is null) throw new BadRequestException("Bad request");
+
             var restaurant = _mapper.Map<Restaurant>(newRestaurant);
             restaurant.State = 1;
             var address = _mapper.Map<Address>(newRestaurant.Address);
@@ -79,6 +83,12 @@ namespace webApi.Services
 
         public int CreateSection(int id, string sectionName)
         {
+            if (sectionName is null || sectionName == string.Empty) throw new BadRequestException("Bad request");
+
+            var restaurant = _context.Restaurants.FirstOrDefault(item => item.Id == id);
+
+            if (restaurant is null) throw new NotFoundException("Resources not found");
+
             var section = new Section()
             {
                 Name = sectionName,
@@ -196,6 +206,8 @@ namespace webApi.Services
 
         public void UpdatePositionFromMenu(int id, NewPositionFromMenu newPosition)
         {
+            if (newPosition is null) throw new BadRequestException("Bad request");
+
             var dish = _context.Dishes
                 .FirstOrDefault(d => d.Id == id);
 
@@ -211,7 +223,11 @@ namespace webApi.Services
 
         public void UpdateSection(int id, string newSectionName)
         {
+            if (newSectionName is null || newSectionName == string.Empty) throw new BadRequestException("Bad request");
+
             var section = _context.Sections.FirstOrDefault(s => s.Id == id);
+
+            if (section is null) throw new NotFoundException("Resources not found");
 
             section.Name = newSectionName;
             _context.SaveChanges();

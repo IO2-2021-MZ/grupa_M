@@ -144,7 +144,7 @@ namespace webApi.Controllers
         public ActionResult CreatePosition([FromQuery] int id, [FromBody] NewPositionFromMenu newPosition)
         {
             int positionId = _restaurantService.CreateNewPositionFromMenu(id, newPosition);
-            return Created($"restaurant/menu/position/{positionId}", null);
+            return Ok($"restaurant/menu/position/{positionId}");
         }
 
         /// <summary>

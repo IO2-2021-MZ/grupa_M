@@ -154,6 +154,11 @@ namespace webApiTest
             var result = response as ObjectResult;
 
             Assert.AreEqual(200, result.StatusCode);
+
+            Assert.Catch<BadRequestException>(() =>
+            {
+                restaurantController.CreateRestaurant(null);
+            });
         }
 
         [Test]
@@ -206,6 +211,20 @@ namespace webApiTest
             var result = response as ObjectResult;
 
             Assert.AreEqual(200, result.StatusCode);
+            Assert.Catch<BadRequestException>(() =>
+            {
+                restaurantController.CreateSection(1, "");
+            });
+
+            Assert.Catch<BadRequestException>(() =>
+            {
+                restaurantController.CreateSection(1, null);
+            });
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                restaurantController.CreateSection(1000, "Sekcja");
+            });
         }
 
         [Test]
@@ -218,7 +237,7 @@ namespace webApiTest
             Assert.AreEqual(200, result.StatusCode);
             Assert.AreEqual(true, secs.Any(item => item.Name == "Nowa sekcja"));
  
-            var response2 = restaurantController.DeleteSection(2);
+            var response2 = restaurantController.DeleteSection(context.Sections.FirstOrDefault(item => item.Name == "Nowa sekcja").Id);
             var result2 = response2 as ObjectResult;
 
             Assert.AreEqual(200, result.StatusCode);
@@ -232,6 +251,89 @@ namespace webApiTest
             Assert.Catch<NotFoundException>(() =>
             {
                 restaurantController.DeleteSection(1000);
+            });
+        }
+
+        [Test]
+        public void UpdateSectionTest()
+        {
+            var response = restaurantController.UpdateSection(1, "New Name");
+           
+            Assert.AreEqual(200, (response as OkResult).StatusCode);
+            var section = context.Sections.First(item => item.Id == 1);
+            Assert.AreEqual("New Name", section.Name);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                restaurantController.UpdateSection(1000, "New name");
+            });
+
+            Assert.Catch<BadRequestException>(() =>
+            {
+                restaurantController.UpdateSection(1000, "");
+            });
+
+            Assert.Catch<BadRequestException>(() =>
+            {
+                restaurantController.UpdateSection(1000, null);
+            });
+        }
+
+        [Test]
+        public void CreateDishTest()
+        {
+            int i1 = context.Dishes.Count();
+
+            NewPositionFromMenu newPositionFromMenu = new NewPositionFromMenu()
+            {
+                Name = "Nowe żarcie",
+                Description = "Opis nowego żarcia",
+                Price = 100.00m
+            };
+            var response = restaurantController.CreatePosition(1, newPositionFromMenu);
+            var result = response as ObjectResult;
+
+            int i2 = context.Dishes.Count();
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(i2, i1 + 1);
+
+            Assert.Catch<BadRequestException>(() =>
+            {
+                restaurantController.CreatePosition(1, null);
+            });
+        }
+
+        [Test]
+        public void UpdateDishTest()
+        {
+            NewPositionFromMenu newPositionFromMenu = new NewPositionFromMenu()
+            {
+                Name = "Super Nowe żarcie",
+                Description = "Opis super nowego żarcia",
+                Price = 110.00m
+            };
+
+            Dish dish = context.Dishes.FirstOrDefault(item => item.Id == 1);
+
+            var response = restaurantController.UpdatePositionFromMenu(1, newPositionFromMenu);
+
+            Dish dish2 = context.Dishes.FirstOrDefault(item => item.Id == 1);
+
+            Assert.AreEqual(200, (response as OkResult).StatusCode);
+            Assert.AreEqual(dish, dish2);
+            Assert.AreEqual(dish2.Name, "Super Nowe żarcie");
+            Assert.AreEqual(dish2.Price, 110.00m);
+            Assert.AreEqual(dish2.Description, "Opis super nowego żarcia");
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                restaurantController.UpdatePositionFromMenu(1000, newPositionFromMenu);
+            });
+
+            Assert.Catch<BadRequestException>(() =>
+            {
+                restaurantController.UpdatePositionFromMenu(1, null);
             });
         }
     }
