@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.DiscountCodeDTO;
 using webApi.DataTransferObjects.ReviewDTO;
 using webApi.DataTransferObjects.UserDTO;
@@ -19,6 +20,9 @@ namespace webApi.Helpers
                 .ReverseMap();
 
             CreateMap<Review, NewReview>() // example of mapping
+               .ReverseMap();
+
+            CreateMap<Complaint, NewComplaint>()
                .ReverseMap();
         }
     }
