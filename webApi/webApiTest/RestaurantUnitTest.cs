@@ -190,7 +190,7 @@ namespace webApiTest
         }
 
         [Test]
-        public void GetSection()
+        public void GetSectionTest()
         {
             var response = restaurantController.GetSectionByRestaurantsId(1);
             var result = response.Result as ObjectResult;
@@ -304,27 +304,41 @@ namespace webApiTest
                 restaurantController.CreatePosition(1, null);
             });
         }
+        [Test]
+        public void GetDishTest()
+        {
+            var response = restaurantController.GetDish(1);
+            var result = response.Result as ObjectResult;
+            var dish = result.Value as PositionFromMenuDTO;
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(1, dish.Id);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                response = restaurantController.GetDish(1000);
+            });
+        }
 
         [Test]
         public void DeleteDishTest()
         {
-            var response = restaurantController.Get(2);
+            var response = restaurantController.GetDish(2);
             var result = response.Result as ObjectResult;
-            var secs = result.Value as List<SectionDTO>;
+            var secs = result.Value as PositionFromMenuDTO;
 
             Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(true, secs.Any(item => item.Name == "Nowa sekcja"));
+            Assert.AreEqual(secs.Name, "Kaszanka");
 
-            var response2 = restaurantController.DeleteSection(context.Sections.FirstOrDefault(item => item.Name == "Nowa sekcja").Id);
+            var response2 = restaurantController.DeletePositionFromMenu(context.Dishes.FirstOrDefault(item => item.Id == 2).Id);
             var result2 = response2 as ObjectResult;
 
             Assert.AreEqual(200, result.StatusCode);
 
-            response = restaurantController.GetSectionByRestaurantsId(2);
-            result = response.Result as ObjectResult;
-            secs = result.Value as List<SectionDTO>;
-
-            Assert.AreEqual(false, secs.Any(item => item.Name == "Nowa sekcja"));
+            Assert.Catch<NotFoundException>(() =>
+            {
+                response = restaurantController.GetDish(2);
+            });
 
             Assert.Catch<NotFoundException>(() =>
             {

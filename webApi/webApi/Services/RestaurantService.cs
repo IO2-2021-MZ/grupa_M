@@ -269,6 +269,9 @@ namespace webApi.Services
 
             if (dish is null) throw new NotFoundException("Resource not found");
 
+            var orderDishes = _context.OrderDishes.Where(item => item.DishId == id);
+            _context.OrderDishes.RemoveRange(orderDishes);
+
             _context.Dishes.Remove(dish);
             _context.SaveChanges();
         }

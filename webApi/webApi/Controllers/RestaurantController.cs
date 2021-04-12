@@ -73,8 +73,8 @@ namespace webApi.Controllers
         /// <response code="200">Dish returned</response>
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
-        [HttpDelete]
-        public ActionResult GetDish([FromQuery] int id)
+        [HttpGet("menu/position")]
+        public ActionResult<PositionFromMenuDTO> GetDish([FromQuery] int id)
         {
             var dish = _restaurantService.GetDishById(id);
             return Ok(dish);
