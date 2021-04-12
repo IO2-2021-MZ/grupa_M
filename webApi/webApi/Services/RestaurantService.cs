@@ -149,7 +149,7 @@ namespace webApi.Services
             _context.SaveChanges();
         }
 
-        public IEnumerable<ComplaintDTO> GetAllComplaitsForRestaurants(int? id)
+        public List<ComplaintDTO> GetAllComplaitsForRestaurants(int? id)
         {
             var restaurant = _context
                 .Restaurants
@@ -168,7 +168,7 @@ namespace webApi.Services
             return complaintDTOs;
         }
 
-        public IEnumerable<OrderDTO> GetAllOrdersForRestaurants(int id)
+        public List<OrderDTO> GetAllOrdersForRestaurants(int id)
         {
             var restaurant = _context
                 .Restaurants
@@ -182,7 +182,7 @@ namespace webApi.Services
             return orderDTOs;
         }
 
-        public IEnumerable<RestaurantDTO> GetAllRestaurants()
+        public List<RestaurantDTO> GetAllRestaurants()
         {
             var restaurants = _context
                 .Restaurants
@@ -193,7 +193,7 @@ namespace webApi.Services
             return restaurantDTOs;
         }
 
-        public IEnumerable<ReviewDTO> GetAllReviewsForRestaurants(int? id)
+        public List<ReviewDTO> GetAllReviewsForRestaurants(int? id)
         {
             var restaurant = _context
                .Restaurants
@@ -202,7 +202,7 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            var reviewDTOs = _mapper.Map<List<ReviewDTO>>(restaurant.Orders);
+            var reviewDTOs = _mapper.Map<List<ReviewDTO>>(restaurant.Reviews);
 
             return reviewDTOs;
         }

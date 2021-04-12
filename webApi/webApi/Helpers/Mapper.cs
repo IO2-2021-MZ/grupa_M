@@ -49,6 +49,8 @@ namespace webApi.Helpers
 
             CreateMap<Order, OrderDTO>().ReverseMap();
 
+            CreateMap<Review, ReviewDTO>().ReverseMap();
+
         }
     }
 }

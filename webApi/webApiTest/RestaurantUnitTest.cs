@@ -20,6 +20,8 @@ using webApi.DataTransferObjects.AddressDTO;
 using webApi.DataTransferObjects.SectionDTO;
 using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
+using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.DataTransferObjects.ReviewDTO;
 
 namespace webApiTest
 {
@@ -484,10 +486,10 @@ namespace webApiTest
         {
             var response = restaurantController.GetAllOrdersForRestaurant(1);
             var result = response.Result as ObjectResult;
-            var restaurants = result.Value as List<OrderDTO>;
+            var orders = result.Value as List<OrderDTO>;
 
             Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(2, restaurants.Count);
+            Assert.AreEqual(2, orders.Count);
 
             Assert.Catch<NotFoundException>(() =>
                 {
@@ -500,10 +502,10 @@ namespace webApiTest
         {
             var response = restaurantController.GetAllReviewsForRestaurant(1);
             var result = response.Result as ObjectResult;
-            var restaurants = result.Value as List<OrderDTO>;
+            var reviews = result.Value as List<ReviewDTO>;
 
             Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(1, restaurants.Count);
+            Assert.AreEqual(1, reviews.Count);
 
             Assert.Catch<NotFoundException>(() =>
             {
@@ -516,10 +518,10 @@ namespace webApiTest
         {
             var response = restaurantController.GetAllComplaintsForRestaurant(1);
             var result = response.Result as ObjectResult;
-            var restaurants = result.Value as List<OrderDTO>;
+            var complaints = result.Value as List<ComplaintDTO>;
 
             Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(1, restaurants.Count);
+            Assert.AreEqual(1, complaints.Count);
 
             Assert.Catch<NotFoundException>(() =>
             {

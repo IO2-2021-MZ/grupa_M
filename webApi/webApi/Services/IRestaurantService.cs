@@ -20,10 +20,10 @@ namespace webApi.Services
         int CreateNewPositionFromMenu(int id, NewPositionFromMenu newPosition);
         void UpdatePositionFromMenu(int id, NewPositionFromMenu newPosition);
         void RemovePositionFromMenu(int id);
-        IEnumerable<RestaurantDTO> GetAllRestaurants();
-        IEnumerable<OrderDTO> GetAllOrdersForRestaurants(int id);
-        IEnumerable<ReviewDTO> GetAllReviewsForRestaurants(int? id);
-        IEnumerable<ComplaintDTO> GetAllComplaitsForRestaurants(int? id);
+        List<RestaurantDTO> GetAllRestaurants();
+        List<OrderDTO> GetAllOrdersForRestaurants(int id);
+        List<ReviewDTO> GetAllReviewsForRestaurants(int? id);
+        List<ComplaintDTO> GetAllComplaitsForRestaurants(int? id);
         void SetFavouriteRestaurant(int id);
         void ActivateRestaurant(int id);
         void ReactivateRestaurant(int id);

@@ -233,9 +233,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("review/all")]
-        public ActionResult<IEnumerable<OrderR>> GetAllReviewsForRestaurant([FromQuery] int? id)
+        public ActionResult<List<OrderDTO>> GetAllReviewsForRestaurant([FromQuery] int? id)
         {
-            IEnumerable<ReviewDTO> reviews = _restaurantService.GetAllReviewsForRestaurants(id);
+            List<ReviewDTO> reviews = _restaurantService.GetAllReviewsForRestaurants(id);
             return Ok(reviews);
         }
 
@@ -248,9 +248,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("complaint/all")]
-        public ActionResult<IEnumerable<ComplaintR>> GetAllComplaintsForRestaurant([FromQuery] int? id)
+        public ActionResult<List<ComplaintDTO>> GetAllComplaintsForRestaurant([FromQuery] int? id)
         {
-            IEnumerable<ComplaintDTO> complaints = _restaurantService.GetAllComplaitsForRestaurants(id);
+            List<ComplaintDTO> complaints = _restaurantService.GetAllComplaitsForRestaurants(id);
             return Ok(complaints);
         }
 
