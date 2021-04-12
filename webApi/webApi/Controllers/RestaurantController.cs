@@ -95,7 +95,7 @@ namespace webApi.Controllers
         {
             //id z tokenu po zalogowaniu
             int sectionId = _restaurantService.CreateSection(id, section);
-            return Created($"/restaurant/menu/section/{sectionId}", null);
+            return Ok($"/restaurant/menu/section/{sectionId}");
         }
 
         /// <summary>

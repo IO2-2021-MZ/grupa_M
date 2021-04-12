@@ -202,7 +202,7 @@ namespace webApiTest
         [Test]
         public void CreateSectionTest()
         {
-            var response = restaurantController.CreateSection(1, "Nowa sekcja");
+            var response = restaurantController.CreateSection(2, "Nowa sekcja");
             var result = response as ObjectResult;
 
             Assert.AreEqual(200, result.StatusCode);
@@ -211,7 +211,28 @@ namespace webApiTest
         [Test]
         public void DeleteSectionTest()
         {
+            var response = restaurantController.GetSectionByRestaurantsId(2);
+            var result = response.Result as ObjectResult;
+            var secs = result.Value as List<SectionDTO>;
 
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(true, secs.Any(item => item.Name == "Nowa sekcja"));
+ 
+            var response2 = restaurantController.DeleteSection(2);
+            var result2 = response2 as ObjectResult;
+
+            Assert.AreEqual(200, result.StatusCode);
+
+            response = restaurantController.GetSectionByRestaurantsId(2);
+            result = response.Result as ObjectResult;
+            secs = result.Value as List<SectionDTO>;
+
+            Assert.AreEqual(false, secs.Any(item => item.Name == "Nowa sekcja"));
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                restaurantController.DeleteSection(1000);
+            });
         }
     }
 }
