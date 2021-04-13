@@ -33,7 +33,11 @@ namespace webApi.Helpers
             CreateMap<Review, ReviewDTO>().ReverseMap();
 
             //Order Mapper
-            CreateMap<Order, OrderDTO>().ReverseMap();
+            CreateMap<Order, OrderDTO>() //TODO(?): mapping for enums
+                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }));
+
+            CreateMap<NewOrder, Order>()
+                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => null as object));
 
             //Complaint Mapper
             CreateMap<Complaint, ComplaintDTO>().ReverseMap();

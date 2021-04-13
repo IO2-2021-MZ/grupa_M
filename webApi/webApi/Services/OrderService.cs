@@ -9,6 +9,8 @@ using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.RestaurantDTO;
 using webApi.DataTransferObjects.ReviewDTO;
 using webApi.Models;
+using webApi.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace webApi.Services
 {
@@ -24,32 +26,77 @@ namespace webApi.Services
 
         public void AcceptOrder(int id)
         {
-            throw new NotImplementedException();
+            var order = _context
+                        .Orders
+                        .FirstOrDefault(o => o.Id == id);
+            if (order is null)
+                throw new NotFoundException("Resource not found");
+            order.State = 1;
+            _context.SaveChanges();
         }
 
         public int CreateNewOrder(NewOrder newOrder)
         {
-            var no = _mapper.Map<Order>(newOrder);
-            _context.Orders.Add(no);
+            //TODO(?): handling wrong IDs
+            if (newOrder is null)
+                throw new BadRequestException("Bad request");
+            var order = _mapper.Map<Order>(newOrder);
+            var address = _mapper.Map<Address>(newOrder.Address);
+            Address existingAddress = _context
+                                        .Addresses
+                                        .FirstOrDefault(a => a.City == address.City && a.PostCode == address.PostCode && a.Street == address.Street);
+            if (existingAddress is null)
+            {
+                _context.Addresses.Add(address);
+                _context.SaveChanges();
+                order.AddressId = address.Id;
+            }
+            else
+            {
+                order.AddressId = existingAddress.Id;
+            }
+            order.State = 0;
+            _context.Orders.Add(order);
             _context.SaveChanges();
-            return no.Id;
+            return order.Id;
         }
 
         public OrderDTO GetOrderById(int? id)
         {
-            if (id == null)
-                return null;
-            return _mapper.Map<OrderDTO>(_context.Orders.FirstOrDefault(o => o.Id == id.Value));
+            var order = _context
+                        .Orders
+                        .Include(o => o.Address)
+                        .FirstOrDefault(o => o.Id == id.Value);
+
+            if (order is null)
+                throw new NotFoundException("Resource not found");
+
+            var orderDTO = _mapper.Map<OrderDTO>(order);
+
+            return orderDTO;
         }
 
         public void RealiseOrder(int id)
         {
-            throw new NotImplementedException();
+            var order = _context
+                        .Orders
+                        .FirstOrDefault(o => o.Id == id);
+            if (order is null)
+                throw new NotFoundException("Resource not found");
+            order.State = 2;
+            _context.SaveChanges();
         }
 
         public void RefuseOrder(int id)
         {
-            throw new NotImplementedException();
+            var order = _context
+                        .Orders
+                        .FirstOrDefault(o => o.Id == id);
+            if (order is null)
+                throw new NotFoundException("Resource not found");
+            order.State = 3;
+            _context.SaveChanges();
+
         }
     }
 }
