@@ -110,7 +110,7 @@ namespace webApiTest
             if (!seeded)
             {
                 var options = new DbContextOptionsBuilder<IO2_RestaurantsContext>()
-                    .UseInMemoryDatabase(databaseName: "IO2_Restaurants")
+                    .UseInMemoryDatabase(databaseName: "IO2_Restaurants3")
                     .Options;
                 context = new IO2_RestaurantsContext(options);
                 Seed(context);
@@ -142,12 +142,9 @@ namespace webApiTest
         public void PostUserest()
         {
             var newUser = new NewUserDTO { IsAdministrator = false, IsRestaurateur = true, Name = "Janek", Email = "abcd2@as.pl", Surname = "Kowalski" };
-            var response = userController.PostUser(newUser) as ObjectResult;
+            var response = userController.PostUser(newUser) as OkResult;
             Assert.AreEqual(200, response.StatusCode);
         }
-
-
-       
 
     }
 }

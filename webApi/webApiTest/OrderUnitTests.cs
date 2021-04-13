@@ -109,7 +109,7 @@ namespace webApiTest
             if (!seeded)
             {
                 var options = new DbContextOptionsBuilder<IO2_RestaurantsContext>()
-                    .UseInMemoryDatabase(databaseName: "IO2_Restaurants4")
+                    .UseInMemoryDatabase(databaseName: "IO2_Restaurants6")
                     .Options;
                 context = new IO2_RestaurantsContext(options);
                 Seed(context);
