@@ -9,6 +9,7 @@ using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.RestaurantDTO;
 using webApi.DataTransferObjects.ReviewDTO;
+using webApi.Exceptions;
 using webApi.Models;
 
 namespace webApi.Services
@@ -26,6 +27,8 @@ namespace webApi.Services
 
         public int CreateNewDiscountCode(NewDiscountCode newDiscountCode)
         {
+            if (newDiscountCode is null) throw new BadRequestException("Bad request");
+
             var ndc = _mapper.Map<DiscountCode>(newDiscountCode);
             _context.DiscountCodes.Add(ndc);
             _context.SaveChanges();
@@ -37,9 +40,10 @@ namespace webApi.Services
         {
             var codeToDelete = _context.DiscountCodes.FirstOrDefault(dc => dc.Id == id);
 
-            if (codeToDelete == null) return false;
+            if (codeToDelete is null) throw new NotFoundException("Resource not found");
 
             _context.DiscountCodes.Remove(codeToDelete);
+            _context.SaveChanges();
             return true;
         }
 
@@ -52,9 +56,14 @@ namespace webApi.Services
 
         public DiscountCodeDTO GetDiscountCodeById(int? id)
         {
-            if(id == null) return null;
+            var dc = _context
+                            .DiscountCodes
+                            .FirstOrDefault(r => r.Id == id);
 
-            return _mapper.Map<DiscountCodeDTO>(_context.DiscountCodes.FirstOrDefault(code => code.Id == id.Value));
+            if (dc is null) throw new NotFoundException("Resource not found");
+
+            var dcDTO = _mapper.Map<DiscountCodeDTO>(dc);
+            return dcDTO;
         }
     }
 }
