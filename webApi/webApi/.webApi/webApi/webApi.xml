@@ -402,7 +402,7 @@
             User Controller
             </summary>
         </member>
-        <member name="M:webApi.Controllers.UserController.#ctor(webApi.Services.IUserService)">
+        <member name="M:webApi.Controllers.UserController.#ctor(webApi.Services.IUserService,AutoMapper.IMapper)">
             <summary>
             User Controller constructor
             </summary>
@@ -418,7 +418,7 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.UserController.PostUser(webApi.DataTransferObjects.UserDTO.NewCustomer)">
+        <member name="M:webApi.Controllers.UserController.PostUser(webApi.DataTransferObjects.UserDTO.NewUserDTO)">
             <summary>
             Creates new User
             </summary>

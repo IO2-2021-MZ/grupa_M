@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.UserDTO;
+using webApi.Models;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -18,12 +21,15 @@ namespace webApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+
         /// <summary>
         /// User Controller constructor
         /// </summary>
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
         /// <summary>
         /// Returns user Details
@@ -41,13 +47,9 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetUser([FromQuery] int? id)
         {
-
             var user = _userService.GetUserWithId(id);
-            if (user == null)
-            {
-                return BadRequest("Resource not Found");
-            }
-            return Ok(user);
+            var userRes = _mapper.Map<UserDTO>(user);
+            return Ok(userRes);
         }
         /// <summary>
         /// Creates new User
@@ -63,9 +65,10 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult PostUser([FromBody] NewCustomer newUser)
+        public IActionResult PostUser([FromBody] NewUserDTO newUserDTO)
         {
-            // Mapping exapmple
+            var newUser = _mapper.Map<User>(newUserDTO);
+            int id = _userService.CreateNewUser(newUser);
             return Ok();
         }
         /// <summary>
@@ -83,6 +86,7 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult DeleteUser([FromQuery] int? id)
         {
+            _userService.DeleteUser(id);
             return Ok();
         }
         /// <summary>
@@ -97,7 +101,9 @@ namespace webApi.Controllers
         [HttpGet("order/all")]
         public IActionResult GetAllOrders([FromQuery] int? id)
         {
-            return Ok();
+            var ordersModels = _userService.GetAllUserOrders(id);
+            var orders = _mapper.Map<IList<ComplaintDTO>>(ordersModels);
+            return Ok(orders);
         }
         /// <summary>
         /// Returns all complaints of user with exact id
@@ -111,7 +117,9 @@ namespace webApi.Controllers
         [HttpGet("complaint/all")]
         public IActionResult GetAllComplaint([FromQuery] int? id)
         {
-            return Ok();
+            var complaintsModels = _userService.GetAllUserOrders(id);
+            var complaints = _mapper.Map<IList<ComplaintDTO>>(complaintsModels);
+            return Ok(complaints);
         }
         /// <summary>
         /// Returns all users
@@ -124,7 +132,9 @@ namespace webApi.Controllers
         [HttpGet("all")]
         public IActionResult GetAllUsers()
         {
-            return Ok();
+            var usersModel = _userService.GetAllUsers();
+            var users = _mapper.Map<UserDTO>(usersModel);
+            return Ok(users);
         }
 
 
