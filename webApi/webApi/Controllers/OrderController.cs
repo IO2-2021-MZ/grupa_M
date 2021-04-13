@@ -51,7 +51,7 @@ namespace webApi.Controllers
         public ActionResult CreateOrder([FromBody] NewOrder newOrder)
         {
             int id = _orderService.CreateNewOrder(newOrder);
-            return Created($"/order/{id}", null);
+            return Ok($"/order/{id}");
         }
 
         /// <summary>
@@ -98,7 +98,6 @@ namespace webApi.Controllers
         [HttpPost("realized")]
         public ActionResult RealiseOrder([FromQuery] int id)
         {
-            // TODO: DTO OrderA, OrderR, OrderC
             _orderService.RealiseOrder(id);
             return Ok();
         }
