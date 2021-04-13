@@ -48,6 +48,8 @@ namespace webApi
             services.AddScoped<IRestaurantService, RestaurantService>();
             services.AddScoped<IDiscountCodeService, DiscountCodeService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IComplaintService, ComplaintService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
             services.AddScoped<ErrorHandlingMiddleware>();
