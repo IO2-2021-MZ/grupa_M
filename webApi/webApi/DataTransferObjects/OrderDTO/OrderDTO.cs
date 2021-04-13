@@ -12,11 +12,11 @@ namespace webApi.DataTransferObjects.OrderDTO
         [Required]
         public int Id { get; set; }
         [Required]
-        public int PaymentMethod { get; set; }
+        public string PaymentMethod { get; set; }
         [Required]
         public AddressDTO.AddressDTO Address { get; set; }
         [Required]
-        public int State { get; set; }
+        public string State { get; set; }
         [Required]
         public DateTime Date { get; set; }
         public int DiscountCodeId { get; set; }
