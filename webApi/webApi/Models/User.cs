@@ -9,7 +9,8 @@ namespace webApi.Models
     {
         public User()
         {
-            Complaints = new HashSet<Complaint>();
+            ComplaintCustomers = new HashSet<Complaint>();
+            ComplaintEmployees = new HashSet<Complaint>();
             OrderCustomers = new HashSet<Order>();
             OrderEmployees = new HashSet<Order>();
             Reviews = new HashSet<Review>();
@@ -28,7 +29,8 @@ namespace webApi.Models
 
         public virtual Address Address { get; set; }
         public virtual Restaurant Restaurant { get; set; }
-        public virtual ICollection<Complaint> Complaints { get; set; }
+        public virtual ICollection<Complaint> ComplaintCustomers { get; set; }
+        public virtual ICollection<Complaint> ComplaintEmployees { get; set; }
         public virtual ICollection<Order> OrderCustomers { get; set; }
         public virtual ICollection<Order> OrderEmployees { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }

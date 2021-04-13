@@ -7,5 +7,6 @@ namespace webApi.DataTransferObjects.OrderDTO
 {
     public class OrderDTO
     {
+
     }
 }

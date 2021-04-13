@@ -222,6 +222,12 @@ CREATE TABLE Complaint(
     [open] bit NOT NULL,
     customer_id int NOT NULL,
     order_id int NOT NULL,
+	employee_id int,
+
+	CONSTRAINT FK_Order_Complaint_User2 FOREIGN KEY
+	(
+		employee_id
+	) REFERENCES [User],
  
     CONSTRAINT FK_Complaint_User FOREIGN KEY
     (

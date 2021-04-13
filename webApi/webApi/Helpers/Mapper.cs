@@ -5,6 +5,7 @@ using webApi.DataTransferObjects.AddressDTO;
 using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.DiscountCodeDTO;
 using webApi.DataTransferObjects.DishDTO;
+using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.RestaurantDTO;
 using webApi.DataTransferObjects.ReviewDTO;
 using webApi.DataTransferObjects.SectionDTO;
@@ -29,10 +30,12 @@ namespace webApi.Helpers
 
             CreateMap<Restaurant, RestaurantDTO>()
                 .ForMember(dest => dest.State, opts => opts.MapFrom(src => (RestaurantState)src.State))
-                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }));
+                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }))
+                .ForMember(dest => dest.State, opts => opts.MapFrom(src => ((RestaurantState)src.State).ToString("G")));
 
             CreateMap<NewRestaurant, Restaurant>()
-                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => null as object));
+                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => null as object))
+                .ForMember(dest => dest.State, opts => opts.MapFrom(src => 1));
 
             CreateMap<AddressDTO, Address>();
 
@@ -40,17 +43,25 @@ namespace webApi.Helpers
 
             CreateMap<Dish, NewPositionFromMenu>().ReverseMap();
 
-            CreateMap<Complaint, NewComplaint>()
-               .ReverseMap();
+            CreateMap<Dish, PositionFromMenuDTO>().ReverseMap();
 
-            CreateMap<Review, ReviewDTO>()
-                .ReverseMap();
+            CreateMap<Complaint, ComplaintDTO>().ReverseMap();
 
+<<<<<<< HEAD
             CreateMap<DiscountCode, DiscountCodeDTO>()
                 .ReverseMap();
             CreateMap<NewComplaint, Complaint>();
 
 
+=======
+            CreateMap<Order, OrderDTO>().ReverseMap();
+
+            CreateMap<Review, ReviewDTO>().ReverseMap();
+
+            CreateMap<Complaint, NewComplaint>().ReverseMap();
+            
+            CreateMap<DiscountCode, DiscountCodeDTO>().ReverseMap();
+>>>>>>> 5ea878217fb3a18ef8db7e9c7c2da9c10ded339d
         }
     }
 }

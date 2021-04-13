@@ -13,8 +13,10 @@ namespace webApi.Models
         public bool Open { get; set; }
         public int CustomerId { get; set; }
         public int OrderId { get; set; }
+        public int? EmployeeId { get; set; }
 
         public virtual User Customer { get; set; }
+        public virtual User Employee { get; set; }
         public virtual Order Order { get; set; }
     }
 }
