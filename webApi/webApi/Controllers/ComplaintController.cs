@@ -59,7 +59,7 @@ namespace webApi.Controllers
         public ActionResult CreateComplaint([FromBody] NewComplaint newComplaint)
         {
             int id = _complaintService.CreateNewComplaint(newComplaint);
-            return Ok();
+            return Ok($"/complaint/{id}");
         }
 
         /// <summary>

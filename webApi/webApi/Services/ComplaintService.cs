@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.Exceptions;
 using webApi.Models;
 
 namespace webApi.Services
@@ -22,6 +23,8 @@ namespace webApi.Services
 
         public int CreateNewComplaint(NewComplaint newComplaint)
         {
+            if (newComplaint is null) throw new BadRequestException("Bad request");
+
             var nc = _mapper.Map<Complaint>(newComplaint);
             _context.Complaints.Add(nc);
             _context.SaveChanges();
@@ -29,14 +32,14 @@ namespace webApi.Services
             return nc.Id;
         }
 
-        public bool DeleteComplaint(int id)
+        public void DeleteComplaint(int id)
         {
             var complaintToDelete = _context.Complaints.FirstOrDefault(c => c.Id == id);
 
-            if (complaintToDelete == null) return false;
+            if (complaintToDelete is null) throw new NotFoundException("Resources not found");
 
             _context.Complaints.Remove(complaintToDelete);
-            return true;
+            _context.SaveChanges();
         }
 
         public IEnumerable<ComplaintDTO> GetAllComplaints()
@@ -48,19 +51,19 @@ namespace webApi.Services
 
         public ComplaintDTO GetComplaintById(int? id)
         {
-            if (id == null) return null;
+            var complaint = _context.Complaints.FirstOrDefault(code => code.Id == id.Value);
+            if (complaint is null) throw new NotFoundException("Resource not found");
 
-            return _mapper.Map<ComplaintDTO>(_context.Complaints.FirstOrDefault(code => code.Id == id.Value));
+            var complaintDTO =  _mapper.Map<ComplaintDTO>(complaint);
+            return complaintDTO;
         }
-        public bool CloseComplaint(int id)
+        public void CloseComplaint(int id)
         {
-            throw new NotImplementedException();
-            //var complaintToDelete = _context.Complaints.FirstOrDefault(c => c.Id == id);
+            var complaint = _context.Complaints.FirstOrDefault(c => c.Id == id);
+            if (complaint == null) throw new NotFoundException("Resources not found");
 
-            //if (complaintToDelete == null) return false;
-
-            //complaintToDelete.Open = false;
-            //return true;
+            complaint.Open = false;
+            _context.SaveChanges();
         }
 
     }

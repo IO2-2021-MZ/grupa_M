@@ -19,15 +19,28 @@ namespace webApi.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<Models.User, NewCustomer>() // example of mapping
-               .ReverseMap();
+            //User Mappers
+            CreateMap<Models.User, NewCustomer>().ReverseMap();
 
-            CreateMap<DiscountCode, NewDiscountCode>() // example of mapping
-                .ReverseMap();
+            //Discount Code Mappers
+            CreateMap<DiscountCode, NewDiscountCode>().ReverseMap();
 
-            CreateMap<Review, NewReview>() // example of mapping
-               .ReverseMap();
+            CreateMap<DiscountCode, DiscountCodeDTO>().ReverseMap();
 
+            //Review Mappers
+            CreateMap<Review, NewReview>().ReverseMap();
+
+            CreateMap<Review, ReviewDTO>().ReverseMap();
+
+            //Order Mapper
+            CreateMap<Order, OrderDTO>().ReverseMap();
+
+            //Complaint Mapper
+            CreateMap<Complaint, ComplaintDTO>().ReverseMap();
+
+            CreateMap<Complaint, NewComplaint>().ReverseMap();
+
+            //Restaurant Mappers
             CreateMap<Restaurant, RestaurantDTO>()
                 .ForMember(dest => dest.State, opts => opts.MapFrom(src => (RestaurantState)src.State))
                 .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }))
@@ -44,16 +57,6 @@ namespace webApi.Helpers
             CreateMap<Dish, NewPositionFromMenu>().ReverseMap();
 
             CreateMap<Dish, PositionFromMenuDTO>().ReverseMap();
-
-            CreateMap<Complaint, ComplaintDTO>().ReverseMap();
-
-            CreateMap<Order, OrderDTO>().ReverseMap();
-
-            CreateMap<Review, ReviewDTO>().ReverseMap();
-
-            CreateMap<Complaint, NewComplaint>().ReverseMap();
-            
-            CreateMap<DiscountCode, DiscountCodeDTO>().ReverseMap();
         }
     }
 }
