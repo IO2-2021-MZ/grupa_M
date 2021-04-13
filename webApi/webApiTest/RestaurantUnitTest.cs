@@ -19,6 +19,9 @@ using webApi.Exceptions;
 using webApi.DataTransferObjects.AddressDTO;
 using webApi.DataTransferObjects.SectionDTO;
 using webApi.DataTransferObjects.DishDTO;
+using webApi.DataTransferObjects.OrderDTO;
+using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.DataTransferObjects.ReviewDTO;
 
 namespace webApiTest
 {
@@ -105,7 +108,7 @@ namespace webApiTest
             if (!seeded)
             {
                 var options = new DbContextOptionsBuilder<IO2_RestaurantsContext>()
-                    .UseInMemoryDatabase(databaseName: "IO2_Restaurants")
+                    .UseInMemoryDatabase(databaseName: "IO2_Restaurants2")
                     .Options;
                 context = new IO2_RestaurantsContext(options);
                 Seed(context);
@@ -164,7 +167,7 @@ namespace webApiTest
         [Test]
         public void DeleteRestaurantTest()
         {
-            var rest = context.Restaurants.FirstOrDefault(r => r.Name == "New Restaurant");
+            var rest = context.Restaurants.FirstOrDefault(r => r.Name == "Top Restauracja");
 
             var response = restaurantController.GetRestaurant(rest.Id);
             var result = response.Result as ObjectResult;
@@ -189,7 +192,7 @@ namespace webApiTest
         }
 
         [Test]
-        public void GetSection()
+        public void GetSectionTest()
         {
             var response = restaurantController.GetSectionByRestaurantsId(1);
             var result = response.Result as ObjectResult;
@@ -235,9 +238,9 @@ namespace webApiTest
             var secs = result.Value as List<SectionDTO>;
 
             Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(true, secs.Any(item => item.Name == "Nowa sekcja"));
+            Assert.AreEqual(true, secs.Any(item => item.Name == "Zupy"));
  
-            var response2 = restaurantController.DeleteSection(context.Sections.FirstOrDefault(item => item.Name == "Nowa sekcja").Id);
+            var response2 = restaurantController.DeleteSection(context.Sections.FirstOrDefault(item => item.Name == "Zupy").Id);
             var result2 = response2 as ObjectResult;
 
             Assert.AreEqual(200, result.StatusCode);
@@ -246,7 +249,7 @@ namespace webApiTest
             result = response.Result as ObjectResult;
             secs = result.Value as List<SectionDTO>;
 
-            Assert.AreEqual(false, secs.Any(item => item.Name == "Nowa sekcja"));
+            Assert.AreEqual(false, secs.Any(item => item.Name == "Zupy"));
 
             Assert.Catch<NotFoundException>(() =>
             {
@@ -303,6 +306,47 @@ namespace webApiTest
                 restaurantController.CreatePosition(1, null);
             });
         }
+        [Test]
+        public void GetDishTest()
+        {
+            var response = restaurantController.GetDish(1);
+            var result = response.Result as ObjectResult;
+            var dish = result.Value as PositionFromMenuDTO;
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(1, dish.Id);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                response = restaurantController.GetDish(1000);
+            });
+        }
+
+        [Test]
+        public void DeleteDishTest()
+        {
+            var response = restaurantController.GetDish(2);
+            var result = response.Result as ObjectResult;
+            var secs = result.Value as PositionFromMenuDTO;
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(secs.Name, "Kaszanka");
+
+            var response2 = restaurantController.DeletePositionFromMenu(context.Dishes.FirstOrDefault(item => item.Id == 2).Id);
+            var result2 = response2 as ObjectResult;
+
+            Assert.AreEqual(200, result.StatusCode);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                response = restaurantController.GetDish(2);
+            });
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                restaurantController.DeleteSection(1000);
+            });
+        }
 
         [Test]
         public void UpdateDishTest()
@@ -334,6 +378,154 @@ namespace webApiTest
             Assert.Catch<BadRequestException>(() =>
             {
                 restaurantController.UpdatePositionFromMenu(1, null);
+            });
+        }
+
+        [Test]
+        public void ActivateRestaurantTest()
+        {
+            var response = restaurantController.ActivateRestaurant(3);
+            var result = response as OkResult;
+
+            var restaurant = context.Restaurants.FirstOrDefault(item => item.Id == 3);
+
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(0, restaurant.State);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                response = restaurantController.ActivateRestaurant(1000);
+            });
+        }
+
+        [Test]
+        public void ReactivateRestaurantTest()
+        {
+            var response = restaurantController.ReactivateRestaurant(2);
+            var result = response as OkResult;
+
+            var restaurant = context.Restaurants.FirstOrDefault(item => item.Id == 2);
+
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(0, restaurant.State);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                response = restaurantController.ReactivateRestaurant(1000);
+            });
+        }
+
+        [Test]
+        public void DeactivateRestaurantTest()
+        {
+            var response = restaurantController.DeactivateRestaurant(3);
+            var result = response as OkResult;
+
+            var restaurant = context.Restaurants.FirstOrDefault(item => item.Id == 3);
+
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(1, restaurant.State);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                response = restaurantController.DeactivateRestaurant(1000);
+            });
+        }
+
+        [Test]
+        public void BlockRestaurantTest()
+        {
+            var response = restaurantController.BlockRestaurant(3);
+            var result = response as OkResult;
+
+            var restaurant = context.Restaurants.FirstOrDefault(item => item.Id == 3);
+
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(2, restaurant.State);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                response = restaurantController.BlockRestaurant(1000);
+            });
+        }
+
+        [Test]
+        public void UnblockRestaurantTest()
+        {
+            var response = restaurantController.UnblockRestaurant(2);
+            var result = response as OkResult;
+
+            var restaurant = context.Restaurants.FirstOrDefault(item => item.Id == 2);
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(1, restaurant.State);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                response = restaurantController.BlockRestaurant(1000);
+            });
+        }
+
+        [Test]
+        public void GetAllRestaurantsTest()
+        {
+            var response = restaurantController.GetAllRestaurants();
+            var result = response.Result as ObjectResult;
+            var restaurants = result.Value as List<RestaurantDTO>;
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(3, restaurants.Count);
+        }
+
+        [Test]
+        public void GetOrdersForRestaurantTest()
+        {
+            var response = restaurantController.GetAllOrdersForRestaurant(1);
+            var result = response.Result as ObjectResult;
+            var orders = result.Value as List<OrderDTO>;
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(2, orders.Count);
+
+            Assert.Catch<NotFoundException>(() =>
+                {
+                    restaurantController.GetAllOrdersForRestaurant(1000);
+                });
+        }
+
+        [Test]
+        public void GetReviewsForRestaurantTest()
+        {
+            var response = restaurantController.GetAllReviewsForRestaurant(1);
+            var result = response.Result as ObjectResult;
+            var reviews = result.Value as List<ReviewDTO>;
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(1, reviews.Count);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                restaurantController.GetAllReviewsForRestaurant(1000);
+            });
+        }
+
+        [Test]
+        public void GetComplaintsForRestaurantTest()
+        {
+            var response = restaurantController.GetAllComplaintsForRestaurant(1);
+            var result = response.Result as ObjectResult;
+            var complaints = result.Value as List<ComplaintDTO>;
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(1, complaints.Count);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                restaurantController.GetAllComplaintsForRestaurant(1000);
             });
         }
     }

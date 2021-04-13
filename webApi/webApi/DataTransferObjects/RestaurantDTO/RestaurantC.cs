@@ -12,7 +12,7 @@ namespace webApi.DataTransferObjects.RestaurantDTO
         public string Name { get; set; }
         public string ContactInformation { get; set; }
         public decimal Rating { get; set; }
-        public RestaurantState State { get; set; }
+        public string State { get; set; }
         public AddressDTO.AddressDTO Address { get; set; }
     }
 }
