@@ -12,7 +12,7 @@ namespace webApi.DataTransferObjects.ComplaintDTO
         public int Id { get; set; }
         [Required]
         public string Content { get; set; }
-        public decimal Response { get; set; }
+        public string Response { get; set; }
         [Required]
         public bool Open { get; set; }
         [Required]
