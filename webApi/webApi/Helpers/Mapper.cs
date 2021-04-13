@@ -57,6 +57,12 @@ namespace webApi.Helpers
             CreateMap<Dish, NewPositionFromMenu>().ReverseMap();
 
             CreateMap<Dish, PositionFromMenuDTO>().ReverseMap();
+            
+            CreateMap<User, UserDTO>().ReverseMap();
+            
+            CreateMap<User, NewUserDTO>().ReverseMap();
+
+
         }
     }
 }
