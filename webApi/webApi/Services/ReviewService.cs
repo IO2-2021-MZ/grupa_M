@@ -8,6 +8,7 @@ using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.RestaurantDTO;
 using webApi.DataTransferObjects.ReviewDTO;
+using webApi.Exceptions;
 using webApi.Models;
 
 namespace webApi.Services
@@ -24,6 +25,8 @@ namespace webApi.Services
 
         public int CreateNewReview(NewReview newReview)
         {
+            if (newReview is null) throw new BadRequestException("Bad request");
+
             var nr = _mapper.Map<Review>(newReview);
             _context.Reviews.Add(nr);
             _context.SaveChanges();
@@ -32,20 +35,27 @@ namespace webApi.Services
         }
 
         public bool DeleteReview(int id)
-        {
+        {      
             var reviewToDelete = _context.Reviews.FirstOrDefault(r => r.Id == id);
 
-            if (reviewToDelete == null) return false;
+            if (reviewToDelete is null) throw new NotFoundException("Resource not found");
 
             _context.Reviews.Remove(reviewToDelete);
+            _context.SaveChanges();
+
             return true;
         }
 
         public ReviewDTO GetReviewById(int? id)
         {
-            if (id == null) return null;
+            var review = _context
+                .Reviews
+                .FirstOrDefault(r => r.Id == id);
 
-            return _mapper.Map<ReviewDTO>(_context.Reviews.FirstOrDefault(code => code.Id == id.Value));
+            if (review is null) throw new NotFoundException("Resource not found");
+
+            var reviewDTO = _mapper.Map<ReviewDTO>(review);
+            return reviewDTO;
         }
     }
 }

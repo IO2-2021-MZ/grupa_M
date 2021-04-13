@@ -64,7 +64,7 @@
             <response code="400">Bad Request</response> 
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.DiscountCodeController.CreateReview(webApi.DataTransferObjects.DiscountCodeDTO.NewDiscountCode)">
+        <member name="M:webApi.Controllers.DiscountCodeController.CreateDiscountCode(webApi.DataTransferObjects.DiscountCodeDTO.NewDiscountCode)">
             <summary>
             Creates New DiscountCode
             </summary>

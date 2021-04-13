@@ -56,8 +56,8 @@ namespace webApi.Controllers
         public ActionResult CreateReview([FromBody] NewReview newReview)
         {
             // Mapping example
-            _reviewService.CreateNewReview(newReview);
-            return Ok();
+            int id = _reviewService.CreateNewReview(newReview);
+            return Ok($"/review/{id}");
         }
 
         /// <summary>

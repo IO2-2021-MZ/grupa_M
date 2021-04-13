@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using webApi.DataTransferObjects.OrderDTO;
@@ -9,16 +10,11 @@ namespace webApi.DataTransferObjects.DiscountCodeDTO
 {
     public class NewDiscountCode
     {
-        public NewDiscountCode()
-        {
-            Orders = new HashSet<OrderDTO.OrderDTO>();
-        }
-
-        public int Id { get; set; }
+        [Required]
         public string Code { get; set; }
+        [Required]
         public DateTime DateFrom { get; set; }
+        [Required]
         public DateTime DateTo { get; set; }
-
-        public virtual ICollection<OrderDTO.OrderDTO> Orders { get; set; }
     }
 }

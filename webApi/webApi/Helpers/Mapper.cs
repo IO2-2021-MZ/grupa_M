@@ -42,6 +42,12 @@ namespace webApi.Helpers
 
             CreateMap<Complaint, NewComplaint>()
                .ReverseMap();
+
+            CreateMap<Review, ReviewDTO>()
+                .ReverseMap();
+
+            CreateMap<DiscountCode, DiscountCodeDTO>()
+                .ReverseMap();
         }
     }
 }
