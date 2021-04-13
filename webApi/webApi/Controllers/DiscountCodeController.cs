@@ -52,11 +52,11 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         [HttpPost]
-        public ActionResult CreateReview([FromBody] NewDiscountCode newDiscountCode)
+        public ActionResult CreateDiscountCode([FromBody] NewDiscountCode newDiscountCode)
         {
             // Mapping example
-            _discountCodeService.CreateNewDiscountCode(newDiscountCode);
-            return Ok();
+            int id = _discountCodeService.CreateNewDiscountCode(newDiscountCode);
+            return Ok($"/discountCode/{id}");
         }
 
         /// <summary>
