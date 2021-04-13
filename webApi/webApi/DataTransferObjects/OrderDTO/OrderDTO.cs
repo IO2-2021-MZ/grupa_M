@@ -24,6 +24,7 @@ namespace webApi.DataTransferObjects.OrderDTO
         public int CustomerId { get; set; }
         [Required]
         public int RestaurantId { get; set; }
+        //[Required]
         //public ICollection<DishDTO.PositionFromMenuDTO> Positions { get; set; }
     }
 }

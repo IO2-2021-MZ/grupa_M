@@ -71,7 +71,9 @@ namespace webApi.Services
             if (order is null)
                 throw new NotFoundException("Resource not found");
 
-            return _mapper.Map<OrderDTO>(order);
+            var orderDTO = _mapper.Map<OrderDTO>(order);
+
+            return orderDTO;
         }
 
         public void RealiseOrder(int id)

@@ -1,27 +1,35 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using webApi.Controllers;
-using webApi.DataTransferObjects.DiscountCodeDTO;
-using webApi.DataTransferObjects.ReviewDTO;
-using webApi.Exceptions;
+using webApi.DataTransferObjects;
 using webApi.Helpers;
 using webApi.Models;
 using webApi.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using NUnit.Framework;
+using webApi.DataTransferObjects.RestaurantDTO;
+using webApi.Exceptions;
+using webApi.DataTransferObjects.AddressDTO;
+using webApi.DataTransferObjects.SectionDTO;
+using webApi.DataTransferObjects.DishDTO;
+using webApi.DataTransferObjects.OrderDTO;
+using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.DataTransferObjects.ReviewDTO;
 
 namespace webApiTest
 {
-    class DiscountCodeTests
+    public class OrderUnitTests
     {
-        DiscountCodeController discountCodeController;
+        OrderController orderController;
         IO2_RestaurantsContext context;
+
         bool seeded = false;
 
         private void Seed(IO2_RestaurantsContext context)
@@ -74,7 +82,7 @@ namespace webApiTest
                 );
 
             context.Orders.AddRange(
-                new Order() { Id = 1, PaymentMethod = 0, State = 2, Date = new DateTime(2020, 3, 20, 11, 59, 59), AddressId = 7, DiscountCodeId = 1, CustomerId = 3, RestaurantId = 1, EmployeeId = null },
+                new Order() { Id = 1, PaymentMethod = 0, State = 0, Date = new DateTime(2020, 3, 20, 11, 59, 59), AddressId = 7, DiscountCodeId = 1, CustomerId = 3, RestaurantId = 1, EmployeeId = null },
                 new Order() { Id = 2, PaymentMethod = 1, State = 3, Date = new DateTime(2020, 3, 20, 11, 59, 59), AddressId = 8, DiscountCodeId = null, CustomerId = 3, RestaurantId = 1, EmployeeId = null }
                 );
 
@@ -82,10 +90,8 @@ namespace webApiTest
                 new Complaint() { Id = 1, Content = "Jedzenie za zimne", Response = "Przepraszamy za niedogodność", Open = false, CustomerId = 3, OrderId = 1 }
                 );
 
-            context.Reviews.AddRange(
-                new Review() { Id = 1, Content = "Jedzenie z restauracji jest zimne", Rating = 1.0m, CustomerId = 3, RestaurantId = 1 },
-                new Review() { Id = 2, Content = "Bardzo dobre jedzenie. Polecam!", Rating = 5.0m, CustomerId = 1, RestaurantId = 2 },
-                new Review() { Id = 3, Content = "Tak srednio bym powiedzial", Rating = 3.0m, CustomerId = 2, RestaurantId = 8 }
+            context.Reviews.Add(
+                new Review() { Id = 1, Content = "Jedzenie z restauracji jest zimne", Rating = 1.0m, CustomerId = 3, RestaurantId = 1 }
                 );
 
             context.OrderDishes.AddRange(
@@ -103,101 +109,113 @@ namespace webApiTest
             if (!seeded)
             {
                 var options = new DbContextOptionsBuilder<IO2_RestaurantsContext>()
-                    .UseInMemoryDatabase(databaseName: "IO2_Restaurants5")
+                    .UseInMemoryDatabase(databaseName: "IO2_Restaurants4")
                     .Options;
                 context = new IO2_RestaurantsContext(options);
                 Seed(context);
 
                 var config = new MapperConfiguration(cfg => cfg.AddProfile(new AutoMapperProfile()));
                 var mapper = new Mapper(config);
-                var service = new DiscountCodeService(context, mapper);
-                discountCodeController = new DiscountCodeController(service);
+                var service = new OrderService(context, mapper);
+                orderController = new OrderController(service);
 
 
-                discountCodeController.ControllerContext.HttpContext = new DefaultHttpContext();
-                discountCodeController.ControllerContext.HttpContext.Items["DiscountCode"] = context.DiscountCodes.FirstOrDefault(el => el.Id == 1);
-                discountCodeController.ControllerContext.HttpContext.Request.Headers["X-Forwarded-For"] = "127.0.0.1";
+                orderController.ControllerContext.HttpContext = new DefaultHttpContext();
+                orderController.ControllerContext.HttpContext.Items["Order"] = context.Orders.FirstOrDefault(el => el.Id == 1);
+                orderController.ControllerContext.HttpContext.Request.Headers["X-Forwarded-For"] = "127.0.0.1";
 
                 seeded = true;
             }
         }
 
-
         [Test]
-        public void GetDiscountCodeTest()
+        public void GetOrderTest()
         {
-            var response = discountCodeController.GetDiscountCode(2);
+            var response = orderController.GetOrder(1);
             var result = response.Result as ObjectResult;
-            var dc = result.Value as DiscountCodeDTO;
+            var order = result.Value as OrderDTO;
 
             Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(2, dc.Id);
+            Assert.AreEqual(1, order.Id);
 
             Assert.Catch<NotFoundException>(() =>
             {
-                response = discountCodeController.GetDiscountCode(1000);
+                response = orderController.GetOrder(1000);
             });
         }
 
         [Test]
-        public void GetAllDiscountCodeTest()
+        public void CreateOrderTest()
         {
-            var response = discountCodeController.GetAllDiscountCodes();
-            var result = response.Result as ObjectResult;
-            var reviews = result.Value as List<DiscountCodeDTO>;
+            NewOrder newOrder = new NewOrder();
+            newOrder.Address = new AddressDTO { City = "Warsaw", Street = "Andersena", PostCode = "01-003" };
+            newOrder.CustomerId = 3;
+            newOrder.RestaurantId = 1;
+            newOrder.PaymentMethod = 1;
 
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(2, reviews.Count);
-        }
-
-        [Test]
-        public void CreateReviewTest()
-        {
-            NewDiscountCode newDC = new NewDiscountCode()
-            {
-                Code = "NEW-CODE",
-                DateFrom = new DateTime(2015, 11, 11),
-                DateTo = new DateTime(2016, 11, 11),
-            };
-
-            var response = discountCodeController.CreateDiscountCode(newDC);
+            var response = orderController.CreateOrder(newOrder);
             var result = response as ObjectResult;
-
 
             Assert.AreEqual(200, result.StatusCode);
 
             Assert.Catch<BadRequestException>(() =>
             {
-                discountCodeController.CreateDiscountCode(null);
+                response = orderController.CreateOrder(null);
             });
         }
 
         [Test]
-        public void DeleteReviewTest()
+        public void AcceptOrderTest()
         {
-            var dc = context.DiscountCodes.FirstOrDefault(r => r.Code == "JAGLAK");
+            var response = orderController.AcceptOrder(1);
+            var result = response as OkResult;
 
-            var response = discountCodeController.GetDiscountCode(dc.Id);
-            var result = response.Result as ObjectResult;
-            var review = result.Value as DiscountCodeDTO;
+            var order = context.Orders.FirstOrDefault(o => o.Id == 1);
 
-            Assert.AreEqual(200, result.StatusCode);
-
-            var response2 = discountCodeController.DeleteDiscountCode(dc.Id);
-            var result2 = response2 as ObjectResult;
 
             Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(1, order.State);
 
             Assert.Catch<NotFoundException>(() =>
             {
-                discountCodeController.GetDiscountCode(dc.Id);
-            });
-
-            Assert.Catch<NotFoundException>(() =>
-            {
-                discountCodeController.DeleteDiscountCode(1000);
+                response = orderController.AcceptOrder(1000);
             });
         }
 
+        [Test]
+        public void RealizeOrderTest()
+        {
+            var response = orderController.RealiseOrder(1);
+            var result = response as OkResult;
+
+            var order = context.Orders.FirstOrDefault(o => o.Id == 1);
+
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(2, order.State);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                response = orderController.RealiseOrder(1000);
+            });
+        }
+
+        [Test]
+        public void RefuseOrderTest()
+        {
+            var response = orderController.RefuseOrder(1);
+            var result = response as OkResult;
+
+            var order = context.Orders.FirstOrDefault(o => o.Id == 1);
+
+
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual(3, order.State);
+
+            Assert.Catch<NotFoundException>(() =>
+            {
+                response = orderController.RefuseOrder(1000);
+            });
+        }
     }
 }

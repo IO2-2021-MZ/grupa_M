@@ -8,6 +8,7 @@ namespace webApi.DataTransferObjects.OrderDTO
 {
     public class NewOrder
     {
+        //TODO: Postions
         [Required]
         public int PaymentMethod { get; set; }
         [Required]
