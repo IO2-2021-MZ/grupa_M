@@ -19,15 +19,25 @@ namespace webApi.Helpers
     {
         public AutoMapperProfile()
         {
+            //User Mappers
             CreateMap<Models.User, NewCustomer>() // example of mapping
                .ReverseMap();
 
+            //Discount Code Mappers
             CreateMap<DiscountCode, NewDiscountCode>() // example of mapping
                 .ReverseMap();
 
+            CreateMap<DiscountCode, DiscountCodeDTO>()
+                .ReverseMap();
+
+            //Review Mappers
             CreateMap<Review, NewReview>() // example of mapping
                .ReverseMap();
 
+            CreateMap<Review, ReviewDTO>()
+                .ReverseMap();
+
+            //Restaurant Mappers
             CreateMap<Restaurant, RestaurantDTO>()
                 .ForMember(dest => dest.State, opts => opts.MapFrom(src => (RestaurantState)src.State))
                 .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }))
@@ -43,14 +53,21 @@ namespace webApi.Helpers
 
             CreateMap<Dish, NewPositionFromMenu>().ReverseMap();
 
+<<<<<<< HEAD
             CreateMap<Dish, PositionFromMenuDTO>().ReverseMap();
 
             CreateMap<Complaint, ComplaintDTO>().ReverseMap();
 
 <<<<<<< HEAD
             CreateMap<DiscountCode, DiscountCodeDTO>()
+=======
+            //Complaint Mappers
+            CreateMap<Complaint, NewComplaint>()
+               .ReverseMap();
+
+            CreateMap<Complaint, ComplaintDTO>()
+>>>>>>> WorkingComplaintTests
                 .ReverseMap();
-            CreateMap<NewComplaint, Complaint>();
 
 
 =======

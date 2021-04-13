@@ -86,7 +86,8 @@ namespace webApiTest
 
             context.Complaints.AddRange(
                 new Complaint() { Id = 1, Content = "Jedzenie za zimne", Response = "Przepraszamy za niedogodność", Open = false, CustomerId = 3, OrderId = 1 },
-                new Complaint() { Id = 2, Content = "Jedzenie za ciepłe", Response = "To se podmuchaj", Open = true, CustomerId = 4, OrderId = 2 }
+                new Complaint() { Id = 2, Content = "Jedzenie za ciepłe", Response = "To se podmuchaj", Open = true, CustomerId = 4, OrderId = 2 },
+                new Complaint() { Id = 3, Content = "a", Response = "b", Open = false, CustomerId = 10, OrderId = 3 }
                 );
 
             context.Reviews.Add(
@@ -148,12 +149,10 @@ namespace webApiTest
         {
             var response = complaintController.GetAllComplaints();
             var result = response.Result as ObjectResult;
-            var complaint = result.Value as List<ComplaintDTO>;
-            Assert.AreEqual(1, complaint[1].Id);
-            Assert.AreEqual(2, complaint[2].Id);
+            var reviews = result.Value as List<ComplaintDTO>;
 
             Assert.AreEqual(200, result.StatusCode);
-            
+            Assert.AreEqual(3   , reviews.Count);
         }
 
 
@@ -180,7 +179,7 @@ namespace webApiTest
         [Test]
         public void DeleteComplaintTest()
         {
-            var compl = context.Complaints.FirstOrDefault(c => c.OrderId == 1231);
+            var compl = context.Complaints.FirstOrDefault(c => c.OrderId == 3);
 
             var response = complaintController.GetComplaint(compl.Id);
             var result = response.Result as ObjectResult;
