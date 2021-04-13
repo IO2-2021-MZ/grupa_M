@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.Exceptions;
 using webApi.Models;
 
 namespace webApi.Services
@@ -29,14 +30,14 @@ namespace webApi.Services
             return nc.Id;
         }
 
-        public bool DeleteComplaint(int id)
+        public void DeleteComplaint(int id)
         {
             var complaintToDelete = _context.Complaints.FirstOrDefault(c => c.Id == id);
 
-            if (complaintToDelete == null) return false;
+            if (complaintToDelete == null) throw new NotFoundException("Resources not found");
 
             _context.Complaints.Remove(complaintToDelete);
-            return true;
+            _context.SaveChanges();
         }
 
         public IEnumerable<ComplaintDTO> GetAllComplaints()
@@ -52,15 +53,13 @@ namespace webApi.Services
 
             return _mapper.Map<ComplaintDTO>(_context.Complaints.FirstOrDefault(code => code.Id == id.Value));
         }
-        public bool CloseComplaint(int id)
+        public void CloseComplaint(int id)
         {
-            throw new NotImplementedException();
-            //var complaintToDelete = _context.Complaints.FirstOrDefault(c => c.Id == id);
+            var complaint = _context.Complaints.FirstOrDefault(c => c.Id == id);
+            if (complaint == null) throw new NotFoundException("Resources not found");
 
-            //if (complaintToDelete == null) return false;
-
-            //complaintToDelete.Open = false;
-            //return true;
+            complaint.Open = false;
+            _context.SaveChanges();
         }
 
     }

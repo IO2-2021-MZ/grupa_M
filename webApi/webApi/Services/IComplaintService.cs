@@ -12,9 +12,9 @@ namespace webApi.Services
     {
         public ComplaintDTO GetComplaintById(int? id);
         int CreateNewComplaint(NewComplaint newComplaint);
-        bool DeleteComplaint(int id);
+        void DeleteComplaint(int id);
         IEnumerable<ComplaintDTO> GetAllComplaints();
-        bool CloseComplaint(int id);
+        void CloseComplaint(int id);
 
     }
 }
