@@ -20,22 +20,25 @@ namespace webApi.Helpers
         public AutoMapperProfile()
         {
             //User Mappers
-            CreateMap<Models.User, NewCustomer>() // example of mapping
-               .ReverseMap();
+            CreateMap<Models.User, NewCustomer>().ReverseMap();
 
             //Discount Code Mappers
-            CreateMap<DiscountCode, NewDiscountCode>() // example of mapping
-                .ReverseMap();
+            CreateMap<DiscountCode, NewDiscountCode>().ReverseMap();
 
-            CreateMap<DiscountCode, DiscountCodeDTO>()
-                .ReverseMap();
+            CreateMap<DiscountCode, DiscountCodeDTO>().ReverseMap();
 
             //Review Mappers
-            CreateMap<Review, NewReview>() // example of mapping
-               .ReverseMap();
+            CreateMap<Review, NewReview>().ReverseMap();
 
-            CreateMap<Review, ReviewDTO>()
-                .ReverseMap();
+            CreateMap<Review, ReviewDTO>().ReverseMap();
+
+            //Order Mapper
+            CreateMap<Order, OrderDTO>().ReverseMap();
+
+            //Complaint Mapper
+            CreateMap<Complaint, ComplaintDTO>().ReverseMap();
+
+            CreateMap<Complaint, NewComplaint>().ReverseMap();
 
             //Restaurant Mappers
             CreateMap<Restaurant, RestaurantDTO>()
@@ -53,32 +56,7 @@ namespace webApi.Helpers
 
             CreateMap<Dish, NewPositionFromMenu>().ReverseMap();
 
-<<<<<<< HEAD
             CreateMap<Dish, PositionFromMenuDTO>().ReverseMap();
-
-            CreateMap<Complaint, ComplaintDTO>().ReverseMap();
-
-<<<<<<< HEAD
-            CreateMap<DiscountCode, DiscountCodeDTO>()
-=======
-            //Complaint Mappers
-            CreateMap<Complaint, NewComplaint>()
-               .ReverseMap();
-
-            CreateMap<Complaint, ComplaintDTO>()
->>>>>>> WorkingComplaintTests
-                .ReverseMap();
-
-
-=======
-            CreateMap<Order, OrderDTO>().ReverseMap();
-
-            CreateMap<Review, ReviewDTO>().ReverseMap();
-
-            CreateMap<Complaint, NewComplaint>().ReverseMap();
-            
-            CreateMap<DiscountCode, DiscountCodeDTO>().ReverseMap();
->>>>>>> 5ea878217fb3a18ef8db7e9c7c2da9c10ded339d
         }
     }
 }
