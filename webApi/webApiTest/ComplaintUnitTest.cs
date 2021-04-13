@@ -211,7 +211,7 @@ namespace webApiTest
 
             Assert.AreEqual(200, (response as OkResult).StatusCode);
             var complaint = context.Complaints.First(item => item.Id == 2);
-            Assert.AreEqual(true, complaint.Open);
+            Assert.AreEqual(false, complaint.Open);
 
             Assert.Catch<NotFoundException>(() =>
             {

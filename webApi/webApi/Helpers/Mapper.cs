@@ -42,6 +42,10 @@ namespace webApi.Helpers
 
             CreateMap<Complaint, NewComplaint>()
                .ReverseMap();
+
+            CreateMap<NewComplaint, Complaint>();
+              
+
         }
     }
 }
