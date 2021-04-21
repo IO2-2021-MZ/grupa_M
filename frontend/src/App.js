@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import AllComplaints from './components/AllComplaints'
+import AllComplaints from './components/AllComplaintsComponent'
 
 function App() {
   return (

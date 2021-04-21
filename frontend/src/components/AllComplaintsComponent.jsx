@@ -6,7 +6,7 @@ import axios from 'axios';
 
 export default function AllComplaints(props){
     
-    const {restaurantId} = props;
+    const restaurantId = 1;
 
     const { setLoading } = useContext(LoadingContext);
     const { setSnackbar } = useContext(SnackbarContext);
@@ -19,7 +19,7 @@ export default function AllComplaints(props){
 
             var config = {
                 method: 'get',
-                url: 'some-url',
+                url: 'https://localhost:44384/restaurant/complaint/all?id=' + restaurantId.toString(),
                 headers:{
                     'security-header': 'some-token'
                 }
@@ -28,6 +28,7 @@ export default function AllComplaints(props){
             try
             {
                 const response = await axios(config);
+                console.log(response);
                 setComplaints(response.data);
             }
             catch(e)
@@ -49,6 +50,7 @@ export default function AllComplaints(props){
     return(
         <div>
             Complaints
+            {complaints}
         </div>
     )
 }
