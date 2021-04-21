@@ -151,7 +151,7 @@ namespace webApiTest
             newOrder.Address = new AddressDTO { City = "Warsaw", Street = "Andersena", PostCode = "01-003" };
             newOrder.CustomerId = 3;
             newOrder.RestaurantId = 1;
-            newOrder.PaymentMethod = 1;
+            //newOrder.PaymentMethod = "unrealized";
 
             var response = orderController.CreateOrder(newOrder);
             var result = response as ObjectResult;

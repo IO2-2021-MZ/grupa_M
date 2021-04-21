@@ -1,11 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
+import AllComplaints from './components/AllComplaintsComponent'
 
 function App() {
   return (
-    <div className="App">
-     Frontend Project
-    </div>
+    <AllComplaints restaurandId={1} />
   );
 }
 
