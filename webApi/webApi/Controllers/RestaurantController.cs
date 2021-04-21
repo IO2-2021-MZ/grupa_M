@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.DishDTO;
@@ -12,6 +13,7 @@ namespace webApi.Controllers
 {
     [ApiController]
     [Route("restaurant")]
+    [EnableCors("AllowOrigin")]
     public class RestaurantController : ControllerBase
     {
         private readonly IRestaurantService _restaurantService;

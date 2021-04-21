@@ -10,7 +10,7 @@ export default function AllComplaints(props){
 
     const { setLoading } = useContext(LoadingContext);
     const { setSnackbar } = useContext(SnackbarContext);
-    const [complaints, setComplaints] = useState([]);
+    const [complaints, setComplaints] = useState();
 
     useEffect(() =>{
         async function fetchData(){
@@ -20,15 +20,15 @@ export default function AllComplaints(props){
             var config = {
                 method: 'get',
                 url: 'https://localhost:44384/restaurant/complaint/all?id=' + restaurantId.toString(),
-                headers:{
-                    'security-header': 'some-token'
-                }
             }
+
+            console.log(config.url)
 
             try
             {
+                console.log(1);
                 const response = await axios(config);
-                console.log(response);
+                console.log(response.data);
                 setComplaints(response.data);
             }
             catch(e)
@@ -50,7 +50,7 @@ export default function AllComplaints(props){
     return(
         <div>
             Complaints
-            {complaints}
+            { complaints===undefined ? "" : complaints[0].content}
         </div>
     )
 }

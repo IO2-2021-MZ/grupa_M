@@ -33,6 +33,12 @@ namespace webApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:3000"));
+            });
+
             var connection = Configuration["DatabaseConnectionString"];
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -65,12 +71,15 @@ namespace webApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "webApi v1"));
             }
-            
+
+
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(options => options.WithOrigins("http://localhost:3000"));
 
             app.UseAuthorization();
 
@@ -78,6 +87,7 @@ namespace webApi
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }
