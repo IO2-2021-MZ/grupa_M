@@ -14,7 +14,7 @@ namespace webApi.Services
         int CreateNewComplaint(NewComplaint newComplaint);
         void DeleteComplaint(int id);
         IEnumerable<ComplaintDTO> GetAllComplaints();
-        void CloseComplaint(int id);
+        void CloseComplaint(int id, string respons);
 
     }
 }

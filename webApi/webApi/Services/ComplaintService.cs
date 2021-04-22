@@ -57,12 +57,13 @@ namespace webApi.Services
             var complaintDTO =  _mapper.Map<ComplaintDTO>(complaint);
             return complaintDTO;
         }
-        public void CloseComplaint(int id)
+        public void CloseComplaint(int id, string response)
         {
             var complaint = _context.Complaints.FirstOrDefault(c => c.Id == id);
             if (complaint == null) throw new NotFoundException("Resources not found");
-
+            if (response == null || response == string.Empty) return;
             complaint.Open = false;
+            complaint.Response = response;
             _context.SaveChanges();
         }
 

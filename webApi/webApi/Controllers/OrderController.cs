@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace webApi.Controllers
 {
     [ApiController]
     [Route("order")]
+    [EnableCors("AllowOrigin")]
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _orderService;
