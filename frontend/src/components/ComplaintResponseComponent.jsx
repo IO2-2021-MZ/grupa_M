@@ -64,12 +64,13 @@ import TextField from '@material-ui/core/TextField';
 
     const saveResponse = async (id) => {
         var config = {
-            method: 'post',
+            method: 'POST',
             url: 'https://localhost:44384/complaint/respond?id='+id,
-            header:{
-                'Content-Type': 'application/json'
+            headers: {
+              'Accept': 'application/json, text/plain',
+              'Content-Type': 'application/json;charset=UTF-8'
             },
-            data: content
+            data: JSON.stringify(content)
         };
 
         try
