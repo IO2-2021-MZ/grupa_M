@@ -13,10 +13,11 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import TextField from '@material-ui/core/TextField';
+import CardActions from '@material-ui/core/CardActions';
+import Rating from '@material-ui/lab/Rating';
+import Box from '@material-ui/core/Box';
 
-
-  const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
     icon: {
       marginRight: theme.spacing(2),
     },
@@ -49,33 +50,32 @@ import TextField from '@material-ui/core/TextField';
     },
   }));
 
-  const ComplaintResponse = (props) => {
+const AllReviews = (props) => {
     const classes = useStyles();
+    const restaurantId = props.RestaurantId;
+    const restaurantName = props.RestaurantName;
 
-    const { complaintId } = props;
     const { setLoading } = useContext(LoadingContext);
     const { setSnackbar } = useContext(SnackbarContext);
-    const [complaint, setComplaint] = useState();
-    const [content, setResponse] = useState("");
 
-    const onTextChange = (event) =>{
-        setResponse( event.target.value);
-    }
+    const [rating, setRating] = useState();
 
-    const saveResponse = async (id) => {
+    const [reviews, setReviews] = useState([]);
+
+    async function fetchData(id){          
         var config = {
-            method: 'post',
-            url: 'https://localhost:44384/complaint/respond?id='+id,
-            header:{
-                'Content-Type': 'application/json'
-            },
-            data: content
-        };
-
+            method: 'get',
+            url: 'https://localhost:44384/restaurant/review/all?id=' + id
+        }
+        
         try
         {
-            console.log(content);
-            await axios(config);
+            const response = await axios(config);
+            setReviews(response.data);
+
+            console.log(
+                {response}
+              );
         }
         catch(e)
         {
@@ -89,36 +89,14 @@ import TextField from '@material-ui/core/TextField';
         setLoading(false);
     }
 
-    async function fetchData(id){          
-      var config = {
-          method: 'get',
-          url: 'https://localhost:44384/complaint?id='+id
-      }
-      
-      try
-      {
-          const response = await axios(config);
-          setComplaint(response.data);
-      }
-      catch(e)
-      {
-          console.error(e);
-          setSnackbar({
-              open: true,
-              message: 'Error occured',
-              type: 'error'
-          })
-      }
-      setLoading(false);
-  }
-    useEffect(() => {   
-        setLoading(true);   
-        fetchData(complaintId);
-    }, [setComplaint, setLoading, setSnackbar, complaintId, fetchData]);
+    useEffect(() => {  
+        setLoading(true);    
+        fetchData(restaurantId);
+    }, [setReviews, setLoading, setSnackbar, restaurantId]);
 
     return(
-        complaint === undefined ? <div>Loading...</div> :
-
+        reviews === undefined ? <div>Loading...</div> :
+        
         <React.Fragment>
           <CssBaseline/>
           <AppBar>
@@ -127,42 +105,29 @@ import TextField from '@material-ui/core/TextField';
                 <ArrowBackIcon fontSize = "large"/>
               </Button>
               <Typography variant="h6" color="inherit" noWrap>
-                Response
+                Reviews of {restaurantName}
               </Typography>
             </Toolbar>
           </AppBar>
           <div className={classes.heroContent}>
             <Container className = {classes.cardGrid} maxWidth="md">
               <Grid container spacing = {4} alignItems="center">
-                  <Grid item key={complaint.id} xs={12} >
+                {reviews.map((review) => (
+                  <Grid item key={review.id} xs={12} >
                     <Card className={classes.card}>
-                      <CardMedia
-                        className = {classes.cardMedia}
-                      />
+                      <CardMedia className = {classes.cardMedia}/>
                       <CardContent className={classes.cardContent}>
                         <Typography variant="h5" align="left" color="textPrimary">
-                          {complaint.content}
+                          {review.content}
                         </Typography>
-                        <br/>                        
-                        <TextField
-                            id="outlined-multiline-static"
-                            label="Response"
-                            multiline
-                            defaultValue=""
-                            variant="outlined"
-                            fullWidth={true}
-                            onChange = {onTextChange}
-                        />
-                        <br/>
-                        <br/>
-                        <Button variant="contained" color="primary" onClick={() => saveResponse(complaintId)}>
-                          <Typography variant="button" color="inherit">
-                            Save
-                          </Typography>
-                        </Button>
                       </CardContent>
+                      <Box component="fieldset" mb={3} borderColor="transparent">
+                        <Typography component="legend">Rating</Typography>
+                        <Rating name="read-only" value={review.rating} readOnly />
+                    </Box>
                     </Card>
                   </Grid>
+                ))}
               </Grid>
             </Container>
           </div>
@@ -170,4 +135,5 @@ import TextField from '@material-ui/core/TextField';
     )
 }
 
-export default ComplaintResponse;
+
+export default AllReviews;
