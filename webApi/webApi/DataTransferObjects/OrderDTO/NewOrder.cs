@@ -10,7 +10,7 @@ namespace webApi.DataTransferObjects.OrderDTO
     {
         //TODO: Postions
         [Required]
-        public int PaymentMethod { get; set; }
+        public string PaymentMethod { get; set; }
         [Required]
         public DateTime Date { get; set; }
         [Required]

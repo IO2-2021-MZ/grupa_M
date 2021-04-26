@@ -8,8 +8,8 @@ namespace webApi.DataTransferObjects.OrderDTO
     public class OrderR
     {
         public int Id { get; set; }
-        public int PaymentMethod { get; set; }
-        public int State { get; set; }
+        public string PaymentMethod { get; set; }
+        public string State { get; set; }
         public DateTime Date { get; set; }
         public AddressDTO.AddressDTO Address { get; set; }
         public DiscountCodeDTO.DiscountCodeDTO DiscountCode { get; set; }
