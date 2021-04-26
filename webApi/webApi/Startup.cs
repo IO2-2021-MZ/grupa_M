@@ -36,7 +36,8 @@ namespace webApi
 
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:3000"));
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:3000")
+                .AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()) ;
             });
 
             var connection = Configuration["DatabaseConnectionString"];

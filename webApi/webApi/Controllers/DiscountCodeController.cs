@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,6 +17,7 @@ namespace webApi.Controllers
 {
     [ApiController]
     [Route("discountCode")]
+    [EnableCors("AllowOrigin")]
     public class DiscountCodeController : ControllerBase
     {
         private readonly IDiscountCodeService _discountCodeService;

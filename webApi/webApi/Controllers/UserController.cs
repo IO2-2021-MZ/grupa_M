@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,7 @@ namespace webApi.Controllers
     /// </summary>
     [ApiController]
     [Route("user")]
+    [EnableCors("AllowOrigin")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;

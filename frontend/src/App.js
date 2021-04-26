@@ -1,10 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
 import AllComplaints from './components/AllComplaintsComponent'
+import ComplaintResponse from './components/ComplaintResponseComponent'
 
 function App() {
+  const restaurantId = 1
   return (
-    <AllComplaints restaurandId={1} />
+    <ComplaintResponse complaintId={9}/>
   );
 }
 

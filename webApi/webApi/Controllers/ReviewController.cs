@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -17,6 +18,7 @@ namespace webApi.Controllers
 {
     [ApiController]
     [Route("review")]
+    [EnableCors("AllowOrigin")]
     public class ReviewController : ControllerBase
     {
         private readonly IReviewService _reviewService;
