@@ -13,10 +13,10 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
 
-
-  const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
     icon: {
       marginRight: theme.spacing(2),
     },
@@ -49,32 +49,35 @@ import TextField from '@material-ui/core/TextField';
     },
   }));
 
-  const ComplaintResponse = (props) => {
-    const classes = useStyles();
-
-    const { complaintId } = props;
-    const { setLoading } = useContext(LoadingContext);
+const MakeComplaint = (props) => {
     const { setSnackbar } = useContext(SnackbarContext);
-    const [complaint, setComplaint] = useState();
-    const [content, setResponse] = useState("");
-
-    const onTextChange = (event) =>{
-        setResponse( event.target.value);
+    const [content, setContent] = useState("");
+    var orderId = props.orderId;
+    const classes = useStyles();
+    
+    const onContentChange = (event) =>{
+        setContent(event.target.value);
     }
-
-    const saveResponse = async (id) => {
+    
+    const saveNewComplaint = async () => {
         var config = {
             method: 'post',
-            url: 'https://localhost:44384/complaint/respond?id='+id,
+            url: 'https://localhost:44384/complaint',
             header:{
                 'Content-Type': 'application/json'
             },
-            data: content
+            data: {
+                content: content,
+                orderId: orderId
+              }
         };
 
         try
         {
-            console.log(content);
+            console.log({
+                content: content,
+                orderId: orderId
+              });
             await axios(config);
         }
         catch(e)
@@ -86,39 +89,9 @@ import TextField from '@material-ui/core/TextField';
                 type: 'error'
             })
         }
-        setLoading(false);
     }
 
-    async function fetchData(id){          
-      var config = {
-          method: 'get',
-          url: 'https://localhost:44384/complaint?id='+id
-      }
-      
-      try
-      {
-          const response = await axios(config);
-          setComplaint(response.data);
-      }
-      catch(e)
-      {
-          console.error(e);
-          setSnackbar({
-              open: true,
-              message: 'Error occured',
-              type: 'error'
-          })
-      }
-      setLoading(false);
-  }
-    useEffect(() => {   
-        setLoading(true);   
-        fetchData(complaintId);
-    }, [setComplaint, setLoading, setSnackbar, complaintId, fetchData]);
-
     return(
-        complaint === undefined ? <div>Loading...</div> :
-
         <React.Fragment>
           <CssBaseline/>
           <AppBar>
@@ -127,35 +100,35 @@ import TextField from '@material-ui/core/TextField';
                 <ArrowBackIcon fontSize = "large"/>
               </Button>
               <Typography variant="h6" color="inherit" noWrap>
-                Response
+                Make a Complaint
               </Typography>
             </Toolbar>
           </AppBar>
           <div className={classes.heroContent}>
             <Container className = {classes.cardGrid} maxWidth="md">
               <Grid container spacing = {4} alignItems="center">
-                  <Grid item key={complaint.id} xs={12} >
+                  <Grid xs={12} >
                     <Card className={classes.card}>
                       <CardMedia
                         className = {classes.cardMedia}
                       />
                       <CardContent className={classes.cardContent}>
                         <Typography variant="h5" align="left" color="textPrimary">
-                          {complaint.content}
+                          Make a complaint for order: {props.orderId}
                         </Typography>
                         <br/>                        
                         <TextField
                             id="outlined-multiline-static"
-                            label="Response"
+                            label="Make a complaint"
                             multiline
                             defaultValue=""
                             variant="outlined"
                             fullWidth={true}
-                            onChange = {onTextChange}
+                            onChange = {onContentChange}
                         />
                         <br/>
                         <br/>
-                        <Button variant="contained" color="primary" onClick={() => saveResponse(complaintId)}>
+                        <Button variant="contained" color="primary" onClick={() => saveNewComplaint()}>
                           <Typography variant="button" color="inherit">
                             Save
                           </Typography>
@@ -166,8 +139,8 @@ import TextField from '@material-ui/core/TextField';
               </Grid>
             </Container>
           </div>
-        </React.Fragment>
+        </React.Fragment> 
     )
 }
 
-export default ComplaintResponse;
+export default MakeComplaint;
