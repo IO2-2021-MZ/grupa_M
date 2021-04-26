@@ -4,6 +4,8 @@ import ComplaintResponse from './components/ComplaintResponseComponent'
 import MakeComplaint from './components/MakeComplaintComponent'
 import CreateNewReview from './components/CreateNewReviewComponent'
 import AllReviews from './components/AllReviewsComponent'
+import LoginComponent from './components/LoginComponent'
+import RestaurateurRestaurantList from './components/RestaurateurResaturantList'
 
 function App() {
   const restaurantId = 1
