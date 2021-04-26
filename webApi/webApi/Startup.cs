@@ -34,12 +34,6 @@ namespace webApi
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddCors(c =>
-            {
-                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:3000")
-                .AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()) ;
-            });
-
             var connection = Configuration["DatabaseConnectionString"];
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -60,11 +54,18 @@ namespace webApi
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
             services.AddScoped<ErrorHandlingMiddleware>();
+
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:3000")
+                .AllowAnyMethod().AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
 
             if (env.IsDevelopment())
             {
@@ -80,7 +81,7 @@ namespace webApi
 
             app.UseRouting();
 
-            app.UseCors(options => options.WithOrigins("http://localhost:3000"));
+            app.UseCors("AllowOrigin");
 
             app.UseAuthorization();
 
@@ -88,7 +89,6 @@ namespace webApi
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }

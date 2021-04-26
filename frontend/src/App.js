@@ -10,7 +10,8 @@ import RestaurateurRestaurantList from './components/RestaurateurResaturantList'
 function App() {
   const restaurantId = 1
   return (
-    <AllReviews RestaurantId = {1} RestaurantName = "Test"/>
+    //<ComplaintResponse complaintId={11}/>
+    <AllComplaints restaurantId={1}/>
   );
 }
 
