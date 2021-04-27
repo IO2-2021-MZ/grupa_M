@@ -6,12 +6,13 @@ import CreateNewReview from './components/CreateNewReviewComponent'
 import AllReviews from './components/AllReviewsComponent'
 import LoginComponent from './components/LoginComponent'
 import RestaurateurRestaurantList from './components/RestaurateurResaturantList'
+import AddNewOrder from './components/AddNewOrderComponent'
 
 function App() {
   const restaurantId = 1
   return (
     //<ComplaintResponse complaintId={11}/>
-    <AllComplaints restaurantId={1}/>
+    <AddNewOrder/>
   );
 }
 
