@@ -18,6 +18,19 @@ EXECUTE (N'CREATE DATABASE IO2_Restaurants
 
 GO 
 
+--! powyzej ustawienia dla !BAZY LOKALNEJ!
+
+drop table [Order_Dish]
+drop table [Complaint]
+drop table [Review]
+drop table [Order]
+drop table [Discount_Code]
+drop table [User]
+drop table [Dish]
+drop table [Section]
+drop table [Restaurant]
+drop table [Address]
+
 set quoted_identifier on
 GO
 
