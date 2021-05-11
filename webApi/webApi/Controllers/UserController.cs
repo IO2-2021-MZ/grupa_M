@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BackEnd.Controllers;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.UserDTO;
+using webApi.Enums;
 using webApi.Models;
 using webApi.Services;
 
@@ -20,7 +22,7 @@ namespace webApi.Controllers
     [ApiController]
     [Route("user")]
     [EnableCors("AllowOrigin")]
-    public class UserController : ControllerBase
+    public class UserController : BaseController
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
@@ -131,11 +133,12 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
+        [Authorize(Role.Admin)]
         [HttpGet("all")]
         public IActionResult GetAllUsers()
         {
-            var usersModel = _userService.GetAllUsers();
-            var users = _mapper.Map<UserDTO>(usersModel);
+            var usersModel = _userService.GetAllUsers().ToList();
+            var users = _mapper.Map<IEnumerable<UserDTO>>(usersModel);
             return Ok(users);
         }
 

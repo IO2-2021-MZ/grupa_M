@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using webApi.DataTransferObjects.AddressDTO;
+using webApi.DataTransferObjects.AuthenticateDTO;
 using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.DiscountCodeDTO;
 using webApi.DataTransferObjects.DishDTO;
@@ -69,6 +70,9 @@ namespace webApi.Helpers
             CreateMap<User, UserDTO>().ReverseMap();
             
             CreateMap<User, NewUserDTO>().ReverseMap();
+
+            CreateMap<User, AuthenticateResponse>().ReverseMap();
+
 
 
         }
