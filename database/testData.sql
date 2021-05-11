@@ -72,11 +72,11 @@ set identity_insert [Dish] off
 set identity_insert [User] on
 
 insert into [User] 
-	(id, [name], surname, email, is_restaurateur, is_administrator, creation_date, password_hash, address_id, restaurant_id)
+	(id, [name], surname, email, role, creation_date, password_hash, address_id, restaurant_id)
 values
-	(1, 'Michael', 'Jackson', 'abc@s1.com', 1, 0,'2020-03-20T11:59:59', 'ajshgdja', 1, 1),
-	(2, 'Elisabeth', 'Smith', 'abc@s2.com', 0, 1, '2020-03-20T11:59:59', 'ajshgdja', 2, null),
-	(3, 'Daniel', 'Craig', 'abc@s3.com', 0, 0, '2020-03-20T11:59:59', 'ajshgdja', 3, null)
+	(1, 'Michael', 'Jackson', 'abc@s1.com', 1,'2020-03-20T11:59:59', 'ajshgdja', 1, 1),
+	(2, 'Elisabeth', 'Smith', 'abc@s2.com', 2, '2020-03-20T11:59:59', 'ajshgdja', 2, null),
+	(3, 'Daniel', 'Craig', 'abc@s3.com', 0, '2020-03-20T11:59:59', 'ajshgdja', 3, null)
 set identity_insert [User] off
 
 set identity_insert [Discount_Code] on
