@@ -1,16 +1,12 @@
-﻿
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Mvc;
 using webApi.DataTransferObjects.AuthenticateDTO;
-using webApi.Helpers;
 using webApi.Services;
 
-namespace BackEnd.Controllers
+namespace webApi.Controllers
 {
     
     [ApiController]
-    public class LoginController : BaseController
+    public class LoginController : AuthenticativeController
     {
 
         private readonly IAccountService _accountService;

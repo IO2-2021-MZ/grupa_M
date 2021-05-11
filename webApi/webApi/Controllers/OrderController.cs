@@ -3,13 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using webApi.DataTransferObjects.ComplaintDTO;
-using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
-using webApi.DataTransferObjects.RestaurantDTO;
-using webApi.DataTransferObjects.ReviewDTO;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -17,7 +11,7 @@ namespace webApi.Controllers
     [ApiController]
     [Route("order")]
     [EnableCors("AllowOrigin")]
-    public class OrderController : ControllerBase
+    public class OrderController : AuthenticativeController
     {
         private readonly IOrderService _orderService;
 

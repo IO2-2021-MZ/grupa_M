@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using BackEnd.Controllers;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.UserDTO;
 using webApi.Enums;
@@ -22,7 +18,7 @@ namespace webApi.Controllers
     [ApiController]
     [Route("user")]
     [EnableCors("AllowOrigin")]
-    public class UserController : BaseController
+    public class UserController : AuthenticativeController
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;

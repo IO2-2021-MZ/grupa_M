@@ -14,7 +14,7 @@ namespace webApi.Controllers
     [ApiController]
     [Route("restaurant")]
     [EnableCors("AllowOrigin")]
-    public class RestaurantController : ControllerBase
+    public class RestaurantController : AuthenticativeController
     {
         private readonly IRestaurantService _restaurantService;
 

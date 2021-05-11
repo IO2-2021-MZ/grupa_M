@@ -20,7 +20,7 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     public void OnAuthorization(AuthorizationFilterContext context)
     {
         var account = (User)context.HttpContext.Items["Account"];
-        if (account == null || account.IsRestaurateur && !_roles.Contains(Role.Restaurer) || account.IsAdministrator && !_roles.Contains(Role.Admin))
+        if (account == null || !_roles.Any(x => (int)x==account.Role))
         {
             context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
         }

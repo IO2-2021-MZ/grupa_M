@@ -44,16 +44,9 @@ namespace webApi.Services
         {
             var account = _context.Users.SingleOrDefault(x => x.Email == model.Email);
 
-            if (account == null ||  account.PasswordHash != model.Password)  
-              // encrypted password !BC.Verify(model.Haslo, account.PasswordHash)
+            if (account == null || !BC.Verify(model.Password, account.PasswordHash))  
                 throw new UnathorisedException("Email or password is incorrect");
-
-            // authentication successful so generate jwt and refresh tokens
             var jwtToken = generateJwtToken(account);
-           
-            // save changes to db
-            
-
             var response = _mapper.Map<AuthenticateResponse>(account);
             response.Token = jwtToken;
             return response;
