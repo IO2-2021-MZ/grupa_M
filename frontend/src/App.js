@@ -7,12 +7,13 @@ import AllReviews from './components/AllReviewsComponent'
 import LoginComponent from './components/LoginComponent'
 import RestaurateurRestaurantList from './components/RestaurateurResaturantList'
 import AddNewOrder from './components/AddNewOrderComponent'
+import AddNewDiscountCode from './components/AddNewDiscountCodeComponent'
 
 function App() {
   const restaurantId = 1
   return (
     //<ComplaintResponse complaintId={11}/>
-    <AddNewOrder/>
+    <AddNewDiscountCode restaurantId={1}/>
   );
 }
 
