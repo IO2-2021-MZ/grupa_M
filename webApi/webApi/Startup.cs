@@ -1,4 +1,4 @@
-//using webApi.Helpers;
+using webApi.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,9 +15,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-//using webApi.MIddleware;
-//using webApi.Models;
-//using webApi.Services;
+using webApi.MIddleware;
+using webApi.Models;using webApi.Services;
 
 
 namespace webApi
@@ -46,19 +45,19 @@ namespace webApi
             });
 
             //Wstrzykiwaæ od ogólnego do szczegó³owego
-            //services.AddScoped<IUserService, UserService>();    
-            //services.AddScoped<IRestaurantService, RestaurantService>();
-            //services.AddScoped<IDiscountCodeService, DiscountCodeService>();
-          //  services.AddScoped<IOrderService, OrderService>();
-          //  services.AddScoped<IReviewService, ReviewService>();
-           // services.AddScoped<IComplaintService, ComplaintService>();
-           // services.AddScoped<IAccountService, AccountService>();
-           // services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-           // services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
-           // services.AddScoped<ErrorHandlingMiddleware>();
-           // services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            //services.AddControllersWithViews().AddNewtonsoftJson(options =>
-           //options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRestaurantService, RestaurantService>();
+            services.AddScoped<IDiscountCodeService, DiscountCodeService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IComplaintService, ComplaintService>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
+            services.AddScoped<ErrorHandlingMiddleware>();
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+           options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin()
@@ -79,9 +78,9 @@ namespace webApi
             }
 
 
-            //app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
-           // app.UseMiddleware<JwtMiddleware>();
+            app.UseMiddleware<JwtMiddleware>();
 
 
             app.UseHttpsRedirection();
