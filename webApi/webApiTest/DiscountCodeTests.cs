@@ -158,6 +158,8 @@ namespace webApiTest
                 Code = "NEW-CODE",
                 DateFrom = new DateTime(2015, 11, 11),
                 DateTo = new DateTime(2016, 11, 11),
+                Percent = 50,
+                RestaurantId = 1
             };
 
             var response = discountCodeController.CreateDiscountCode(newDC);
