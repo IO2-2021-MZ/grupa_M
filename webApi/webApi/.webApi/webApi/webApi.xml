@@ -4,6 +4,14 @@
         <name>webApi</name>
     </assembly>
     <members>
+        <member name="M:BackEnd.Controllers.LoginController.SignIn(webApi.DataTransferObjects.AuthenticateDTO.AuthenticateRequest)">
+            <summary>
+            Zwraca dane o użytkowniku wraz z krótkoterminowym tokenem dostępu i 
+            długoterminowym refresh tokenem umiesczonym w plikach cookies. 
+            </summary>
+            <param name="value"> Email i hasło użytkownika </param>
+            <returns> Dane o użytkowniku </returns>
+        </member>
         <member name="M:webApi.Controllers.ComplaintController.GetComplaint(System.Nullable{System.Int32})">
             <summary>
             Returns Complaint Details

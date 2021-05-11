@@ -13,7 +13,6 @@ namespace webApi.Controllers
 {
     [ApiController]
     [Route("complaint")]
-    [EnableCors("AllowOrigin")]
     public class ComplaintController : ControllerBase
     {
         private readonly IComplaintService _complaintService;

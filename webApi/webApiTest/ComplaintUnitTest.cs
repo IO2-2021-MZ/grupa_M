@@ -25,6 +25,7 @@ namespace webApiTest
 {
     public class ComplaintUnitTest
     {
+        /*
         ComplaintController complaintController;
         //RestaurantController restaurantController;
         IO2_RestaurantsContext context;
@@ -218,6 +219,6 @@ namespace webApiTest
             });
         }
 
-
+        */
     }
 }

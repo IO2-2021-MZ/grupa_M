@@ -56,7 +56,6 @@ namespace webApi.Controllers
         [HttpPost]
         public ActionResult CreateDiscountCode([FromBody] NewDiscountCode newDiscountCode)
         {
-            // Mapping example
             int id = _discountCodeService.CreateNewDiscountCode(newDiscountCode);
             return Ok($"/discountCode/{id}");
         }

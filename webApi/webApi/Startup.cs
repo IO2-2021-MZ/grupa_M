@@ -1,3 +1,4 @@
+using webApi.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,12 +35,6 @@ namespace webApi
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddCors(c =>
-            {
-                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:3000")
-                .AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()) ;
-            });
-
             var connection = Configuration["DatabaseConnectionString"];
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -57,14 +52,24 @@ namespace webApi
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IComplaintService, ComplaintService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
             services.AddScoped<ErrorHandlingMiddleware>();
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+           options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin()
+                .AllowAnyMethod().AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
 
             if (env.IsDevelopment())
             {
@@ -76,11 +81,14 @@ namespace webApi
 
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
+            app.UseMiddleware<JwtMiddleware>();
+
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors(options => options.WithOrigins("http://localhost:3000"));
+            app.UseCors("AllowOrigin");
 
             app.UseAuthorization();
 
@@ -88,7 +96,6 @@ namespace webApi
             {
                 endpoints.MapControllers();
             });
-
         }
     }
 }
