@@ -1,11 +1,7 @@
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.Services;
 
@@ -13,7 +9,7 @@ namespace webApi.Controllers
 {
     [ApiController]
     [Route("complaint")]
-    public class ComplaintController : ControllerBase
+    public class ComplaintController : AuthenticativeController
     {
         private readonly IComplaintService _complaintService;
 

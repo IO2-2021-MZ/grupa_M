@@ -10,7 +10,6 @@ using webApi.DataTransferObjects.DiscountCodeDTO;
 using webApi.DataTransferObjects.DishDTO;
 using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.RestaurantDTO;
-using webApi.DataTransferObjects.ReviewDTO;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -18,7 +17,7 @@ namespace webApi.Controllers
     [ApiController]
     [Route("discountCode")]
     [EnableCors("AllowOrigin")]
-    public class DiscountCodeController : ControllerBase
+    public class DiscountCodeController : AuthenticativeController
     {
         private readonly IDiscountCodeService _discountCodeService;
 

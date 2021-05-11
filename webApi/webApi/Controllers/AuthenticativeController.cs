@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using webApi.Models;
 
-namespace BackEnd.Controllers
+namespace webApi.Controllers
 {
     [Controller]
-    public abstract class BaseController : ControllerBase
+    public abstract class AuthenticativeController : ControllerBase
     {
         public User Account => (User)HttpContext.Items["Account"];
     }

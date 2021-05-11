@@ -1,17 +1,6 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using webApi.DataTransferObjects.ComplaintDTO;
-using webApi.DataTransferObjects.DishDTO;
-using webApi.DataTransferObjects.OrderDTO;
-using webApi.DataTransferObjects.RestaurantDTO;
 using webApi.DataTransferObjects.ReviewDTO;
-using webApi.DataTransferObjects.ReviewDTO;
-using webApi.Models;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -19,7 +8,7 @@ namespace webApi.Controllers
     [ApiController]
     [Route("review")]
     [EnableCors("AllowOrigin")]
-    public class ReviewController : ControllerBase
+    public class ReviewController : AuthenticativeController
     {
         private readonly IReviewService _reviewService;
 
