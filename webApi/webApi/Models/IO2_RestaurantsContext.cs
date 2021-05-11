@@ -352,10 +352,6 @@ namespace webApi.Models
                     .IsUnicode(false)
                     .HasColumnName("email");
 
-                entity.Property(e => e.IsAdministrator).HasColumnName("is_administrator");
-
-                entity.Property(e => e.IsRestaurateur).HasColumnName("is_restaurateur");
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -369,6 +365,8 @@ namespace webApi.Models
                     .HasColumnName("password_hash");
 
                 entity.Property(e => e.RestaurantId).HasColumnName("restaurant_id");
+
+                entity.Property(e => e.Role).HasColumnName("role");
 
                 entity.Property(e => e.Surname)
                     .IsRequired()

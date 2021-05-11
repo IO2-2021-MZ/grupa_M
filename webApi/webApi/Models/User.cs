@@ -20,8 +20,7 @@ namespace webApi.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Email { get; set; }
-        public bool IsRestaurateur { get; set; }
-        public bool IsAdministrator { get; set; }
+        public int Role { get; set; }
         public DateTime CreationDate { get; set; }
         public string PasswordHash { get; set; }
         public int? AddressId { get; set; }
