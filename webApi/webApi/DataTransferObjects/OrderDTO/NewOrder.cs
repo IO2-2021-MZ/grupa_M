@@ -8,7 +8,6 @@ namespace webApi.DataTransferObjects.OrderDTO
 {
     public class NewOrder
     {
-        //TODO: Postions
         [Required]
         public string PaymentMethod { get; set; }
         [Required]
@@ -21,8 +20,8 @@ namespace webApi.DataTransferObjects.OrderDTO
         public int CustomerId { get; set; }
         [Required]
         public int RestaurantId { get; set; }
-        //[Required]
-        //public ICollection<DishDTO.PositionFromMenuDTO> Positions { get; set; }
+        [Required]
+        public int[] PositionsId { get; set; }
 
     }
 }

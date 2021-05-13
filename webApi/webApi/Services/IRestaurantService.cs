@@ -10,7 +10,7 @@ namespace webApi.Services
 {
     public interface IRestaurantService
     {
-        RestaurantDTO GetRestaurantById(int? id, int userId);
+        RestaurantC GetRestaurantById(int? id, int userId);
         int CreateNewRestaurant(NewRestaurant newRestaurant);
         void DeleteRestaurant(int id, int userId);
         List<SectionDTO> GetSectionByRestaurantsId(int id);
@@ -20,8 +20,8 @@ namespace webApi.Services
         int CreateNewPositionFromMenu(int id, NewPositionFromMenu newPosition, int userId);
         void UpdatePositionFromMenu(int id, NewPositionFromMenu newPosition, int userId);
         void RemovePositionFromMenu(int id, int userId);
-        List<RestaurantDTO> GetAllRestaurants(int userId);
-        List<OrderDTO> GetAllOrdersForRestaurants(int id, int userId);
+        List<RestaurantC> GetAllRestaurants(int userId);
+        List<OrderR> GetAllOrdersForRestaurants(int id, int userId);
         List<ReviewDTO> GetAllReviewsForRestaurants(int? id, int userId);
         List<ComplaintDTO> GetAllComplaitsForRestaurants(int? id, int userId);
         void SetFavouriteRestaurant(int id, int userId);

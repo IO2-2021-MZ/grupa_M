@@ -34,9 +34,9 @@ namespace webApi.Controllers
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
         [Authorize(Role.Admin, Role.Customer, Role.Restaurer)]
-        public ActionResult<RestaurantDTO> GetRestaurant([FromQuery] int? id)
+        public ActionResult<RestaurantC> GetRestaurant([FromQuery] int? id)
         {
-            RestaurantDTO restaurant = _restaurantService.GetRestaurantById(id, Account.Id);
+            RestaurantC restaurant = _restaurantService.GetRestaurantById(id, Account.Id);
             return Ok(restaurant);
         }
 
@@ -151,7 +151,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpPost("menu/position")]
-        [Authorize(Role.Restaurer]
+        [Authorize(Role.Restaurer)]
         public ActionResult CreatePosition([FromQuery] int id, [FromBody] NewPositionFromMenu newPosition)
         {
             int positionId = _restaurantService.CreateNewPositionFromMenu(id, newPosition, Account.Id);
@@ -201,9 +201,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("all")]
-        public ActionResult<IEnumerable<RestaurantDTO>> GetAllRestaurants()
+        public ActionResult<IEnumerable<RestaurantC>> GetAllRestaurants()
         {
-            IEnumerable<RestaurantDTO> restaurants = _restaurantService.GetAllRestaurants(Account.Id);
+            IEnumerable<RestaurantC> restaurants = _restaurantService.GetAllRestaurants(Account.Id);
             return Ok(restaurants);
         }
 
@@ -220,7 +220,7 @@ namespace webApi.Controllers
         public ActionResult<IEnumerable<OrderR>> GetAllOrdersForRestaurant([FromQuery] int id)
         {
             //id z tokenu po zalogowaniu
-            IEnumerable<OrderDTO> orders = _restaurantService.GetAllOrdersForRestaurants(id, Account.Id);
+            IEnumerable<OrderR> orders = _restaurantService.GetAllOrdersForRestaurants(id, Account.Id);
             return Ok(orders);
         }
 

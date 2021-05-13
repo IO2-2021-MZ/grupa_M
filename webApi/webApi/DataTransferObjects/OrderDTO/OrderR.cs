@@ -5,15 +5,18 @@ using System.Threading.Tasks;
 
 namespace webApi.DataTransferObjects.OrderDTO
 {
-    public class OrderR
+    public class OrderR:OrderDTO
     {
         public int Id { get; set; }
         public string PaymentMethod { get; set; }
         public string State { get; set; }
         public DateTime Date { get; set; }
+        public decimal OriginalPrice { get; set; }
+        public decimal FinalPrice { get; set; }
         public AddressDTO.AddressDTO Address { get; set; }
         public DiscountCodeDTO.DiscountCodeDTO DiscountCode { get; set; }
         public RestaurantDTO.RestaurantDTO Restaurant { get; set; }
         public ICollection<DishDTO.PositionFromMenuDTO> Positions { get; set; }
+        public UserDTO.UserDTO Employee { get; set; }
     }
 }
