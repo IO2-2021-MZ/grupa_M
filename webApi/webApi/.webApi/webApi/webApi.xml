@@ -46,7 +46,7 @@
             <response code="401">UnAuthorised</response> 
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.DiscountCodeController.GetDiscountCode(System.Nullable{System.Int32})">
+        <member name="M:webApi.Controllers.DiscountCodeController.GetDiscountCode(System.String)">
             <summary>
             Returns DiscountCode Details
             </summary>
