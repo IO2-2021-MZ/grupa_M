@@ -235,9 +235,9 @@ namespace webApi.Controllers
         [HttpGet("review/all")]
         [Authorize(Role.Admin, Role.Restaurer, Role.Customer)]
  
-        public ActionResult<List<OrderDTO>> GetAllReviewsForRestaurant([FromQuery] int? id)
+        public ActionResult<List<ReviewR>> GetAllReviewsForRestaurant([FromQuery] int? id)
         {
-            List<ReviewDTO> reviews = _restaurantService.GetAllReviewsForRestaurants(id, Account.Id);
+            List<ReviewR> reviews = _restaurantService.GetAllReviewsForRestaurants(id, Account.Id);
             return Ok(reviews);
         }
 
@@ -251,9 +251,9 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("complaint/all")]
         [Authorize(Role.Admin, Role.Restaurer, Role.Customer)]
-        public ActionResult<List<ComplaintDTO>> GetAllComplaintsForRestaurant([FromQuery] int? id)
+        public ActionResult<List<ComplaintR>> GetAllComplaintsForRestaurant([FromQuery] int? id)
         {
-            List<ComplaintDTO> complaints = _restaurantService.GetAllComplaitsForRestaurants(id, Account.Id);
+            List<ComplaintR> complaints = _restaurantService.GetAllComplaitsForRestaurants(id, Account.Id);
             return Ok(complaints);
         }
 

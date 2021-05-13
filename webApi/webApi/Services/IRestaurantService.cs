@@ -22,8 +22,8 @@ namespace webApi.Services
         void RemovePositionFromMenu(int id, int userId);
         List<RestaurantC> GetAllRestaurants(int userId);
         List<OrderR> GetAllOrdersForRestaurants(int id, int userId);
-        List<ReviewDTO> GetAllReviewsForRestaurants(int? id, int userId);
-        List<ComplaintDTO> GetAllComplaitsForRestaurants(int? id, int userId);
+        List<ReviewR> GetAllReviewsForRestaurants(int? id, int userId);
+        List<ComplaintR> GetAllComplaitsForRestaurants(int? id, int userId);
         void SetFavouriteRestaurant(int id, int userId);
         void ActivateRestaurant(int id);
         void ReactivateRestaurant(int id, int userId);

@@ -176,16 +176,6 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.RestaurantController.GetDish(System.Int32)">
-            <summary>
-            Deletes Restaurant
-            </summary>
-            <param name="id"> Dish Id </param>
-            <returns> Delete Restaurant </returns>
-            <response code="200">Dish returned</response>
-            <response code="400">Bad Request</response> 
-            <response code="404">Resource Not Found</response> 
-        </member>
         <member name="M:webApi.Controllers.RestaurantController.GetSectionByRestaurantsId(System.Int32)">
             <summary>
             Returns Menu Details

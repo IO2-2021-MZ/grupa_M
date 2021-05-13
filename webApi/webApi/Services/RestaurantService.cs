@@ -185,7 +185,7 @@ namespace webApi.Services
             _context.SaveChanges();
         }
 
-        public List<ComplaintDTO> GetAllComplaitsForRestaurants(int? id, int userId)
+        public List<ComplaintR> GetAllComplaitsForRestaurants(int? id, int userId)
         {
             var restaurant = _context
                 .Restaurants
@@ -207,7 +207,16 @@ namespace webApi.Services
                 .Join(_context.Orders.Where(item => item.RestaurantId == id), x => x.OrderId, y => y.Id, (x, y) => x)
                 .ToList();
 
-            var complaintDTOs = _mapper.Map<List<ComplaintDTO>>(complaints);
+            List<ComplaintR> complaintDTOs = new List<ComplaintR>();
+            if (user.Role == (int)Role.Restaurer)
+            {
+                complaintDTOs = _mapper.Map<List<ComplaintR>>(restaurant.Reviews);
+            }
+            else
+            {
+                var rests = _mapper.Map<List<ComplaintDTO>>(restaurant.Reviews);
+                foreach (var rest in rests) complaintDTOs.Add(rest);
+            }
             return complaintDTOs;
         }
 
@@ -257,7 +266,7 @@ namespace webApi.Services
             return restaurantDTOs;
         }
 
-        public List<ReviewDTO> GetAllReviewsForRestaurants(int? id, int userId )
+        public List<ReviewR> GetAllReviewsForRestaurants(int? id, int userId )
         {
             var restaurant = _context
                .Restaurants
@@ -273,8 +282,16 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            var reviewDTOs = _mapper.Map<List<ReviewDTO>>(restaurant.Reviews);
-
+            List<ReviewR> reviewDTOs = new List<ReviewR>();
+            if (user.Role == (int)Role.Restaurer)
+            {
+                reviewDTOs = _mapper.Map<List<ReviewR>>(restaurant.Reviews);
+            }
+            else
+            {
+                var rests = _mapper.Map<List<ReviewDTO>>(restaurant.Reviews);
+                foreach (var rest in rests) reviewDTOs.Add(rest);
+            }
             return reviewDTOs;
         }
 
