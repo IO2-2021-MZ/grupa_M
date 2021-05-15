@@ -11,6 +11,7 @@ using webApi.DataTransferObjects.ReviewDTO;
 using webApi.Models;
 using webApi.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using webApi.Enums;
 
 namespace webApi.Services
 {
@@ -23,21 +24,17 @@ namespace webApi.Services
             _context = context;
             _mapper = mapper;
         }
-
-        public void AcceptOrder(int id)
-        {
-            var order = _context
-                        .Orders
-                        .FirstOrDefault(o => o.Id == id);
-            if (order is null)
-                throw new NotFoundException("Resource not found");
-            order.State = 1;
-            _context.SaveChanges();
-        }
-
-        public int CreateNewOrder(NewOrder newOrder)
+        public int CreateNewOrder(NewOrder newOrder, int userId)
         {
             //TODO(?): handling wrong IDs
+            var user = _context
+                .Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            if (user is null || user.Role != (int)Role.Customer)
+                    throw new UnathorisedException("Unathourized");
+
             if (newOrder is null)
                 throw new BadRequestException("Bad request");
             var order = _mapper.Map<Order>(newOrder);
@@ -61,23 +58,69 @@ namespace webApi.Services
             return order.Id;
         }
 
-        public OrderDTO GetOrderById(int? id)
+        public OrderDTO GetOrderById(int? id, int userId)
         {
             var order = _context
                         .Orders
                         .Include(o => o.Address)
                         .FirstOrDefault(o => o.Id == id.Value);
 
+            var user = _context
+                .Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            if (user is null || 
+                (user.Role == (int)Role.Customer && order.CustomerId != user.Id) ||
+                (user.Role == (int)Role.Restaurer && order.RestaurantId != user.RestaurantId)) 
+                throw new UnathorisedException("Unathourized"); 
+
             if (order is null)
                 throw new NotFoundException("Resource not found");
 
-            var orderDTO = _mapper.Map<OrderDTO>(order);
+            OrderDTO orderDTO;
+
+            switch (user.Role)
+            {
+                case (int)Role.Admin:
+                    {
+                        orderDTO = _mapper.Map<OrderA>(order);
+                        break;
+                    }
+                case (int)Role.Customer:
+                    {
+                        orderDTO = _mapper.Map<OrderC>(order);
+                        break;
+                    }
+                case (int)Role.Restaurer:
+                    {
+                        orderDTO = _mapper.Map<OrderR>(order);
+                        break;
+                    }
+                default:
+                    {
+                        orderDTO = new OrderDTO();
+                        break;
+                    }
+            }
 
             return orderDTO;
+        }
+        public void AcceptOrder(int id)
+        {
+            // TODO: obsluga autentykacji
+            var order = _context
+                        .Orders
+                        .FirstOrDefault(o => o.Id == id);
+            if (order is null)
+                throw new NotFoundException("Resource not found");
+            order.State = 1;
+            _context.SaveChanges();
         }
 
         public void RealiseOrder(int id)
         {
+            // TODO: obsluga autentykacji
             var order = _context
                         .Orders
                         .FirstOrDefault(o => o.Id == id);
@@ -89,6 +132,7 @@ namespace webApi.Services
 
         public void RefuseOrder(int id)
         {
+            // TODO: obsluga autentykacji
             var order = _context
                         .Orders
                         .FirstOrDefault(o => o.Id == id);
