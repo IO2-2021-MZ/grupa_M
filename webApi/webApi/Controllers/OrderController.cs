@@ -31,7 +31,7 @@ namespace webApi.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        [Authorize(Role.Admin, Role.Customer, Role.Restaurer)]
+        [Authorize(Role.Admin, Role.Customer, Role.Restaurer, Role.Employee)]
         public ActionResult<OrderDTO> GetOrder([FromQuery] int? id)
         {
             OrderDTO order = _orderService.GetOrderById(id, Account.Id);
@@ -63,9 +63,10 @@ namespace webApi.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpPost("refuse")]
+        [Authorize(Role.Restaurer, Role.Employee)]
         public ActionResult RefuseOrder([FromQuery] int id)
         {
-            _orderService.RefuseOrder(id);
+            _orderService.RefuseOrder(id, Account.Id);
             return Ok();
         }
 
@@ -79,9 +80,10 @@ namespace webApi.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpPost("accept")]
+        [Authorize(Role.Restaurer, Role.Employee)]
         public ActionResult AcceptOrder([FromQuery] int id)
         {
-            _orderService.AcceptOrder(id);
+            _orderService.AcceptOrder(id, Account.Id);
             return Ok();
         }
 
@@ -95,9 +97,10 @@ namespace webApi.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpPost("realized")]
+        [Authorize(Role.Restaurer, Role.Employee)]
         public ActionResult RealiseOrder([FromQuery] int id)
         {
-            _orderService.RealiseOrder(id);
+            _orderService.RealiseOrder(id, Account.Id);
             return Ok();
         }
     }

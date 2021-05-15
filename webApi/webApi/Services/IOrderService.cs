@@ -11,8 +11,8 @@ namespace webApi.Services
     {
         OrderDTO GetOrderById(int? id, int userId);
         int CreateNewOrder(NewOrder newOrder, int userId);
-        void RefuseOrder(int id);
-        void AcceptOrder(int id);
-        void RealiseOrder(int id);
+        void RefuseOrder(int id, int userId);
+        void AcceptOrder(int id, int userId);
+        void RealiseOrder(int id, int userId);
     }
 }

@@ -11,6 +11,8 @@ namespace webApi.Enums
         [EnumMember(Value = "Admin")]
         Admin,
         [EnumMember(Value = "Customer")]
-        Customer
+        Customer,
+        [EnumMember(Value = "Employee")]
+        Employee
     }
 }

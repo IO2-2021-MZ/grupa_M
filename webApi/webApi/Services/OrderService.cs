@@ -33,7 +33,7 @@ namespace webApi.Services
                 .FirstOrDefault();
 
             if (user is null || user.Role != (int)Role.Customer)
-                    throw new UnathorisedException("Unathourized");
+                throw new UnathorisedException("Unathourized");
 
             if (newOrder is null)
                 throw new BadRequestException("Bad request");
@@ -52,6 +52,14 @@ namespace webApi.Services
             {
                 order.AddressId = existingAddress.Id;
             }
+
+            foreach(var position in newOrder.PositionsId)
+            {
+                OrderDish orderDish = new OrderDish();
+                //TODO: finish linking positions to order
+            }
+
+
             order.State = 0;
             _context.Orders.Add(order);
             _context.SaveChanges();
@@ -65,18 +73,21 @@ namespace webApi.Services
                         .Include(o => o.Address)
                         .FirstOrDefault(o => o.Id == id.Value);
 
+            if (order is null)
+                throw new NotFoundException("Resource not found");
+
             var user = _context
                 .Users
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
-            if (user is null || 
+            if (user is null ||
                 (user.Role == (int)Role.Customer && order.CustomerId != user.Id) ||
-                (user.Role == (int)Role.Restaurer && order.RestaurantId != user.RestaurantId)) 
-                throw new UnathorisedException("Unathourized"); 
+                (user.Role == (int)Role.Restaurer && order.RestaurantId != user.RestaurantId) ||
+                (user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId))
+                throw new UnathorisedException("Unathourized XD");
 
-            if (order is null)
-                throw new NotFoundException("Resource not found");
+            
 
             OrderDTO orderDTO;
 
@@ -90,54 +101,99 @@ namespace webApi.Services
                 case (int)Role.Customer:
                     {
                         orderDTO = _mapper.Map<OrderC>(order);
+                        decimal originalPrice = 0;
+                        decimal finalPrice = 0;
+                        foreach(var position in order.OrderDishes)
+                            originalPrice += position.Dish.Price;
+                        if (order.DiscountCode is null)
+                            finalPrice = originalPrice;
+                        else
+                            finalPrice = originalPrice * (100 - order.DiscountCode.Percent) * (decimal)0.01;
+                        (orderDTO as OrderC).OriginalPrice = originalPrice;
+                        (orderDTO as OrderC).FinalPrice = finalPrice;
                         break;
                     }
-                case (int)Role.Restaurer:
+                default: //Role.Restaurer and Role.Employee
                     {
                         orderDTO = _mapper.Map<OrderR>(order);
-                        break;
-                    }
-                default:
-                    {
-                        orderDTO = new OrderDTO();
                         break;
                     }
             }
 
             return orderDTO;
         }
-        public void AcceptOrder(int id)
+        public void AcceptOrder(int id, int userId)
         {
-            // TODO: obsluga autentykacji
             var order = _context
                         .Orders
                         .FirstOrDefault(o => o.Id == id);
+
             if (order is null)
                 throw new NotFoundException("Resource not found");
+
+            var user = _context
+                .Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            if (user is null ||
+                user.Role == (int)Role.Customer ||
+                user.Role == (int)Role.Admin ||
+                user.Role == (int)Role.Restaurer && order.RestaurantId != user.RestaurantId ||
+                user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId)
+                throw new UnathorisedException("Unathourized");
+
+
             order.State = 1;
             _context.SaveChanges();
         }
 
-        public void RealiseOrder(int id)
+        public void RealiseOrder(int id, int userId)
         {
-            // TODO: obsluga autentykacji
             var order = _context
                         .Orders
                         .FirstOrDefault(o => o.Id == id);
+
             if (order is null)
                 throw new NotFoundException("Resource not found");
+
+            var user = _context
+                .Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            if (user is null ||
+                user.Role == (int)Role.Customer ||
+                user.Role == (int)Role.Admin ||
+                user.Role == (int)Role.Restaurer && order.RestaurantId != user.RestaurantId ||
+                user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId)
+                throw new UnathorisedException("Unathourized");
+
             order.State = 2;
             _context.SaveChanges();
         }
 
-        public void RefuseOrder(int id)
+        public void RefuseOrder(int id, int userId)
         {
-            // TODO: obsluga autentykacji
             var order = _context
                         .Orders
                         .FirstOrDefault(o => o.Id == id);
+
             if (order is null)
                 throw new NotFoundException("Resource not found");
+
+            var user = _context
+                .Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            if (user is null ||
+                user.Role == (int)Role.Customer ||
+                user.Role == (int)Role.Admin ||
+                user.Role == (int)Role.Restaurer && order.RestaurantId != user.RestaurantId ||
+                user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId)
+                throw new UnathorisedException("Unathourized");
+
             order.State = 3;
             _context.SaveChanges();
 
