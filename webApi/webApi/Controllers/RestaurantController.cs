@@ -247,7 +247,7 @@ namespace webApi.Controllers
         /// <response code="200">Returns complaints for restaurant</response>
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
-        [HttpGet("complaint/all")]
+        [HttpGet("complaint/all")] 
         public ActionResult<List<ComplaintDTO>> GetAllComplaintsForRestaurant([FromQuery] int? id)
         {
             List<ComplaintDTO> complaints = _restaurantService.GetAllComplaitsForRestaurants(id);
