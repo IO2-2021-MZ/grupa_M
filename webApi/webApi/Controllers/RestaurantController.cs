@@ -33,7 +33,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        [Authorize(Role.Admin, Role.Customer, Role.Restaurer)]
+        [Authorize(Role.Admin, Role.Customer, Role.Restaurer, Role.Employee)]
         public ActionResult<RestaurantC> GetRestaurant([FromQuery] int? id)
         {
             RestaurantC restaurant = _restaurantService.GetRestaurantById(id, Account.Id);
@@ -48,7 +48,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         [HttpPost]
-        [Authorize(Role.Admin, Role.Restaurer)]
+        [Authorize(Role.Restaurer)]
         public ActionResult CreateRestaurant([FromBody] NewRestaurant newRestaurant)
         {
             int id = _restaurantService.CreateNewRestaurant(newRestaurant);
@@ -81,7 +81,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet("menu")]
-        [Authorize(Role.Admin, Role.Customer, Role.Restaurer)]
+        [Authorize(Role.Admin, Role.Customer, Role.Restaurer, Role.Employee)]
         public ActionResult<List<SectionDTO>> GetSectionByRestaurantsId([FromQuery] int id)
         {
             List<SectionDTO> sections = _restaurantService.GetSectionByRestaurantsId(id);
@@ -98,7 +98,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpPost("menu/section")]
-        [Authorize(Role.Admin, Role.Restaurer)]
+        [Authorize(Role.Restaurer)]
         public ActionResult CreateSection([FromQuery] int id,[FromQuery] string section)
         {
             //id z tokenu po zalogowaniu
@@ -201,6 +201,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("all")]
+        [Authorize(Role.Restaurer, Role.Employee, Role.Admin, Role.Customer)]
         public ActionResult<IEnumerable<RestaurantC>> GetAllRestaurants()
         {
             IEnumerable<RestaurantC> restaurants = _restaurantService.GetAllRestaurants(Account.Id);
@@ -216,7 +217,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("order/all")]
-        [Authorize(Role.Restaurer)]
+        [Authorize(Role.Restaurer, Role.Employee)]
         public ActionResult<IEnumerable<OrderR>> GetAllOrdersForRestaurant([FromQuery] int id)
         {
             //id z tokenu po zalogowaniu
@@ -233,8 +234,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("review/all")]
-        [Authorize(Role.Admin, Role.Restaurer, Role.Customer)]
- 
+        [Authorize(Role.Admin, Role.Restaurer, Role.Customer, Role.Employee)]
         public ActionResult<List<ReviewR>> GetAllReviewsForRestaurant([FromQuery] int? id)
         {
             List<ReviewR> reviews = _restaurantService.GetAllReviewsForRestaurants(id, Account.Id);
@@ -250,7 +250,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("complaint/all")]
-        [Authorize(Role.Admin, Role.Restaurer, Role.Customer)]
+        [Authorize(Role.Admin, Role.Restaurer, Role.Employee)]
         public ActionResult<List<ComplaintR>> GetAllComplaintsForRestaurant([FromQuery] int? id)
         {
             List<ComplaintR> complaints = _restaurantService.GetAllComplaitsForRestaurants(id, Account.Id);
@@ -316,7 +316,7 @@ namespace webApi.Controllers
         /// <response code="200">Restaurant Deactivated</response>
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
-        [HttpPost("deativate")]
+        [HttpPost("deactivate")]
         [Authorize(Role.Restaurer)]
         public ActionResult DeactivateRestaurant([FromQuery] int id)
         {
