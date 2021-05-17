@@ -263,7 +263,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         /// <response code="404">Resource Not Found</response> 
-        [HttpPost("favourite")]
+        [HttpPost("favourite")] 
         public ActionResult SetFavouriteRestaurant([FromQuery] int id)
         {
             _restaurantService.SetFavouriteRestaurant(id);
