@@ -257,7 +257,7 @@ namespace webApi.Controllers
             return Ok(complaints);
         }
 
-        /// <summary>
+        /// <summary> 
         /// Sets Favourite Restaurant
         /// </summary>
         /// <param name="id"> Restaurant Id </param>
