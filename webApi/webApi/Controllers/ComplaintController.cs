@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.Enums;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -31,9 +32,10 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Role.Admin, Role.Customer, Role.Restaurer, Role.Employee)]
         public ActionResult<ComplaintDTO> GetComplaint([FromQuery] int? id)
         {
-            ComplaintDTO complaint = _complaintService.GetComplaintById(id);
+            ComplaintDTO complaint = _complaintService.GetComplaintById(id, Account.Id);
             if(complaint == null)
             {
                 return NotFound("Resource not Found");
@@ -53,9 +55,10 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Role.Customer)]
         public ActionResult CreateComplaint([FromBody] NewComplaint newComplaint)
         {
-            int id = _complaintService.CreateNewComplaint(newComplaint);
+            int id = _complaintService.CreateNewComplaint(newComplaint, Account.Id);
             return Ok($"/complaint/{id}");
         }
 
@@ -73,9 +76,10 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Role.Admin)]
         public ActionResult DeleteComplaint([FromQuery] int id)
         {
-            _complaintService.DeleteComplaint(id);
+            _complaintService.DeleteComplaint(id, Account.Id);
             return Ok();
         }
 
@@ -95,9 +99,10 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Role.Employee, Role.Restaurer)]
         public ActionResult ResponsecComplaint([FromQuery] int id, [FromBody] string content)
         {
-            _complaintService.CloseComplaint(id, content);
+            _complaintService.CloseComplaint(id, content, Account.Id);
             return Ok();
         }
 

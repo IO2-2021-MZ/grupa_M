@@ -76,7 +76,7 @@ insert into [User]
 values
 	(1, 'Michael', 'Jackson', 'abc@s1.com', 1,'2020-03-20T11:59:59', '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 1, 1),
 	(2, 'Elisabeth', 'Smith', 'abc@s2.com', 2, '2020-03-20T11:59:59', '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 2, null),
-	(3, 'Daniel', 'Craig', 'abc@s3.com', 0, '2020-03-20T11:59:59', '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 3, null)
+	(3, 'Daniel', 'Craig', 'abc@s3.com', 0, '2020-03-20T11:59:59', '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 3, 1)
 set identity_insert [User] off
 
 set identity_insert [Discount_Code] on
@@ -103,7 +103,6 @@ insert into [Complaint]
 values
 	(1, 'Jedzenie by³o zimne', 'Przepraszamy za niedogodnoœæ, do³o¿ymy wszelkich starañ, ¿eby nastêpnym razem by³o lepiej', 0, 3, 1)
 set identity_insert [Complaint] off
-
 
 set identity_insert Review on
 insert into Review
