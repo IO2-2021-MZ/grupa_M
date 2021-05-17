@@ -1,9 +1,11 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using webApi.DataTransferObjects.ComplaintDTO;
+using webApi.Enums;
 using webApi.Exceptions;
 using webApi.Models;
 
@@ -19,10 +21,19 @@ namespace webApi.Services
             _context = context;
             _mapper = mapper;
         }
-        
 
-        public int CreateNewComplaint(NewComplaint newComplaint)
+
+        public int CreateNewComplaint(NewComplaint newComplaint, int userId)
         {
+            var user = _context
+                .Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            if (user is null ||
+                user.Role != (int)Role.Customer)
+                throw new UnathorisedException("Unathourized");
+
             if (newComplaint is null) throw new BadRequestException("Bad request");
 
             var nc = _mapper.Map<Complaint>(newComplaint);
@@ -32,8 +43,17 @@ namespace webApi.Services
             return nc.Id;
         }
 
-        public void DeleteComplaint(int id)
+        public void DeleteComplaint(int id, int userId)
         {
+            var user = _context
+                .Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            if (user is null ||
+                user.Role != (int)Role.Admin)
+                throw new UnathorisedException("Unathourized");
+
             var complaintToDelete = _context.Complaints.FirstOrDefault(c => c.Id == id);
 
             if (complaintToDelete is null) throw new NotFoundException("Resources not found");
@@ -49,18 +69,49 @@ namespace webApi.Services
             return result;
         }
 
-        public ComplaintDTO GetComplaintById(int? id)
+        public ComplaintDTO GetComplaintById(int? id, int userId)
         {
-            var complaint = _context.Complaints.FirstOrDefault(code => code.Id == id.Value);
+            var complaint = _context
+                                .Complaints
+                                .Include(c => c.Order)
+                                .FirstOrDefault(code => code.Id == id.Value);
+
+            var user = _context
+                .Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            if (user is null ||
+                (user.Role == (int)Role.Customer && complaint.CustomerId != user.Id) ||
+                (user.Role == (int)Role.Restaurer && complaint.Order.RestaurantId != user.RestaurantId) ||
+                (user.Role == (int)Role.Employee && complaint.Order.RestaurantId != user.RestaurantId))
+                throw new UnathorisedException("Unathourized");
+
             if (complaint is null) throw new NotFoundException("Resource not found");
 
             var complaintDTO =  _mapper.Map<ComplaintDTO>(complaint);
             return complaintDTO;
         }
-        public void CloseComplaint(int id, string response)
+        public void CloseComplaint(int id, string response, int userId)
         {
-            var complaint = _context.Complaints.FirstOrDefault(c => c.Id == id);
+            var complaint = _context
+                            .Complaints
+                            .Include(c => c.Order)
+                            .FirstOrDefault(c => c.Id == id);
             if (complaint == null) throw new NotFoundException("Resources not found");
+
+            var user = _context
+                .Users
+                .Where(u => u.Id == userId)
+                .FirstOrDefault();
+
+            if (user is null ||
+                (user.Role == (int)Role.Customer ) ||
+                (user.Role == (int)Role.Admin) ||
+                (user.Role == (int)Role.Restaurer && complaint.Order.RestaurantId != user.RestaurantId) ||
+                (user.Role == (int)Role.Employee && complaint.Order.RestaurantId != user.RestaurantId))
+                throw new UnathorisedException("Unathourized");
+
             if (response == null || response == string.Empty) return;
             complaint.Open = false;
             complaint.Response = response;

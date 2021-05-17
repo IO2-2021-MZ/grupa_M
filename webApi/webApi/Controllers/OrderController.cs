@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using webApi.DataTransferObjects.OrderDTO;
+using webApi.Enums;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -30,9 +31,10 @@ namespace webApi.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
+        [Authorize(Role.Admin, Role.Customer, Role.Restaurer, Role.Employee)]
         public ActionResult<OrderDTO> GetOrder([FromQuery] int? id)
         {
-            OrderDTO order = _orderService.GetOrderById(id);
+            OrderDTO order = _orderService.GetOrderById(id, Account.Id);
             return Ok(order);
         }
 
@@ -44,9 +46,10 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">Unauthorized</response>
         [HttpPost]
+        [Authorize(Role.Customer)]
         public ActionResult CreateOrder([FromBody] NewOrder newOrder)
         {
-            int id = _orderService.CreateNewOrder(newOrder);
+            int id = _orderService.CreateNewOrder(newOrder, Account.Id);
             return Ok($"/order/{id}");
         }
 
@@ -60,9 +63,10 @@ namespace webApi.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpPost("refuse")]
+        [Authorize(Role.Restaurer, Role.Employee)]
         public ActionResult RefuseOrder([FromQuery] int id)
         {
-            _orderService.RefuseOrder(id);
+            _orderService.RefuseOrder(id, Account.Id);
             return Ok();
         }
 
@@ -76,9 +80,10 @@ namespace webApi.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpPost("accept")]
+        [Authorize(Role.Restaurer, Role.Employee)]
         public ActionResult AcceptOrder([FromQuery] int id)
         {
-            _orderService.AcceptOrder(id);
+            _orderService.AcceptOrder(id, Account.Id);
             return Ok();
         }
 
@@ -92,9 +97,10 @@ namespace webApi.Controllers
         /// <response code="401">Unauthorized</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpPost("realized")]
+        [Authorize(Role.Restaurer, Role.Employee)]
         public ActionResult RealiseOrder([FromQuery] int id)
         {
-            _orderService.RealiseOrder(id);
+            _orderService.RealiseOrder(id, Account.Id);
             return Ok();
         }
     }
