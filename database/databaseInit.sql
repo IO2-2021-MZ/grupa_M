@@ -20,16 +20,16 @@ GO
 
 --! powyzej ustawienia dla !BAZY LOKALNEJ!
 
-drop table [Order_Dish]
-drop table [Complaint]
-drop table [Review]
-drop table [Order]
-drop table [Discount_Code]
-drop table [User]
-drop table [Dish]
-drop table [Section]
-drop table [Restaurant]
-drop table [Address]
+drop table if exists [Order_Dish]
+drop table if exists [Complaint]
+drop table if exists [Review]
+drop table if exists [Order]
+drop table if exists [Discount_Code]
+drop table if exists [User]
+drop table if exists [Dish]
+drop table if exists [Section]
+drop table if exists [Restaurant]
+drop table if exists [Address]
 
 set quoted_identifier on
 GO

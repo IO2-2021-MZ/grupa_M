@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using webApi.DataTransferObjects.AuthenticateDTO;
 using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.UserDTO;
 using webApi.Enums;
@@ -40,6 +41,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
+        [Authorize(Role.Admin)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -65,11 +67,10 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult PostUser([FromBody] NewUserDTO newUserDTO)
+        public IActionResult SignUp([FromBody] RegisterRequest value)
         {
-            var newUser = _mapper.Map<User>(newUserDTO);
-            int id = _userService.CreateNewUser(newUser);
-            return Ok();
+            var response = _userService.CreateNewUser(value);
+            return Ok(response);
         }
         /// <summary>
         /// Delete user with exact id
@@ -84,6 +85,7 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Role.Admin)]
         public IActionResult DeleteUser([FromQuery] int? id)
         {
             _userService.DeleteUser(id);
@@ -97,11 +99,12 @@ namespace webApi.Controllers
         /// <response code="200">Return user's orders </response>
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
-        /// <response code="404">Resource Not Found</response> 
+        /// <response code="404">Resource Not Found</response>
+        [Authorize(Role.Customer)]
         [HttpGet("order/all")]
-        public IActionResult GetAllOrders([FromQuery] int? id)
+        public IActionResult GetAllOrders()
         {
-            var ordersModels = _userService.GetAllUserOrders(id);
+            var ordersModels = _userService.GetAllUserOrders(Account.Id);
             var orders = _mapper.Map<IList<ComplaintDTO>>(ordersModels);
             return Ok(orders);
         }
@@ -115,9 +118,9 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpGet("complaint/all")]
-        public IActionResult GetAllComplaint([FromQuery] int? id)
+        public IActionResult GetAllComplaint()
         {
-            var complaintsModels = _userService.GetAllUserOrders(id);
+            var complaintsModels = _userService.GetAllUserOrders(Account.Id);
             var complaints = _mapper.Map<IList<ComplaintDTO>>(complaintsModels);
             return Ok(complaints);
         }

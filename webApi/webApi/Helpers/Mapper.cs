@@ -77,10 +77,9 @@ namespace webApi.Helpers
             CreateMap<Dish, PositionFromMenuDTO>().ReverseMap();
             
             CreateMap<User, UserDTO>().ReverseMap();
-            
-            CreateMap<User, NewUserDTO>().ReverseMap();
-
             CreateMap<User, AuthenticateResponse>().ReverseMap();
+            CreateMap<User, RegisterRequest>().ReverseMap();
+
 
 
 

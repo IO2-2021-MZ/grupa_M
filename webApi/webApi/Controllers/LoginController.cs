@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using webApi.DataTransferObjects.AuthenticateDTO;
+using webApi.DataTransferObjects.UserDTO;
 using webApi.Services;
 
 namespace webApi.Controllers
@@ -17,26 +18,18 @@ namespace webApi.Controllers
         {
             _accountService = service;
         }
-
-        [HttpPost("Test")]
-        public IActionResult Test()
-        {
-            return Ok("Ok");
-        }
-
         /// <summary>
         /// Zwraca dane o użytkowniku wraz z krótkoterminowym tokenem dostępu i 
         /// długoterminowym refresh tokenem umiesczonym w plikach cookies. 
         /// </summary>
         /// <param name="value"> Email i hasło użytkownika </param>
         /// <returns> Dane o użytkowniku </returns>
-        [HttpPost("SignIn")]
+        [HttpPost("authenticate")]
         public IActionResult SignIn([FromBody] AuthenticateRequest value)
         {
             var response = _accountService.Authenticate(value, ipAddress());
             return Ok(response);
         }
-
         private string ipAddress()
         {
             if (Request.Headers.ContainsKey("X-Forwarded-For"))
