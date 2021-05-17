@@ -255,7 +255,7 @@ namespace webApi.Controllers
         {
             List<ComplaintR> complaints = _restaurantService.GetAllComplaitsForRestaurants(id, Account.Id);
             return Ok(complaints);
-        }
+        } 
 
         /// <summary> 
         /// Sets Favourite Restaurant
