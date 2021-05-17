@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using webApi.DataTransferObjects.ReviewDTO;
 using webApi.Services;
+using webApi.Enums;
 
 namespace webApi.Controllers
 {
@@ -26,6 +27,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
+        [Authorize(Role.Admin, Role.Customer, Role.Restaurer)]
         public ActionResult<ReviewDTO> GetReview([FromQuery] int? id)
         {
             var review = _reviewService.GetReviewById(id);
@@ -44,6 +46,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         [HttpPost]
+        [Authorize(Role.Admin, Role.Customer, Role.Restaurer)]
         public ActionResult CreateReview([FromBody] NewReview newReview)
         {
             // Mapping example
@@ -61,6 +64,7 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpDelete]
+        [Authorize(Role.Admin, Role.Restaurer)]
         public ActionResult DeleteReview([FromQuery] int id)
         {
             // Mapping example

@@ -54,11 +54,11 @@ namespace webApi.Services
             return result;
         }
 
-        public DiscountCodeDTO GetDiscountCodeById(int? id)
+        public DiscountCodeDTO GetDiscountCodeByCode(string? code)
         {
             var dc = _context
                             .DiscountCodes
-                            .FirstOrDefault(r => r.Id == id);
+                            .FirstOrDefault(r => r.Code == code);
 
             if (dc is null) throw new NotFoundException("Resource not found");
 
