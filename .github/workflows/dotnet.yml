@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: cd ./webApi && dotnet restore
     - name: Build
       run: cd ./webApi && dotnet build --no-restore
     - name: Test
