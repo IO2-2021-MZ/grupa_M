@@ -25,6 +25,7 @@ namespace webApi.DataTransferObjects.OrderDTO
         public decimal FinalPrice { get; set; }
         [Required]
         public RestaurantDTO.RestaurantDTO Restaurant { get; set; }
+        [Required]
         public UserDTO.UserDTO Customer { get; set; }
     }
 }

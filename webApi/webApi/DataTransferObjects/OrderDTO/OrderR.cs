@@ -22,7 +22,6 @@ namespace webApi.DataTransferObjects.OrderDTO
         public decimal FinalPrice { get; set; }
         [Required]
         public AddressDTO.AddressDTO Address { get; set; }
-        [Required]
         public DiscountCodeDTO.DiscountCodeDTO DiscountCode { get; set; }
         [Required]
         public RestaurantDTO.RestaurantDTO Restaurant { get; set; }

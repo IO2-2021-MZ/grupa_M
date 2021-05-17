@@ -25,6 +25,6 @@ namespace webApi.DataTransferObjects.OrderDTO
         [Required]
         public RestaurantDTO.RestaurantDTO Restaurant { get; set; }
         [Required]
-        public DishDTO.PositionFromMenuDTO[] Positions { get; set; }
+        public ICollection<DishDTO.PositionFromMenuDTO> Positions { get; set; }
     }
 }

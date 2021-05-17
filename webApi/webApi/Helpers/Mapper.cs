@@ -44,11 +44,12 @@ namespace webApi.Helpers
                 .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }))
                 .ForMember(dest => dest.PaymentMethod, opts => opts.MapFrom(src => ((PaymentMethod)src.PaymentMethod).ToString("G")))
                 .ForMember(dest => dest.State, opts => opts.MapFrom(src => ((OrderState)src.State).ToString("G")));
-            
+
             CreateMap<Order, OrderC>()
                 .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }))
                 .ForMember(dest => dest.PaymentMethod, opts => opts.MapFrom(src => ((PaymentMethod)src.PaymentMethod).ToString("G")))
                 .ForMember(dest => dest.State, opts => opts.MapFrom(src => ((OrderState)src.State).ToString("G")));
+
             CreateMap<NewOrder, Order>()
                 .ForMember(dest => dest.Address, opts => opts.MapFrom(src => null as object))
                 .ForMember(dest => dest.PaymentMethod, opts => opts.MapFrom(src => Enum.Parse(typeof(PaymentMethod), src.PaymentMethod)));
