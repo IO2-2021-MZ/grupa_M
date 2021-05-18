@@ -83,6 +83,9 @@ namespace webApi.Services
             var address = _mapper.Map<Address>(newRestaurant.Address);
             int addressId;
 
+            restaurant.AggregatePayment = 100.0m;
+            restaurant.Owing = 100.0m;
+
             Address add = _context.Addresses.FirstOrDefault(a => a.City == address.City && a.PostCode == address.PostCode && a.Street == address.Street);
 
             if (add is null)
