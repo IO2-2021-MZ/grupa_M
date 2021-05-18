@@ -408,7 +408,7 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.UserController.PostUser(webApi.DataTransferObjects.UserDTO.NewUserDTO)">
+        <member name="M:webApi.Controllers.UserController.SignUp(webApi.DataTransferObjects.AuthenticateDTO.RegisterRequest)">
             <summary>
             Creates new User
             </summary>
@@ -429,7 +429,7 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.UserController.GetAllOrders(System.Nullable{System.Int32})">
+        <member name="M:webApi.Controllers.UserController.GetAllOrders">
             <summary>
             Returns orders of exact user
             </summary>
@@ -438,9 +438,9 @@
             <response code="200">Return user's orders </response>
             <response code="400">Bad Request</response> 
             <response code="401">UnAuthorised</response>
-            <response code="404">Resource Not Found</response> 
+            <response code="404">Resource Not Found</response>
         </member>
-        <member name="M:webApi.Controllers.UserController.GetAllComplaint(System.Nullable{System.Int32})">
+        <member name="M:webApi.Controllers.UserController.GetAllComplaint">
             <summary>
             Returns all complaints of user with exact id
             </summary>

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using webApi.DataTransferObjects.AuthenticateDTO;
 using webApi.Models;
@@ -51,9 +50,6 @@ namespace webApi.Services
             response.Token = jwtToken;
             return response;
         }
-
-
-
         private string generateJwtToken(User account)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
