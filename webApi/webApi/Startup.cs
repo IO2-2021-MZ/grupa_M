@@ -58,11 +58,13 @@ namespace webApi
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddControllersWithViews().AddNewtonsoftJson(options =>
            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            services.AddCors(c =>
+            services.AddCors(o => o.AddPolicy("AllowOrigin", builder =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin()
-                .AllowAnyMethod().AllowAnyHeader());
-            });
+                builder.SetIsOriginAllowed(s => true)
+                       .AllowCredentials()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -294,7 +294,7 @@
             <response code="401">UnAuthorised</response> 
         </member>
         <member name="M:webApi.Controllers.RestaurantController.SetFavouriteRestaurant(System.Int32)">
-            <summary>
+            <summary> 
             Sets Favourite Restaurant
             </summary>
             <param name="id"> Restaurant Id </param>
