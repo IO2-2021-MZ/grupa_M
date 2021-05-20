@@ -11,7 +11,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 import HomeIcon from '@material-ui/icons/Home';
 import SnackbarContext from '../contexts/SnackbarContext';
 import LoadingContext from '../contexts/LoadingContext';
@@ -22,6 +21,7 @@ import UserContext from "../contexts/UserContext"
 import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
+import { Link as RouterLink } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -139,7 +139,7 @@ export default function AdminRestaurantList() {
         <Toolbar>
           <HomeIcon className={classes.icon} />
           <Typography variant="h6" color="inherit" noWrap>
-            restaurant List
+            Restaurant List
           </Typography>
         </Toolbar>
       </AppBar>
@@ -153,13 +153,18 @@ export default function AdminRestaurantList() {
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               App allows to manage all restaurants.
             </Typography>
+              <Button variant="contained" color="default">
+                <RouterLink to="/RabatCodeList">
+                  Discount codes
+                </RouterLink>
+              </Button>
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={12}>
             {rests.map((rest) => (
-                 <Grid item key={rest.id} xs={12} sm={6} md={4}>
+                 <Grid item key={rest.id} xs={12} sm={6} md={6} style={{padding:10}}>
                 <Card className={classes.card} >
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
@@ -181,16 +186,16 @@ export default function AdminRestaurantList() {
                   </Box>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" color="primary" >
+                  <Button variant="contained" size="small" color="primary" style={{margin:15}}>
                       Details
                   </Button>
-                  <Button size="small" color="primary">
+                  <Button variant="contained" size="small" color="primary"style={{margin:15}}>
                       Stats
                   </Button>
-                  <Button size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
+                  <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
                       {rest.state == "Blocked"  ? "Unblock" : "Block"}
                   </Button>
-                  <Button size="small" color="secondary" onClick={() => deleteRestaurant(rest.id)}>
+                  <Button variant="contained" style={{margin:15}} size="small" color="secondary" onClick={() => deleteRestaurant(rest.id)}>
                       Delete
                   </Button>
                 </CardActions>
