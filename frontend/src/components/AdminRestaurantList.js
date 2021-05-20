@@ -153,7 +153,7 @@ export default function AdminRestaurantList() {
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               App allows to manage all restaurants.
             </Typography>
-              <Button color="primary">
+              <Button variant="contained" color="default">
                 <RouterLink to="/RabatCodeList">
                   Discount codes
                 </RouterLink>
@@ -164,7 +164,7 @@ export default function AdminRestaurantList() {
           {/* End hero unit */}
           <Grid container spacing={12}>
             {rests.map((rest) => (
-                 <Grid item key={rest.id} xs={12} sm={6} md={4}>
+                 <Grid item key={rest.id} xs={12} sm={6} md={6} style={{padding:10}}>
                 <Card className={classes.card} >
                 <CardContent className={classes.cardContent}>
                   <Typography gutterBottom variant="h5" component="h2">
@@ -186,16 +186,16 @@ export default function AdminRestaurantList() {
                   </Box>
                 </CardContent>
                 <CardActions>
-                  <Button size="small" color="primary" >
+                  <Button variant="contained" size="small" color="primary" style={{margin:15}}>
                       Details
                   </Button>
-                  <Button size="small" color="primary">
+                  <Button variant="contained" size="small" color="primary"style={{margin:15}}>
                       Stats
                   </Button>
-                  <Button size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
+                  <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
                       {rest.state == "Blocked"  ? "Unblock" : "Block"}
                   </Button>
-                  <Button size="small" color="secondary" onClick={() => deleteRestaurant(rest.id)}>
+                  <Button variant="contained" style={{margin:15}} size="small" color="secondary" onClick={() => deleteRestaurant(rest.id)}>
                       Delete
                   </Button>
                 </CardActions>

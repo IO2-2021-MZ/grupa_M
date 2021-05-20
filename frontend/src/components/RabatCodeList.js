@@ -122,10 +122,15 @@ function RabatCodeList() {
     
     return (
         <div>
-        <Typography variant="h3">
+        <Typography color="primary" variant="h4">
             List of all discount codes
         </Typography>
-        <Button color="primary">
+        <Button variant="contained" color="default">
+            <RouterLink to="/RestaurantList">
+            Back
+            </RouterLink>
+        </Button>
+        <Button variant="contained" color="default" style={{margin:15}}>
             <RouterLink to="/NewRabatCode">
             Add new discount code
             </RouterLink>
@@ -149,12 +154,12 @@ function RabatCodeList() {
                     <TableCell component="th" scope="row">
                         {row.code}
                     </TableCell>
-                    <TableCell align="right">{row.dateFrom}</TableCell>
-                    <TableCell align="right">{row.dateTo}</TableCell>
+                    <TableCell align="right">{row.dateFrom.replace('T',' ')}</TableCell>
+                    <TableCell align="right">{row.dateTo.replace('T',' ')}</TableCell>
                     <TableCell align="right">{row.restaurantId}</TableCell>
                     <TableCell align="right">{row.percent}</TableCell>
                     <TableCell align="right">
-                        <Button color="secondary" onClick = {() => deleteCode(row.id)}>
+                        <Button variant="contained" color="secondary" onClick = {() => deleteCode(row.id)}>
                             X
                         </Button>
                     </TableCell>

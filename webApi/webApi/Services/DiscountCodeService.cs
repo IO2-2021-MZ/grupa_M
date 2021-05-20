@@ -42,6 +42,11 @@ namespace webApi.Services
 
             if (codeToDelete is null) throw new NotFoundException("Resource not found");
 
+            var orders = _context.Orders.Where(o => o.DiscountCodeId == codeToDelete.Id);
+
+            foreach (var o in orders)
+                o.DiscountCodeId = null;
+
             _context.DiscountCodes.Remove(codeToDelete);
             _context.SaveChanges();
             return true;

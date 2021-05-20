@@ -167,6 +167,24 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
+            var orders = _context.Orders.Where(o => o.RestaurantId == restaurant.Id);
+
+            var reviews = _context.Reviews.Where(o => o.RestaurantId == restaurant.Id);
+
+            var complaints = _context.Complaints.Where(o => orders.Any(or => or.Id == o.OrderId));
+
+            var orderDishes = _context.OrderDishes.Where(od => orders.Any(o => od.OrderId == o.Id));
+
+            var users = _context.Users.Where(u => u.RestaurantId == restaurant.Id);
+
+            foreach (var u in users)
+                u.RestaurantId = null;
+
+            _context.Reviews.RemoveRange(reviews);
+            _context.Complaints.RemoveRange(complaints);
+            _context.OrderDishes.RemoveRange(orderDishes);
+            _context.Orders.RemoveRange(orders);
+
             _context.Restaurants.Remove(restaurant);
             _context.SaveChanges();
         }
