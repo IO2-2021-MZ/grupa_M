@@ -13,6 +13,7 @@ namespace webApi.Models
             Orders = new HashSet<Order>();
             Reviews = new HashSet<Review>();
             Sections = new HashSet<Section>();
+            UserRests = new HashSet<UserRest>();
             Users = new HashSet<User>();
         }
 
@@ -31,6 +32,7 @@ namespace webApi.Models
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<Section> Sections { get; set; }
+        public virtual ICollection<UserRest> UserRests { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }

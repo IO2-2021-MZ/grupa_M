@@ -1,6 +1,7 @@
 use IO2_Restaurants
 
 delete from [Order_Dish]
+delete from [User_Rests]
 delete from [Complaint]
 delete from [Review]
 delete from [Order]
@@ -119,4 +120,14 @@ values
 	(1, 1, 2),
 	(2, 1, 1),
 	(3, 2, 1)
+set identity_insert Order_Dish off
+
+set identity_insert User_Rests on
+insert into User_Rests
+	(id, user_id, restaurant_id)
+values
+	(1, 3, 1),
+	(2, 3, 2),
+	(3, 2, 1),
+	(4, 2, 1)
 set identity_insert Order_Dish off
