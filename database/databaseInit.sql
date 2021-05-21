@@ -21,6 +21,7 @@ GO
 --! powyzej ustawienia dla !BAZY LOKALNEJ!
 
 drop table if exists [Order_Dish] 
+drop table if exists [User_Rests]
 drop table if exists [Complaint]
 drop table if exists [Review]
 drop table if exists [Order]
@@ -223,6 +224,23 @@ CREATE TABLE Order_Dish(
 	(
 		order_id
 	) REFERENCES [Order]
+)
+
+GO
+
+CREATE TABLE User_Rests(
+	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+	user_id int NOT NULL,
+	restaurant_id int NOT NULL,
+
+	CONSTRAINT FK_URU FOREIGN KEY
+	(
+		user_id
+	) REFERENCES [User],
+	CONSTRAINT FK_URR FOREIGN KEY
+	(
+		restaurant_id
+	) REFERENCES Restaurant
 )
 
 GO

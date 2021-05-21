@@ -13,8 +13,7 @@ delete from [Restaurant]
 delete from [Address]
 
 
-
- set identity_insert [Address] on
+set identity_insert [Address] on
 
 insert into [Address] 
 	(id,city,street,post_code)
@@ -122,6 +121,7 @@ values
 	(3, 2, 1)
 set identity_insert Order_Dish off
 
+
 set identity_insert User_Rests on
 insert into User_Rests
 	(id, user_id, restaurant_id)
@@ -130,4 +130,4 @@ values
 	(2, 3, 2),
 	(3, 2, 1),
 	(4, 2, 1)
-set identity_insert Order_Dish off
+set identity_insert User_Rests off
