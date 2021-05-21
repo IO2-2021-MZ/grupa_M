@@ -177,9 +177,12 @@ namespace webApi.Services
 
             var users = _context.Users.Where(u => u.RestaurantId == restaurant.Id);
 
+            var urs = _context.UserRests.Where(ur => ur.RestaurantId == restaurant.Id);
+
             foreach (var u in users)
                 u.RestaurantId = null;
 
+            _context.UserRests.RemoveRange(urs);
             _context.Reviews.RemoveRange(reviews);
             _context.Complaints.RemoveRange(complaints);
             _context.OrderDishes.RemoveRange(orderDishes);
@@ -277,8 +280,14 @@ namespace webApi.Services
             .FirstOrDefault();
 
             List<RestaurantC> restaurantDTOs = new List<RestaurantC>();
-            if (user.Role == (int)Role.Restaurer || user.Role == (int)Role.Employee)
+            if (user.Role == (int)Role.Employee)
                 restaurants = restaurants.Where(r => r.Id == user.RestaurantId).ToList();
+
+            if(user.Role == (int)Role.Restaurer)
+            {
+                var urs = _context.UserRests.Where(ur => ur.UserId == user.Id);
+                restaurants = restaurants.Where(r => urs.Any(ur => ur.RestaurantId == r.Id)).ToList();
+            }
 
             if (user.Role == (int)Role.Customer)
             {

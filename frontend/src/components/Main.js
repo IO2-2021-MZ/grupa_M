@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import UserContext from '../contexts/UserContext'
-import Restaurer from "./Restaurer";
+import Restaurer from "./Restaurateur";
 import Admin from "./Admin";
 import Customer from "./Customer";
 import Employee from "./Employee";
