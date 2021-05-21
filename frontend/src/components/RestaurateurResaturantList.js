@@ -121,7 +121,7 @@ export default function RestaurateurRestaurantList() {
 
       var config = {
         method: 'post',
-        url: apiUrl + "restaurant/" + (toBeBlocked ? "block" : "unblock") + "?id=" + id,
+        url: apiUrl + "restaurant/" + (toBeBlocked ? "activate" : "deactivate") + "?id=" + id,
         headers: { 
           'Authorization': 'Bearer ' + user.token
         }
@@ -187,8 +187,9 @@ export default function RestaurateurRestaurantList() {
                   <Button variant="contained" size="small" color="primary"style={{margin:15}}>
                       Stats
                   </Button>
-                  <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
-                      {rest.state == "Blocked"  ? "Unblock" : "Block"}
+                  <Button disabled={rest.state == "Blocked"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
+                      {rest.state == "Blocked"  ? "Blocked" : rest.state == "Active" ? "Disactivate" : "Activate"}
+                      {console.log(rest)}
                   </Button>
                   <Button variant="contained" style={{margin:15}} size="small" color="secondary" onClick={() => deleteRestaurant(rest.id)}>
                       Delete

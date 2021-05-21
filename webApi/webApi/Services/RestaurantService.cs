@@ -34,7 +34,7 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            restaurant.State = 0;
+            restaurant.State = (int)RestaurantState.Active;
             _context.SaveChanges();
         }
 
@@ -46,7 +46,7 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            restaurant.State = 2;
+            restaurant.State = (int)RestaurantState.Blocked;
             _context.SaveChanges();
         }
 
@@ -119,12 +119,14 @@ namespace webApi.Services
                 RestaurantId = id
             };
 
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+
             var user = _context
                 .Users
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
-            if (user is null || (user.Role == (int)Role.Restaurer && user.RestaurantId != id))
+            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.UserId == id)))
                 throw new UnathorisedException("Unauthorized");
 
             _context.Sections.Add(section);
@@ -138,13 +140,6 @@ namespace webApi.Services
             var restaurant = _context
                 .Restaurants
                 .FirstOrDefault(item => item.Id == id);
-
-            var user = _context
-                .Users
-                .Where(u => u.Id == userId)
-                .FirstOrDefault();
-
-            if (user is null || user.RestaurantId != id) throw new UnathorisedException("Unauthorized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
@@ -163,7 +158,9 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
-            if (user is null || (user.Role == (int)Role.Restaurer && user.RestaurantId != id)) throw new UnathorisedException("Unauthorized");
+            var ursOrigin = _context.UserRests.Where(ur => ur.UserId == userId);
+
+            if (user is null || (user.Role == (int)Role.Restaurer && !ursOrigin.Any(ur => ur.UserId == id))) throw new UnathorisedException("Unauthorized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
@@ -203,7 +200,9 @@ namespace webApi.Services
             
             if (section is null) throw new NotFoundException("Resources not found");
 
-            if (user is null ||  user.RestaurantId != section.Id) throw new UnathorisedException("Unauthorized");
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+
+            if (user is null || !urs.Any(ur => ur.UserId == section.RestaurantId)) throw new UnathorisedException("Unauthorized");
 
             _context.Sections.Remove(section);
             _context.SaveChanges();
@@ -221,7 +220,9 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
-            if (user is null || (user.Role == (int)Role.Restaurer && user.RestaurantId != id) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+
+            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.UserId == id)) || (user.Role == (int)Role.Employee && !urs.Any(ur => ur.UserId == id))) 
                 throw new UnathorisedException("Unathourized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
@@ -257,7 +258,9 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
-            if (user is null || (user.Role == (int)Role.Restaurer && user.RestaurantId != id) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+
+            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.UserId == id)) || (user.Role == (int)Role.Employee && !urs.Any(ur => ur.UserId == id))) 
                 throw new UnathorisedException("Unathourized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
@@ -278,6 +281,7 @@ namespace webApi.Services
             .Users
             .Where(u => u.Id == userId)
             .FirstOrDefault();
+
 
             List<RestaurantC> restaurantDTOs = new List<RestaurantC>();
             if (user.Role == (int)Role.Employee)
@@ -312,8 +316,10 @@ namespace webApi.Services
                 .Users
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
+            
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (user is null || (user.Role == (int)Role.Restaurer && user.RestaurantId != id) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
+            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.UserId == id)) || (user.Role == (int)Role.Employee && !urs.Any(ur => ur.UserId == id))) 
                 throw new UnathorisedException("Unathourized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
@@ -343,7 +349,9 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
-            if (user is null || (user.Role == (int)Role.Restaurer && user.RestaurantId != id) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+
+            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.UserId == id)) || (user.Role == (int)Role.Employee && !urs.Any(ur => ur.UserId == id))) 
                 throw new UnathorisedException("Unathourized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
@@ -380,17 +388,9 @@ namespace webApi.Services
                .Restaurants
                .FirstOrDefault(item => item.Id == id);
 
-            var user = _context
-                .Users
-                .Where(u => u.Id == userId)
-                .FirstOrDefault();
-
-            if (user is null || (user.Role == (int)Role.Restaurer && user.RestaurantId != id) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
-                throw new UnathorisedException("Unathourized");
-
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            restaurant.State = 0;
+            restaurant.State = (int)RestaurantState.Active;
             _context.SaveChanges();
         }
 
@@ -409,6 +409,8 @@ namespace webApi.Services
 
             if (user is null) throw new UnathorisedException("Unathourized");
 
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+
             var section = _context
                 .Sections
                 .Where(s => s.Id == dish.SectionId)
@@ -416,7 +418,7 @@ namespace webApi.Services
 
             if (section is null) throw new NotFoundException("Resource not found");
 
-            if ((user.Role == (int)Role.Restaurer && user.RestaurantId != section.RestaurantId) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
+            if ((user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.UserId == section.RestaurantId)) || (user.Role == (int)Role.Employee && !urs.Any(ur => ur.UserId == id))) 
                 throw new UnathorisedException("Unauthorized");
 
 
@@ -444,7 +446,8 @@ namespace webApi.Services
             if (user is null || user.Role != (int)Role.Customer) 
                 throw new UnathorisedException("Unathourized");
 
-            user.RestaurantId = id;
+
+            _context.UserRests.Add(new UserRest() { UserId = userId, RestaurantId = id });
             _context.SaveChanges();
         }
 
@@ -474,7 +477,9 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
-            if (user is null || (user.Role == (int)Role.Restaurer && user.RestaurantId != id) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+
+            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.UserId == id)) || (user.Role == (int)Role.Employee && !urs.Any(ur => ur.UserId == id))) 
                 throw new UnathorisedException("Unathourized");
 
             dish.Name = newPosition.Name;
@@ -498,7 +503,9 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
-            if (user is null || (user.Role == (int)Role.Restaurer && user.RestaurantId != id) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) throw new UnathorisedException("Unathourized");
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+
+            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.UserId == id)) || (user.Role == (int)Role.Employee && !urs.Any(ur => ur.UserId == id))) throw new UnathorisedException("Unathourized");
 
             section.Name = newSectionName;
             _context.SaveChanges();

@@ -300,7 +300,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpPost("reactivate")]
-        [Authorize(Role.Restaurer)]
+        [Authorize(Role.Admin)]
         public ActionResult ReactivateRestaurant([FromQuery] int id)
         {
             //id z tokenu po zalogowaniu
@@ -317,7 +317,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpPost("deactivate")]
-        [Authorize(Role.Restaurer)]
+        [Authorize(Role.Admin)]
         public ActionResult DeactivateRestaurant([FromQuery] int id)
         {
             //id z tokenu po zalogowaniu

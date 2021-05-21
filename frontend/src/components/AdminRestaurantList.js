@@ -133,6 +133,24 @@ export default function AdminRestaurantList() {
       
     }
 
+    const changeActivity2 = (id, toBeBlocked) => {
+      setLoading(true);
+
+
+      var config = {
+        method: 'post',
+        url: apiUrl + "restaurant/" + (toBeBlocked ? "deactivate" : "reactivate") + "?id=" + id,
+        headers: { 
+          'Authorization': 'Bearer ' + user.token
+        }
+      };
+      
+      const response =  axios(config)
+      .then(() => fetchData())
+      .catch((error) => setSnackbar(error.message));
+      
+    }
+
   return (
     <React.Fragment>
       <AppBar position="relative">
@@ -160,7 +178,7 @@ export default function AdminRestaurantList() {
               </Button>
           </Container>
         </div>
-        <Container className={classes.cardGrid} maxWidth="md">
+        <Container className={classes.cardGrid}>
           {/* End hero unit */}
           <Grid container spacing={12}>
             {rests.map((rest) => (
@@ -188,12 +206,16 @@ export default function AdminRestaurantList() {
                 <CardActions>
                   <Button variant="contained" size="small" color="primary" style={{margin:15}}>
                       Details
+                      {console.log(rest)}
                   </Button>
                   <Button variant="contained" size="small" color="primary"style={{margin:15}}>
                       Stats
                   </Button>
                   <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
                       {rest.state == "Blocked"  ? "Unblock" : "Block"}
+                  </Button>
+                  <Button disabled={rest.state=="Blocked"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity2(rest.id, rest.state == "Inactive" ? false : true)}>
+                      {rest.state == "Active" ? "Inactivate" : "Activate"}
                   </Button>
                   <Button variant="contained" style={{margin:15}} size="small" color="secondary" onClick={() => deleteRestaurant(rest.id)}>
                       Delete
