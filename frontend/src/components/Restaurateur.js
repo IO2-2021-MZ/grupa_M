@@ -1,20 +1,31 @@
 import React from "react";
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { BrowserRouter} from 'react-router-dom';
-import RestsList from "./RestaurateurResaturantList";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import RestaurateurRestaurantList from "./RestaurateurResturantList";
+import RestaurateurRestaurant from "./RestaurateurRestaurant";
+import AddNewDish from "./AddNewDishComponent";
+import AddNewSection from "./AddNewSectionComponent";
+import FinanceAndStats from "./FinanceAndStatsComponent";
 
-
-function Restaurer(props){
-    return(
-        <BrowserRouter>
-            <Switch>
-                <Route path='/RestaurantList' component={RestsList}/>
-                <Redirect to='/RestaurantList' />
-            </Switch>
-        </BrowserRouter>
-    );
+function Restaurateur(props) {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route
+          path="/RestaurateurRestaurantList"
+          component={RestaurateurRestaurantList}
+        />
+        <Route path="/AddNewDish" component={AddNewDish} />
+        <Route path="/AddNewSection" component={AddNewSection} />
+        <Route
+          path="/RestaurateurRestaurant/:id"
+          component={RestaurateurRestaurant}
+        />
+        <Route path="/FinanceAndStats" component={FinanceAndStats} />
+        <Redirect to="/RestaurateurRestaurantList" />
+      </Switch>
+    </BrowserRouter>
+  );
 }
 
-export default Restaurer;
-// RestaurateurRestaurant List
-// AddNewDish 
+export default Restaurateur;
