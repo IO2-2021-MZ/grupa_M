@@ -14,6 +14,7 @@ namespace webApi.Models
             OrderCustomers = new HashSet<Order>();
             OrderEmployees = new HashSet<Order>();
             Reviews = new HashSet<Review>();
+            UserRests = new HashSet<UserRest>();
         }
 
         public int Id { get; set; }
@@ -33,5 +34,6 @@ namespace webApi.Models
         public virtual ICollection<Order> OrderCustomers { get; set; }
         public virtual ICollection<Order> OrderEmployees { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<UserRest> UserRests { get; set; }
     }
 }

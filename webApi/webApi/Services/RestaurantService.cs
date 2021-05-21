@@ -277,6 +277,9 @@ namespace webApi.Services
             .FirstOrDefault();
 
             List<RestaurantC> restaurantDTOs = new List<RestaurantC>();
+            if (user.Role == (int)Role.Restaurer || user.Role == (int)Role.Employee)
+                restaurants = restaurants.Where(r => r.Id == user.RestaurantId).ToList();
+
             if (user.Role == (int)Role.Customer)
             {
                 restaurantDTOs = _mapper.Map<List<RestaurantC>>(restaurants);

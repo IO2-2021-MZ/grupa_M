@@ -27,6 +27,7 @@ namespace webApi.Models
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<Section> Sections { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserRest> UserRests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -383,6 +384,29 @@ namespace webApi.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RestaurantId)
                     .HasConstraintName("FK_User_Restaurant");
+            });
+
+            modelBuilder.Entity<UserRest>(entity =>
+            {
+                entity.ToTable("User_Rests");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.RestaurantId).HasColumnName("restaurant_id");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.Restaurant)
+                    .WithMany(p => p.UserRests)
+                    .HasForeignKey(d => d.RestaurantId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_URR");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserRests)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_URU");
             });
 
             OnModelCreatingPartial(modelBuilder);
