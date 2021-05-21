@@ -77,7 +77,7 @@ function NewRabatCode() {
       const Validate = () => {
         let val = true; 
         let message = ""; 
-        if(dateFrom.localeCompare(dateTo) < 0){
+        if(dateFrom.localeCompare(dateTo) > 0){
             val = false;
             message = message + "Date to must be greater then date from!\n"
         }
