@@ -20,6 +20,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import apiUrl from "../shared/apiURL";
+import UserContext from "../contexts/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -59,33 +61,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddNewSection = (props) => {
-  const { setSnackbar } = useContext(SnackbarContext);
+const FinanceAndStats = (props) => {
   const classes = useStyles();
 
-  const [sectionName, setSectionName] = useState("");
+  const { restaurantId } = props; //do zmiany
+  const { setLoading } = useContext(LoadingContext);
+  const { setSnackbar } = useContext(SnackbarContext);
+  const [restaurant, setRestaurant] = useState([]);
+  const { user, setUser } = useContext(UserContext);
 
-  var restaurantId = props.restaurantId;
-
-  const handleSectionNameChange = (p) => {
-    setSectionName(p);
-  };
-
-  const saveNewSection = async () => {
+  async function fetchData(id) {
     var config = {
-      method: "post",
-      url: `https://localhost:44384/restaurant/menu/section?id=${restaurantId}&section=${sectionName}`,
-      header: {
-        "Content-Type": "application/json",
+      method: "get",
+      // url: 'https://localhost:5001/restaurant?id='+1,
+      // headers: {
+      //     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MjE1MTgwOTIsImV4cCI6MTYyMTUxODk5MiwiaWF0IjoxNjIxNTE4MDkyfQ.MPO_yJ2V5eBGlnZW_KbLKcrgho7R85j1vmr82AHbN14'
+      //   }
+      url: apiUrl + "restaurant?id=" + restaurantId,
+      headers: {
+        Authorization: "Bearer " + user.token,
       },
     };
 
     try {
-      console.log({
-        name: sectionName,
-        restaurantId: restaurantId,
-      });
-      await axios(config);
+      const response = await axios(config);
+      setRestaurant(response.data);
     } catch (e) {
       console.error(e);
       setSnackbar({
@@ -94,7 +94,13 @@ const AddNewSection = (props) => {
         type: "error",
       });
     }
-  };
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    setLoading(true);
+    fetchData(restaurantId);
+  }, [setRestaurant]);
 
   return (
     <React.Fragment>
@@ -115,29 +121,16 @@ const AddNewSection = (props) => {
             <Grid xs={12}>
               <Card>
                 <CardContent>
-                  <Typography variant="h5" align="left" color="textPrimary">
-                    Create a section for restaurant: {restaurantId}
+                  <Typography variant="h4" align="left" color="textPrimary">
+                    Finances and statistics of restaurant "{restaurant.name}"
                   </Typography>
-                  <TextField
-                    id="sectionName-multiline-static"
-                    label="Section Name"
-                    multiline
-                    defaultValue=""
-                    variant="outlined"
-                    fullWidth={true}
-                    onChange={handleSectionNameChange}
-                  />
                   <br />
-                  <br />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => saveNewSection()}
-                  >
-                    <Typography variant="button" color="inherit">
-                      Save
-                    </Typography>
-                  </Button>
+                  <Typography variant="h5" component="h2">
+                    Owing: {restaurant.owing}
+                  </Typography>
+                  <Typography variant="h5" component="h2">
+                    Aggregate Payment: {restaurant.aggregatePayment}
+                  </Typography>
                 </CardContent>
               </Card>
             </Grid>
@@ -148,4 +141,4 @@ const AddNewSection = (props) => {
   );
 };
 
-export default AddNewSection;
+export default FinanceAndStats;
