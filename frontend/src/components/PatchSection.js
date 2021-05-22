@@ -62,47 +62,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddNewDish = (props) => {
+const AddNewSection = (props) => {
   const { setSnackbar } = useContext(SnackbarContext);
-  const { user, setUser } = useContext(UserContext);
   const classes = useStyles();
-  const [section, setSection] = useState();
-  const [dishName, setDishName] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [added,setAdded] = useState(false);
+  const { user, setUser } = useContext(UserContext);
 
-  const handleDishNameChange = (event) => {
-    setDishName(event.target.value);
-  };
-  const handlePriceChange = (event) => {
-    setPrice(event.target.value);
-  };
-  const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
-  };
-  
+  const [sectionName, setSectionName] = useState("");
+  const [added, setAdded] = useState(false);
+  const sectionId = props.sectionId;
 
-  const { sectionId } = props;
-  const saveNewDish = async () => {
+  const handleSectionNameChange = (p) => {
+    setSectionName(p.target.value);
+  };
+
+  const saveNewSection = async () => {
     var config = {
-      method: 'post',
-      url: apiUrl + 'restaurant/menu/position?id='+sectionId,
+      method: "patch",
+      url: apiUrl + "restaurant/menu/section?id=" + sectionId ,
       headers: {
         'Authorization': "Bearer " + user.token,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       },
-      data:{
-        "name": dishName,
-        "description": description,
-        "price": price,
-      },
+      data: JSON.stringify(sectionName)
     };
-
+    console.log(config)
     try {
-      console.log({
-        dishName,
-      });
       await axios(config);
+      setAdded(true);
     } catch (e) {
       console.error(e);
       setSnackbar({
@@ -111,14 +98,13 @@ const AddNewDish = (props) => {
         type: "error",
       });
     }
-    setAdded(true);
   };
 
   return (
     <div>
       { added ?
       <div>
-      <Typography style={{margin:150}} variant="h4">Added succesfully!</Typography>
+      <Typography style={{margin:150}} variant="h4">Renamed succesfully!</Typography>
       <Button variant="contained" color="default" size="large">
           <RouterLink to={"/RestaurateurSections/"+localStorage.getItem('rest_id')}>
               Back
@@ -126,18 +112,17 @@ const AddNewDish = (props) => {
       </Button>
       </div>
       :
-
     <React.Fragment>
       <CssBaseline />
       <AppBar>
         <Toolbar>
           <Button>
-          <RouterLink to={"/RestaurateurSections/"+localStorage.getItem('rest_id')}>
+            <RouterLink to ={"/RestaurateurSections/" + localStorage.getItem('rest_id')}>
             <ArrowBackIcon fontSize="large" />
             </RouterLink>
           </Button>
           <Typography variant="h6" color="inherit" noWrap>
-            Make New Dish
+            Rename section
           </Typography>
         </Toolbar>
       </AppBar>
@@ -148,41 +133,23 @@ const AddNewDish = (props) => {
               <Card>
                 <CardContent>
                   <Typography variant="h5" align="left" color="textPrimary">
-                    Create a new dish
+                    Rename a section
                   </Typography>
                   <TextField style={{margin:10}}
-                    id="DishName-multiline-static"
-                    label="Dish Name"
+                    id="sectionName-multiline-static"
+                    label="Section Name"
                     multiline
                     defaultValue=""
                     variant="outlined"
                     fullWidth={true}
-                    onChange={handleDishNameChange}
-                  />
-                  <TextField style={{margin:10}}
-                    id="price-multiline-static"
-                    label="Price"
-                    multiline
-                    defaultValue=""
-                    variant="outlined"
-                    fullWidth={true}
-                    onChange={handlePriceChange}
-                  />
-                  <TextField style={{margin:10}}
-                    id="descrpition-multiline-static"
-                    label="Description"
-                    multiline
-                    defaultValue=""
-                    variant="outlined"
-                    fullWidth={true}
-                    onChange={handleDescriptionChange}
+                    onChange={handleSectionNameChange}
                   />
                   <br />
                   <br />
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => saveNewDish()}
+                    onClick={() => saveNewSection()}
                   >
                     <Typography variant="button" color="inherit">
                       Save
@@ -195,9 +162,9 @@ const AddNewDish = (props) => {
         </Container>
       </div>
     </React.Fragment>
-}      
-      </div>
+          }
+          </div>
   );
 };
 
-export default AddNewDish;
+export default AddNewSection;

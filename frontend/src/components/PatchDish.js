@@ -86,7 +86,7 @@ const AddNewDish = (props) => {
   const { sectionId } = props;
   const saveNewDish = async () => {
     var config = {
-      method: 'post',
+      method: 'patch',
       url: apiUrl + 'restaurant/menu/position?id='+sectionId,
       headers: {
         'Authorization': "Bearer " + user.token,
@@ -132,12 +132,12 @@ const AddNewDish = (props) => {
       <AppBar>
         <Toolbar>
           <Button>
-          <RouterLink to={"/RestaurateurSections/"+localStorage.getItem('rest_id')}>
+            <RouterLink to={"/RestaurateurSections/"+localStorage.getItem('rest_id')}>
             <ArrowBackIcon fontSize="large" />
             </RouterLink>
           </Button>
           <Typography variant="h6" color="inherit" noWrap>
-            Make New Dish
+            Update Dish
           </Typography>
         </Toolbar>
       </AppBar>
@@ -148,7 +148,7 @@ const AddNewDish = (props) => {
               <Card>
                 <CardContent>
                   <Typography variant="h5" align="left" color="textPrimary">
-                    Create a new dish
+                    Update existing dish
                   </Typography>
                   <TextField style={{margin:10}}
                     id="DishName-multiline-static"

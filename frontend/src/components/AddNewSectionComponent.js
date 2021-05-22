@@ -22,6 +22,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import apiUrl from "../shared/apiURL";
 import UserContext from "../contexts/UserContext";
+import {Link as RouterLink} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -67,18 +68,18 @@ const AddNewSection = (props) => {
   const { user, setUser } = useContext(UserContext);
 
   const [sectionName, setSectionName] = useState("");
-
-  const {restaurantId} = props.restaurantId;
+  const [added, setAdded] = useState(false);
+  const restaurantId = props.restaurantId;
 
   const handleSectionNameChange = (p) => {
-    setSectionName(p);
+    setSectionName(p.target.value);
   };
 
   const saveNewSection = async () => {
     var config = {
       method: "post",
-      url: `https://localhost:44384/restaurant/menu/section?id=${restaurantId}&section=${sectionName}`,
-      header: {
+      url: apiUrl + "restaurant/menu/section?id=" + restaurantId +"&section="+sectionName,
+      headers: {
         'Authorization': "Bearer " + user.token,
       },
     };
@@ -89,6 +90,7 @@ const AddNewSection = (props) => {
         restaurantId: restaurantId,
       });
       await axios(config);
+      setAdded(true);
     } catch (e) {
       console.error(e);
       setSnackbar({
@@ -100,15 +102,28 @@ const AddNewSection = (props) => {
   };
 
   return (
+    <div>
+      { added ?
+      <div>
+      <Typography style={{margin:150}} variant="h4">Added succesfully!</Typography>
+      <Button variant="contained" color="default" size="large">
+          <RouterLink to={"/RestaurateurSections/"+restaurantId}>
+              Back
+          </RouterLink>
+      </Button>
+      </div>
+      :
     <React.Fragment>
       <CssBaseline />
       <AppBar>
         <Toolbar>
           <Button>
+            <RouterLink to ={"/RestaurateurSections/" + restaurantId}>
             <ArrowBackIcon fontSize="large" />
+            </RouterLink>
           </Button>
           <Typography variant="h6" color="inherit" noWrap>
-            Make New Order
+            Make New Section
           </Typography>
         </Toolbar>
       </AppBar>
@@ -119,9 +134,9 @@ const AddNewSection = (props) => {
               <Card>
                 <CardContent>
                   <Typography variant="h5" align="left" color="textPrimary">
-                    Create a section for restaurant: {restaurantId}
+                    Create a section
                   </Typography>
-                  <TextField
+                  <TextField style={{margin:10}}
                     id="sectionName-multiline-static"
                     label="Section Name"
                     multiline
@@ -148,6 +163,8 @@ const AddNewSection = (props) => {
         </Container>
       </div>
     </React.Fragment>
+          }
+          </div>
   );
 };
 

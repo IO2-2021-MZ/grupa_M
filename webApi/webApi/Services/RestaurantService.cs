@@ -65,8 +65,10 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+
             if (section is null) throw new NotFoundException("Resources not found");
-            if (user is null || user.RestaurantId != section.RestaurantId) throw new UnathorisedException("Unauthorized");
+            if (user is null || !urs.Any(ur => ur.RestaurantId == section.RestaurantId)) throw new UnathorisedException("Unauthorized");
 
             dish.SectionId = id;
             _context.Dishes.Add(dish);

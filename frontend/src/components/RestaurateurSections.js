@@ -67,7 +67,8 @@ const ColorButton = withStyles((theme) => ({
 
 export default function SectionsList(props) {
   const classes = useStyles();
-  const { restId } = props;
+  const restId = props.restId;
+  localStorage.setItem('rest_id', restId);
   const { setLoading } = useContext(LoadingContext);
   const { setSnackbar } = useContext(SnackbarContext);
   const [sections, setSections] = useState([]);
@@ -77,11 +78,6 @@ export default function SectionsList(props) {
     setLoading(true);
     var config = {
       method: "get",
-      // url: "https://localhost:5001/restaurant/menu?id=1",
-      // headers: {
-      //   Authorization:
-      //     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MjE1OTEyNjQsImV4cCI6MTYyMTU5MjE2NCwiaWF0IjoxNjIxNTkxMjY0fQ.x0qPt7mmAiPRTeUCVUOt_rTefNqztOykUmNHP1NQFds",
-      // },
       url: apiUrl + "restaurant/menu?id=" + restId,
       headers: {
         Authorization: "Bearer " + user.token,
@@ -102,6 +98,48 @@ export default function SectionsList(props) {
     }
     setLoading(false);
   }
+
+
+  const handleDeletingSection = (id) => {
+    var config = {
+      method: "delete",
+      url: apiUrl + "restaurant/menu/section?id=" + id,
+      headers: {
+        Authorization: "Bearer " + user.token,
+      },
+    };
+
+      axios(config)
+      .then(() => fetchData())
+      .catch(error => setSnackbar({
+        open: true,
+        message: "Loading data failed",
+        type: "error",
+      }))
+      .then(setLoading(false));
+
+  }
+
+  const handleDeletingDish = (id) => {
+    var config = {
+      method: "delete",
+      url: apiUrl + "restaurant/menu/position?id=" + id,
+      headers: {
+        Authorization: "Bearer " + user.token,
+      },
+    };
+
+      axios(config)
+      .then(() => fetchData())
+      .catch(error => setSnackbar({
+        open: true,
+        message: "Loading data failed",
+        type: "error",
+      }))
+      .then(setLoading(false));
+
+  }
+
 
   useEffect(() => {
     fetchData();
@@ -154,7 +192,9 @@ export default function SectionsList(props) {
               color="primary"
               className={classes.submit}
             >
+              <RouterLink to ={"/AddNewSection/"+restId}>
               Add section
+              </RouterLink>
             </ColorButton>
           </Container>
         </div>
@@ -165,40 +205,10 @@ export default function SectionsList(props) {
               <Grid item key={section.id} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h4" component="h2">
-                      Section:
-                    </Typography>
                     <Typography gutterBottom variant="h3" component="h2">
                       {section.name}
                     </Typography>
                   </CardContent>
-                  <CardActions>
-                    <ColorButton
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      className={classes.submit}
-                    >
-                      Delete section
-                    </ColorButton>
-                  </CardActions>
-                  <CardActions>
-                    <ColorButton
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      className={classes.submit}
-                    >
-                  <RouterLink
-                    to={"/AddNewDish/" + section.id}
-                    style={{ color: "#FFF" }}
-                  >
-                        Add dish
-                      </RouterLink>
-                    </ColorButton>
-                  </CardActions>
                   {section.positions !== null ? (
                     section.positions.map((dish) => (
                       <Grid item key={dish.id} >
@@ -223,8 +233,17 @@ export default function SectionsList(props) {
                               variant="h6"
                               component="h2"
                             >
-                              Description: {dish.description}
+                              {dish.description}
                             </Typography>
+                            <Button size="small" type="submit" color="danger" variant="contained"
+                            onClick= {() => handleDeletingDish(dish.id)}>
+                              Delete
+                            </Button>
+                            <Button size="small" type="submit" color="danger" variant="contained">
+                              <RouterLink to ={"/PatchDish/"+dish.id}>
+                                Update
+                              </RouterLink>
+                            </Button>
                           </CardContent>
                         </Card>
                       </Grid>
@@ -238,6 +257,50 @@ export default function SectionsList(props) {
                       </CardContent>
                     </Card>
                   )}
+                  <CardActions>
+                    <ColorButton
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                      onClick={() => handleDeletingSection(section.id)}
+                    >
+                      Delete section
+                    </ColorButton>
+                  </CardActions>
+                  <CardActions>
+                    <ColorButton
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                    >
+                  <RouterLink
+                    to={"/AddNewDish/" + section.id}
+                    style={{ color: "#FFF" }}
+                  >
+                        Add dish
+                      </RouterLink>
+                    </ColorButton>
+                  </CardActions>
+                  <CardActions>
+                    <ColorButton
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                    >
+                  <RouterLink
+                    to={"/PatchSection/" + section.id}
+                    style={{ color: "#FFF" }}
+                  >
+                        Rename Section
+                      </RouterLink>
+                    </ColorButton>
+                  </CardActions>
                 </Card>
               </Grid>
             ))}
