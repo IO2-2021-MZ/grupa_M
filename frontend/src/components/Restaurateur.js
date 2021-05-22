@@ -1,11 +1,24 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
-import RestaurateurRestaurantList from "./RestaurateurResturantList";
+import RestaurateurRestaurantList from "./RestaurateurRestaurantList";
 import RestaurateurRestaurant from "./RestaurateurRestaurant";
 import AddNewDish from "./AddNewDishComponent";
 import AddNewSection from "./AddNewSectionComponent";
 import FinanceAndStats from "./FinanceAndStatsComponent";
+import RestaurateurSections from "./RestaurateurSections";
+
+const RestaurateurRestaurantWithId = ({ match }) => {
+  return <RestaurateurRestaurant restId={match.params.id} />;
+};
+
+const RestaurateurSectionsWithId = ({ match }) => {
+  return <RestaurateurSections restId={match.params.id} />;
+};
+
+const FinanceAndStatsWithId = ({ match }) => {
+  return <FinanceAndStats restaurantId={match.params.id} />;
+};
 
 function Restaurateur(props) {
   return (
@@ -19,9 +32,13 @@ function Restaurateur(props) {
         <Route path="/AddNewSection" component={AddNewSection} />
         <Route
           path="/RestaurateurRestaurant/:id"
-          component={RestaurateurRestaurant}
+          component={RestaurateurRestaurantWithId}
         />
-        <Route path="/FinanceAndStats" component={FinanceAndStats} />
+        <Route
+          path="/RestaurateurSections/:id"
+          component={RestaurateurSectionsWithId}
+        />
+        <Route path="/FinanceAndStats/:id" component={FinanceAndStatsWithId} />
         <Redirect to="/RestaurateurRestaurantList" />
       </Switch>
     </BrowserRouter>

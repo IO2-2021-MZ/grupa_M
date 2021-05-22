@@ -65,12 +65,13 @@ const ColorButton = withStyles((theme) => ({
   },
 }))(Button);
 
-export default function SectionsList() {
-  //const restaurantId;
+export default function SectionsList(props) {
   const classes = useStyles();
+  const { restId } = props;
   const { setLoading } = useContext(LoadingContext);
   const { setSnackbar } = useContext(SnackbarContext);
   const [sections, setSections] = useState([]);
+  const { user, setUser } = useContext(UserContext);
 
   async function fetchData() {
     setLoading(true);
@@ -81,7 +82,7 @@ export default function SectionsList() {
       //   Authorization:
       //     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MjE1OTEyNjQsImV4cCI6MTYyMTU5MjE2NCwiaWF0IjoxNjIxNTkxMjY0fQ.x0qPt7mmAiPRTeUCVUOt_rTefNqztOykUmNHP1NQFds",
       // },
-      url: apiUrl + "restaurant/menu?id=" + restaurantId,
+      url: apiUrl + "restaurant/menu?id=" + restId,
       headers: {
         Authorization: "Bearer " + user.token,
       },
@@ -110,9 +111,13 @@ export default function SectionsList() {
     <React.Fragment>
       <AppBar position="relative">
         <Toolbar>
-          {/* <Link to="/RestaurerRestaurantList"> */}
           <Button>
-            <ArrowBackIcon fontSize="large" />
+            <RouterLink
+              to={"/RestaurateurRestaurant/" + restId}
+              style={{ color: "#FFF" }}
+            >
+              <ArrowBackIcon fontSize="large" />
+            </RouterLink>
           </Button>
           {/* </Link> */}
           <Typography variant="h6" color="inherit" noWrap>
