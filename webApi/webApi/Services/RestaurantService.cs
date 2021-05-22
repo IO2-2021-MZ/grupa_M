@@ -68,6 +68,7 @@ namespace webApi.Services
             if (section is null) throw new NotFoundException("Resources not found");
             if (user is null || user.RestaurantId != section.RestaurantId) throw new UnathorisedException("Unauthorized");
 
+            dish.SectionId = id;
             _context.Dishes.Add(dish);
             _context.SaveChanges();
 
