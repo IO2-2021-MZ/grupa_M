@@ -100,6 +100,7 @@ namespace webApi.Services
             }
 
             restaurant.AddressId = addressId;
+            restaurant.DateOfJoining = DateTime.Now;
             _context.Restaurants.Add(restaurant);
             _context.UserRests.Add(new UserRest() { UserId = userId, RestaurantId = restaurant.Id });
             _context.SaveChanges();

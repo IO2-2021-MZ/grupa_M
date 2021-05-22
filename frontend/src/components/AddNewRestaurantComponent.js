@@ -22,6 +22,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import apiUrl from "../shared/apiURL";
 import UserContext from "../contexts/UserContext";
+import {Link as RouterLink} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -94,17 +95,16 @@ const AddNewRestaurant = (props) => {
     var config = {
       method: "post",
       url: apiUrl + "restaurant",
-      header: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + user.token,
+      headers: {
+        "Authorization": "Bearer " + user.token,
       },
       data: {
-        name: restaurantName,
-        contactInformation: email,
-        address: {
-          street: street,
-          city: city,
-          postCode: postCode,
+        "name": restaurantName,
+        "contactInformation": email,
+        "address": {
+          "street": street,
+          "city": city,
+          "postCode": postCode,
         },
       },
     };
@@ -136,7 +136,9 @@ const AddNewRestaurant = (props) => {
       <AppBar>
         <Toolbar>
           <Button>
+            <RouterLink to ="/RestaurateurRestaurantList">
             <ArrowBackIcon fontSize="large" />
+            </RouterLink>
           </Button>
           <Typography variant="h6" color="inherit" noWrap>
             Make New Restaurant
