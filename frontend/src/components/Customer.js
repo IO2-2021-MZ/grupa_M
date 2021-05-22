@@ -6,6 +6,7 @@ import RestsList from "./CustomerResaturantList";
 import Rest from "./CustomerRestaurant";
 import RestMenu from "./RestaurantMenu";
 import CreateReview from "./CreateNewReviewComponent"
+import ReviewList from "./RestaurantReviewsCustomerComponent"
 
 const RestWithId = ({match}) => {
     return(
@@ -25,6 +26,12 @@ const ReviewWithId = ({match}) => {
     );
 }
 
+const ReviewForRestaurantWithId = ({match}) => {
+    return(
+        <ReviewList restId={match.params.id}/>
+    );
+}
+
 function Customer(props){
     return(
         <BrowserRouter>
@@ -34,6 +41,7 @@ function Customer(props){
                 <Route path='/Restaurant/:id' component={RestWithId}/>
                 <Route path='/Review/create/:id' component={ReviewWithId}/>
                 <Route path='/Menu/:id' component={RestMenuWithId}/>
+                <Route path='/reviews/restaurant/:id' component={ReviewForRestaurantWithId}/>
                 <Redirect to='/RestaurantList' />
             </Switch>
         </BrowserRouter>
