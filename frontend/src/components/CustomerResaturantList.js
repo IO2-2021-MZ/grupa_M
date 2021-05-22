@@ -118,6 +118,9 @@ export default function CustomerRestaurantList() {
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               App allows to make orders from local restaurants.
             </Typography>
+            <Button variant="contained" color="default">
+              Orders history
+            </Button>
           </Container>
         </div>
         <Container className={classes.cardGrid}>
