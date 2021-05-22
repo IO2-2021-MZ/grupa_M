@@ -72,6 +72,7 @@ const AddNewRestaurant = (props) => {
   const [city, setCity] = useState("");
   const [postCode, setPostCode] = useState("");
   const [email, setEmail] = useState("");
+  const [added, setAdded] = useState(false);
 
   const handleRestaurantNameChange = (p) => {
     setRestaurantName(p.target.value);
@@ -120,6 +121,7 @@ const AddNewRestaurant = (props) => {
         },
       });
       await axios(config);
+      setAdded(true);
     } catch (e) {
       console.error(e);
       setSnackbar({
@@ -131,6 +133,17 @@ const AddNewRestaurant = (props) => {
   };
 
   return (
+    <div> 
+      { added ?
+      <div>
+      <Typography style={{margin:150}} variant="h4">Added succesfully!</Typography>
+      <Button variant="contained" color="default" size="large">
+          <RouterLink to="/RestaurateurRestaurantList">
+              Back
+          </RouterLink>
+      </Button>
+  </div>
+      :
     <React.Fragment>
       <CssBaseline />
       <AppBar>
@@ -221,6 +234,8 @@ const AddNewRestaurant = (props) => {
         </Container>
       </div>
     </React.Fragment>
+}
+    </div>
   );
 };
 

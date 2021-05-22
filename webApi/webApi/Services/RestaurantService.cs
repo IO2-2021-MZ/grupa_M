@@ -79,7 +79,7 @@ namespace webApi.Services
             if (newRestaurant is null) throw new BadRequestException("Bad request");
 
             var restaurant = _mapper.Map<Restaurant>(newRestaurant);
-            restaurant.State = 1;
+            restaurant.State = (int)RestaurantState.Inactive;
             var address = _mapper.Map<Address>(newRestaurant.Address);
             int addressId;
 
@@ -102,6 +102,7 @@ namespace webApi.Services
             restaurant.AddressId = addressId;
             restaurant.DateOfJoining = DateTime.Now;
             _context.Restaurants.Add(restaurant);
+            _context.SaveChanges();
             _context.UserRests.Add(new UserRest() { UserId = userId, RestaurantId = restaurant.Id });
             _context.SaveChanges();
             return restaurant.Id;
