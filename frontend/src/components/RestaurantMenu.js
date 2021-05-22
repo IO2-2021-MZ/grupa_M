@@ -118,19 +118,20 @@ function RestaurantMenu(props) {
         </div>
         <Container className={classes.cardGrid}>
           {/* End hero unit */}
-          <Grid container spacing={12}>
             {sections.map((section) => (
-                <Grid item key={section.id} xs={12} sm={6} md={6} style={{padding:10}}>
-                    <Card className={classes.card} >
-                        <CardContent className={classes.cardContent}>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {section.name}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
+                <Card className={classes.card}>
+                  <CardContent className={classes.cardContent}>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    {section.name}
+                  </Typography>
+                  {section.positions.map((position) => (
+                    <Grid container>
+                      dupa
+                    </Grid>
+                  ))}
+                  </CardContent>
+                </Card>
             ))}
-          </Grid>
         </Container>
       </main>
     </React.Fragment>

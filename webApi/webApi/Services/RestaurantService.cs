@@ -352,7 +352,7 @@ namespace webApi.Services
 
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.UserId == id)) || (user.Role == (int)Role.Employee && !urs.Any(ur => ur.UserId == id))) 
+            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.UserId == id)) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
                 throw new UnathorisedException("Unathourized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");

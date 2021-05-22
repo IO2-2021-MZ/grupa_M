@@ -76,7 +76,8 @@ namespace webApi.Helpers
 
             CreateMap<AddressDTO, Address>();
 
-            CreateMap<Section, SectionDTO>();
+            CreateMap<Section, SectionDTO>()
+                .ForMember(dest => dest.Positions, opts => opts.MapFrom(src => src.Dishes));
 
             CreateMap<Dish, NewPositionFromMenu>().ReverseMap();
 

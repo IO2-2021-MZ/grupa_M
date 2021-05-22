@@ -126,8 +126,8 @@ function CustomerRestaurant(props) {
                   precision={0.5}
                   emptyIcon={<StarBorderIcon fontSize="inherit" />}                    />
             </Box>
-            <Button variant="contained" size="small"  style={{margin:15}}>
-                <RouterLink to={"/Restaurant/menu/" + rest.id}> 
+            <Button variant="contained" size="small" color="primary" style={{margin:15}}>
+                <RouterLink to={"/Menu/" + rest.id}> 
                     Menu
                 </RouterLink>
             </Button>
