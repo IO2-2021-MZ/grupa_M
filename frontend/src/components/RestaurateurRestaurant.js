@@ -1,8 +1,7 @@
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import SnackbarContext from "../contexts/SnackbarContext";
 import LoadingContext from "../contexts/LoadingContext";
 import axios from "axios";
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
@@ -66,38 +65,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RestaurateurRestaurant({ match }) {
+export default function RestaurateurRestaurant(props) {
   const classes = useStyles();
 
-  var id = match.params.id; //do zmiany
+  const { restId } = props;
   const { setLoading } = useContext(LoadingContext);
   const { setSnackbar } = useContext(SnackbarContext);
   const [restaurant, setRestaurant] = useState({
-    owing: 111.0,
-    aggregatePayment: 1000.0,
-    id: 1,
-    name: " Jaglana Restauracja",
-    contactInformation: "kasza@jaglak.pl",
-    rating: 4.0,
+    owing: 0.0,
+    aggregatePayment: 0.0,
+    id: 0,
+    name: "",
+    contactInformation: "",
+    rating: 0.0,
     state: "Active",
     address: {
-      city: "Kijev",
-      street: "Aleje Jerozolimskie",
-      postCode: "96-500",
+      city: "",
+      street: "",
+      postCode: "",
     },
   });
   const { user, setUser } = useContext(UserContext);
 
   async function fetchData() {
     setLoading(true);
+    console.log(props);
+    console.log(restId);
     var config = {
       method: "get",
-      // url: "https://localhost:5001/restaurant?id=" + id,
-      // headers: {
-      //   Authorization:
-      //     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MjE1OTgyMzgsImV4cCI6MTYyMTU5OTEzOCwiaWF0IjoxNjIxNTk4MjM4fQ.nQCOeuPRJqerJPoiR_EYt3oYi-XLQjyxdYW2le2aMdU",
-      // },
-      url: apiUrl + "restaurant?id=" + id,
+      url: apiUrl + "restaurant?id=" + restId,
       headers: {
         Authorization: "Bearer " + user.token,
       },
@@ -128,11 +124,15 @@ export default function RestaurateurRestaurant({ match }) {
       <AppBar>
         <Toolbar>
           <Button>
-            {/* //<RouterLink to="/RestaurerRestaurantList"> */}
-            <HomeIcon className={classes.icon} />
+            <RouterLink
+              to={"/RestaurateurRestaurantList"}
+              style={{ color: "#FFF" }}
+            >
+              <ArrowBackIcon fontSize="large" />
+            </RouterLink>
           </Button>
           <Typography variant="h6" color="inherit" noWrap>
-            Make New Order
+            Restaurant View
           </Typography>
         </Toolbar>
       </AppBar>
@@ -142,11 +142,11 @@ export default function RestaurateurRestaurant({ match }) {
             <Grid xs={12}>
               <Card>
                 <CardContent>
-                  <Typography variant="h4" align="left" color="textPrimary">
+                  <Typography variant="h4" color="textPrimary">
                     {restaurant.name}
                   </Typography>
                   <br />
-                  <Typography gutterBottom variant="subtitle1">
+                  <Typography gutterBottom variant="subtitle1" align="left">
                     Address:
                     {restaurant.address.postCode +
                       " " +
@@ -154,10 +154,15 @@ export default function RestaurateurRestaurant({ match }) {
                       ", " +
                       restaurant.address.street}
                   </Typography>
-                  <Typography gutterBottom variant="subtitle1">
+                  <Typography gutterBottom variant="subtitle1" align="left">
                     Contact: {restaurant.contactInformation}
                   </Typography>
-                  <Box component="fieldset" mb={3} borderColor="transparent">
+                  <Box
+                    component="fieldset"
+                    mb={3}
+                    borderColor="transparent"
+                    align="left"
+                  >
                     <Rating
                       name={"customized-empty" + restaurant.id}
                       value={restaurant.rating}
@@ -166,15 +171,21 @@ export default function RestaurateurRestaurant({ match }) {
                     />
                   </Box>
                   <Button variant="contained" color="primary">
-                    <Typography variant="button" color="inherit">
+                    <RouterLink
+                      to={"/FinanceAndStats/" + restaurant.id}
+                      style={{ color: "#FFF" }}
+                    >
                       Show Finances
-                    </Typography>
+                    </RouterLink>
                   </Button>
                   &nbsp; &nbsp;
                   <Button variant="contained" color="primary">
-                    {/* <RouterLink to="/RestaurerSections"> */}
-                    Show Sections
-                    {/* </RouterLink> */}
+                    <RouterLink
+                      to={"/RestaurateurSections/" + restaurant.id}
+                      style={{ color: "#FFF" }}
+                    >
+                      Show Sections
+                    </RouterLink>
                   </Button>
                 </CardContent>
               </Card>

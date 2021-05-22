@@ -205,8 +205,9 @@ export default function AdminRestaurantList() {
                 </CardContent>
                 <CardActions>
                   <Button variant="contained" size="small" color="primary" style={{margin:15}}>
+                    <RouterLink to={"/Restaurant/" + rest.id}> 
                       Details
-                      {console.log(rest)}
+                    </RouterLink>
                   </Button>
                   <Button variant="contained" size="small" color="primary"style={{margin:15}}>
                       Stats

@@ -1,21 +1,27 @@
-import { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect, useContext } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import HomeIcon from '@material-ui/icons/Home';
 import SnackbarContext from '../contexts/SnackbarContext';
 import LoadingContext from '../contexts/LoadingContext';
 import axios from 'axios';
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import { CardMedia, Container, CssBaseline } from "@material-ui/core";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
+import TextField from '@material-ui/core/TextField';
+import apiUrl from "../shared/apiURL"
+import UserContext from "../contexts/UserContext"
 import Rating from '@material-ui/lab/Rating';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -33,16 +39,15 @@ const useStyles = makeStyles((theme) => ({
       paddingBottom: theme.spacing(8),
     },
     card: {
+      height: '100%',
       display: 'flex',
       flexDirection: 'column',
-      color: "default"
     },
     cardMedia: {
-    
+      paddingTop: '56.25%', // 16:9
     },
     cardContent: {
       flexGrow: 1,
-      color: "default"
     },
     footer: {
       backgroundColor: theme.palette.background.paper,
@@ -52,136 +57,132 @@ const useStyles = makeStyles((theme) => ({
 
 
 const AdminRestaurantView = (props) => {
-    const classes = useStyles();
-    var restaurantId = props.restaurantId;
-    const { setLoading } = useContext(LoadingContext);
-    const [restaurant,setRestaurant] = useState([]);
-    const { setSnackbar } = useContext(SnackbarContext);
+  const classes = useStyles();
+  const { setLoading } = useContext(LoadingContext);
+  const { setSnackbar } = useContext(SnackbarContext);
+  const [rest, setRest] = useState([]);
+  const {user, setUser} = useContext(UserContext);
+  const [stars, setStars] = useState(0);
+  const {restId} = props;
 
-    async function fetchData() {
+  async function fetchData() {
+      setLoading(true);
+  
+      var config = {
+        method: 'get',
+        url: apiUrl + "restaurant?id=" + restId,
+        headers: { 
+          'Authorization': 'Bearer ' + user.token
+        }
+      };
+      
+      try
+      {
+        const response = await axios(config);
+        setRest(response.data);
+        setStars(response.data.rating)
+        
+      }
+      catch(error)
+      {
+        console.error(error);
+                  setSnackbar({
+                      open: true,
+                      message: "Loading data failed",
+                      type: "error"
+                  });
+      }
+      setLoading(false);
+      }
+  
+      useEffect(() => {
+          fetchData();
+      }, [setRest]);
+
+      const changeActivity = (id, toBeBlocked) => {
         setLoading(true);
+  
+  
         var config = {
-          method: 'get',
-          url: "https://localhost:44384/restaurant?id="+restaurantId,
+          method: 'post',
+          url: apiUrl + "restaurant/" + (toBeBlocked ? "block" : "unblock") + "?id=" + id,
           headers: { 
-            //'security-header': token
+            'Authorization': 'Bearer ' + user.token
           }
         };
         
-        try
-        {
-          const response = await axios(config);
-          setRestaurant(response.data);
-        }
-        catch(error)
-        {
-          console.error(error);
-                    setSnackbar({
-                        open: true,
-                        message: "Loading data failed",
-                        type: "error"
-                    });
-        }
-
-        console.log(restaurant)
-        console.log(restaurant.length == 0)
-        setLoading(false);
-        }
-
-    const deleteRestaurant = async (id) => {
-            setLoading(true);
-            var config = {
-              method: 'delete',
-              url: "https://localhost:44384/complaint?id=" + id
+        const response =  axios(config)
+        .then(() => fetchData())
+        .catch((error) => setSnackbar(error.message));
+        
+      }
+  
+      const changeActivity2 = (id, toBeBlocked) => {
+        setLoading(true);
+  
+  
+        var config = {
+          method: 'post',
+          url: apiUrl + "restaurant/" + (toBeBlocked ? "deactivate" : "reactivate") + "?id=" + id,
+          headers: { 
+            'Authorization': 'Bearer ' + user.token
           }
-          
-          try
-          {
-              const response = await axios(config);
-              console.log(response)
-          }
-          catch(e)
-          {
-              console.error(e);
-              setSnackbar({
-                  open: true,
-                  message: 'Error occured',
-                  type: 'error'
-              })
-          }
-          fetchData();
-          }
+        };
+        
+        const response =  axios(config)
+        .then(() => fetchData())
+        .catch((error) => setSnackbar(error.message));
+        
+      }
 
-    useEffect(() => {
-        fetchData();
-    });
-
-    return (
-        <React.Fragment>
-            <CssBaseline />
-            <AppBar>
-                <Toolbar>
-                    <Button>
-                        <ArrowBackIcon fontSize="large" />
-                    </Button>
-                    <Typography variant="h6" color="inherit" noWrap>
-                        Restaurant
-              </Typography>
-                </Toolbar>
-            </AppBar>
-            { restaurant.length != 0 ?
-            <div className={classes.heroContent}>
-                <Container className={classes.cardGrid} maxWidth="md">
-                    <Grid container spacing={4} alignItems="center">
-                        <Grid xs={12} >
-                            <Card className={classes.card}>
-                                <CardMedia className={classes.cardMedia} />
-                                <CardContent className={classes.cardContent}>
-                                    <Typography variant="h5" align="left" color="textPrimary">
-                                        {restaurant.name}
-                                    </Typography>
-                                    <Typography variant="subtitle1" gutterBottom>
-                                        Contact Information: {restaurant.contactInformation}
-                                    </Typography>
-                                    <Typography variant="subtitle1" gutterBottom>
-                                        Rating: {restaurant.rating}
-                                    </Typography>
-                                    <Typography variant="subtitle1" gutterBottom>
-                                        Address {restaurant.address}
-                                    </Typography>
-                                    <Button variant="contained" color="primary" onClick={() => deleteRestaurant(restaurantId)}>
-                                        <Typography variant="button" color="inherit">
-                                            Delete Restaurant
-                                        </Typography>
-                                    </Button>
-
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    </Grid>
-                </Container>
-            </div>
-            : 
-            <div className={classes.heroContent}>
-            <Container className={classes.cardGrid} maxWidth="md">
-                <Grid container spacing={4} alignItems="center">
-                    <Grid xs={12} >
-                        <Card className={classes.card}>
-                            <CardMedia className={classes.cardMedia} />
-                            <CardContent className={classes.cardContent}>
-                                <Typography variant="h5" align="left" color="textPrimary">
-                                   NO RESTAURANT
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                </Grid>
-            </Container>
-        </div>
-            }
-        </React.Fragment>
-    )
-    
+  return (
+          <React.Fragment>
+              <AppBar position="relative">
+      <Toolbar>
+        <HomeIcon className={classes.icon} />
+        <Typography variant="h6" color="inherit" noWrap>
+          Restaurant List
+        </Typography>
+      </Toolbar>
+    </AppBar>
+    <main>
+      {/* Hero unit */}
+      <div className={classes.heroContent}>
+        <Container maxWidth="sm">
+          <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+            {rest.name}
+          </Typography>
+          <Typography gutterBottom variant="subtitle1">
+              {rest.contactInformation}
+          </Typography>
+          <Box component="fieldset" mb={3} borderColor="transparent">
+              <Rating
+                name={"customized-empty" + rest.id}
+                value={stars}
+                precision={0.5}
+                emptyIcon={<StarBorderIcon fontSize="inherit" />}                    />
+          </Box>
+                  <Button variant="contained" size="small" color="primary"style={{margin:15}}>
+                      Stats
+                  </Button>
+                  <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
+                      {rest.state == "Blocked"  ? "Unblock" : "Block"}
+                  </Button>
+                  <Button disabled={rest.state=="Blocked"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity2(rest.id, rest.state == "Inactive" ? false : true)}>
+                      {rest.state == "Active" ? "Inactivate" : "Activate"}
+                  </Button>
+                
+        </Container>
+      </div>
+      <Container className={classes.cardGrid}>
+        {/* End hero unit */}
+        <Grid container spacing={12}>
+              
+        </Grid>
+      </Container>
+    </main>
+  </React.Fragment>
+  )
 }
 
-export default AdminRestaurantView;
+export default AdminRestaurantView
