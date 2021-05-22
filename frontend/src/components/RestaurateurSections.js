@@ -191,12 +191,17 @@ export default function SectionsList(props) {
                       color="primary"
                       className={classes.submit}
                     >
-                      Add dish
+                  <RouterLink
+                    to={"/AddNewDish/" + section.id}
+                    style={{ color: "#FFF" }}
+                  >
+                        Add dish
+                      </RouterLink>
                     </ColorButton>
                   </CardActions>
                   {section.positions !== null ? (
                     section.positions.map((dish) => (
-                      <Grid item key={dish.id} xs={12} sm={6} md={4}>
+                      <Grid item key={dish.id} >
                         <Card className={classes.card}>
                           <CardContent className={classes.cardContent}>
                             <Typography
@@ -204,7 +209,21 @@ export default function SectionsList(props) {
                               variant="h5"
                               component="h2"
                             >
-                              Dish: {dish.name}
+                              {dish.name}
+                            </Typography>
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="h2"
+                            >
+                              Price: {dish.price}
+                            </Typography>
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="h2"
+                            >
+                              Description: {dish.description}
                             </Typography>
                           </CardContent>
                         </Card>

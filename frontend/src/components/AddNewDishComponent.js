@@ -70,38 +70,35 @@ const AddNewDish = (props) => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleDishNameChange = (p) => {
-    setDishName(p);
+  const handleDishNameChange = (event) => {
+    setDishName(event.target.value);
   };
-  const handlePriceChange = (p) => {
-    setPrice(p);
+  const handlePriceChange = (event) => {
+    setPrice(event.target.value);
   };
-  const handleDescriptionChange = (p) => {
-    setDescription(p);
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
   };
 
   const { sectionId } = props;
 
   const saveNewDish = async () => {
     var config = {
-      method: "post",
-      url: apiUrl + `restaurant/menu/position?id=${sectionId}`,
-      header: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + user.token,
+      method: 'post',
+      url: apiUrl + 'restaurant/menu/position?id='+sectionId,
+      headers: {
+        'Authorization': "Bearer " + user.token,
       },
-      data: {
-        name: dishName,
-        description: description,
-        price: price,
+      data:{
+        "name": dishName,
+        "description": description,
+        "price": price,
       },
     };
 
     try {
       console.log({
-        name: dishName,
-        description: description,
-        price: price,
+        dishName,
       });
       await axios(config);
     } catch (e) {

@@ -22,6 +22,14 @@ const FinanceAndStatsWithId = ({ match }) => {
   return <FinanceAndStats restaurantId={match.params.id} />;
 };
 
+const AddNewDishWithId = ({ match }) => {
+  return <AddNewDish sectionId={match.params.id} />;
+};
+
+const AddNewSectionWithId = ({ match }) => {
+  return <AddNewSection restaurantId={match.params.id} />;
+};
+
 function Restaurateur(props) {
   return (
     <BrowserRouter>
@@ -30,8 +38,8 @@ function Restaurateur(props) {
           path="/RestaurateurRestaurantList"
           component={RestaurateurRestaurantList}
         />
-        <Route path="/AddNewDish" component={AddNewDish} />
-        <Route path="/AddNewSection" component={AddNewSection} />
+        <Route path="/AddNewDish/:id" component={AddNewDishWithId} />
+        <Route path="/AddNewSection/:id" component={AddNewSectionWithId} />
         <Route
           path="/RestaurateurRestaurant/:id"
           component={RestaurateurRestaurantWithId}

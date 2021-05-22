@@ -68,7 +68,7 @@ const AddNewSection = (props) => {
 
   const [sectionName, setSectionName] = useState("");
 
-  var restaurantId = props.restaurantId;
+  const {restaurantId} = props.restaurantId;
 
   const handleSectionNameChange = (p) => {
     setSectionName(p);
@@ -79,8 +79,7 @@ const AddNewSection = (props) => {
       method: "post",
       url: `https://localhost:44384/restaurant/menu/section?id=${restaurantId}&section=${sectionName}`,
       header: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + user.token,
+        'Authorization': "Bearer " + user.token,
       },
     };
 
