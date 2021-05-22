@@ -74,7 +74,7 @@ namespace webApi.Services
             return dish.Id;
         }
 
-        public int CreateNewRestaurant(NewRestaurant newRestaurant)
+        public int CreateNewRestaurant(NewRestaurant newRestaurant, int userId)
         {
             if (newRestaurant is null) throw new BadRequestException("Bad request");
 
@@ -101,6 +101,7 @@ namespace webApi.Services
 
             restaurant.AddressId = addressId;
             _context.Restaurants.Add(restaurant);
+            _context.UserRests.Add(new UserRest() { UserId = userId, RestaurantId = restaurant.Id });
             _context.SaveChanges();
             return restaurant.Id;
         }

@@ -73,21 +73,21 @@ const AddNewRestaurant = (props) => {
   const [email, setEmail] = useState("");
 
   const handleRestaurantNameChange = (p) => {
-    setRestaurantName(p);
+    setRestaurantName(p.target.value);
   };
   const handleStreetChange = (s) => {
-    setStreet(s);
+    setStreet(s.target.value);
   };
 
   const handleCityChange = (c) => {
-    setCity(c);
+    setCity(c.target.value);
   };
 
   const handlePostCodeChange = (p) => {
-    setPostCode(p);
+    setPostCode(p.target.value);
   };
   const handleEmailChange = (p) => {
-    setEmail(p);
+    setEmail(p.target.value);
   };
 
   const saveNewRestaurant = async () => {
@@ -139,7 +139,7 @@ const AddNewRestaurant = (props) => {
             <ArrowBackIcon fontSize="large" />
           </Button>
           <Typography variant="h6" color="inherit" noWrap>
-            Make New Order
+            Make New Restaurant
           </Typography>
         </Toolbar>
       </AppBar>
@@ -152,7 +152,7 @@ const AddNewRestaurant = (props) => {
                   <Typography variant="h5" align="left" color="textPrimary">
                     Create new restaurant
                   </Typography>
-                  <TextField
+                  <TextField style={{margin:10}}
                     id="restaurantName-multiline-static"
                     label="Restaurant Name"
                     multiline
@@ -161,7 +161,7 @@ const AddNewRestaurant = (props) => {
                     fullWidth={true}
                     onChange={handleRestaurantNameChange}
                   />
-                  <TextField
+                  <TextField style={{margin:10}}
                     id="email-multiline-static"
                     label="Email"
                     multiline
@@ -174,7 +174,7 @@ const AddNewRestaurant = (props) => {
               </Card>
               <Card>
                 <CardContent>
-                  <TextField
+                  <TextField style={{margin:10}}
                     id="street-multiline-static"
                     label="Street"
                     multiline
@@ -183,7 +183,7 @@ const AddNewRestaurant = (props) => {
                     fullWidth={true}
                     onChange={handleStreetChange}
                   />
-                  <TextField
+                  <TextField style={{margin:10}}
                     id="city-multiline-static"
                     label="City"
                     multiline
@@ -192,7 +192,7 @@ const AddNewRestaurant = (props) => {
                     fullWidth={true}
                     onChange={handleCityChange}
                   />
-                  <TextField
+                  <TextField style={{margin:10}}
                     id="PostCode-multiline-static"
                     label="PostCode"
                     multiline
@@ -203,7 +203,7 @@ const AddNewRestaurant = (props) => {
                   />
                   <br />
                   <br />
-                  <Button
+                  <Button style={{margin:10}}
                     variant="contained"
                     color="primary"
                     onClick={() => saveNewRestaurant()}

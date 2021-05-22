@@ -11,7 +11,7 @@ namespace webApi.Services
     public interface IRestaurantService
     {
         RestaurantC GetRestaurantById(int? id, int userId);
-        int CreateNewRestaurant(NewRestaurant newRestaurant);
+        int CreateNewRestaurant(NewRestaurant newRestaurant, int userId);
         void DeleteRestaurant(int id, int userId);
         List<SectionDTO> GetSectionByRestaurantsId(int id);
         int CreateSection(int id, string sectionName, int userId);
