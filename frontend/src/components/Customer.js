@@ -12,7 +12,7 @@ const RestWithId = ({match}) => {
     );
 }
 
-const MenuWithId = ({match}) => {
+const RestMenuWithId = ({match}) => {
     return(
         <RestMenu restId={match.params.id}/>
     );
@@ -25,7 +25,7 @@ function Customer(props){
                 <Route path='/RestaurantList' component={RestsList}/>
                 <Route path='/NewOrder' component={AddNewOrder}/>
                 <Route path='/Restaurant/:id' component={RestWithId}/>
-                <Route path='/Restaurant/menu/:id' component={MenuWithId}/>
+                <Route path='/Menu/:id' component={RestMenuWithId}/>
                 <Redirect to='/RestaurantList' />
             </Switch>
         </BrowserRouter>
