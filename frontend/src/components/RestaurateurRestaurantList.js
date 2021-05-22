@@ -138,6 +138,11 @@ export default function RestaurateurRestaurantList() {
             >
               App allows to manage all restaurants.
             </Typography>
+            <Button variant="contained" color="default">
+                <RouterLink to="/RabatCodeList">
+                  Discount codes
+                </RouterLink>
+              </Button>
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
