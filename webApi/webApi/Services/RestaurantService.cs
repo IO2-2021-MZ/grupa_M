@@ -295,6 +295,7 @@ namespace webApi.Services
 
             if (user.Role == (int)Role.Customer)
             {
+                restaurants = restaurants.Where(r => r.State == (int)RestaurantState.Active).ToList();
                 restaurantDTOs = _mapper.Map<List<RestaurantC>>(restaurants);
             }
             else

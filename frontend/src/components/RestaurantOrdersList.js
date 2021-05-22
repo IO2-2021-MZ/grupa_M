@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function CustomerRestaurantList() {
+export default function RestaurantOrdersList() {
   const classes = useStyles();
   const { setLoading } = useContext(LoadingContext);
   const { setSnackbar } = useContext(SnackbarContext);
@@ -69,7 +69,7 @@ export default function CustomerRestaurantList() {
 
     var config = {
       method: 'get',
-      url: apiUrl + "restaurant/all",
+      url: apiUrl + "restaurant/order/all?id=1",
       headers: { 
         'Authorization': 'Bearer ' + user.token
       }
@@ -97,7 +97,6 @@ export default function CustomerRestaurantList() {
         fetchData();
     }, [setRests]);
 
-
   return (
     <React.Fragment>
       <AppBar position="relative">
@@ -113,14 +112,14 @@ export default function CustomerRestaurantList() {
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Restaurant List
+              Restaurant's Orders List
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              App allows to make orders from local restaurants.
+              App allows to manage all restaurant's orders.
             </Typography>
           </Container>
         </div>
-        <Container className={classes.cardGrid}>
+        <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={12}>
             {rests.map((rest) => (
@@ -130,26 +129,13 @@ export default function CustomerRestaurantList() {
                   <Typography gutterBottom variant="h5" component="h2">
                     {rest.name}
                   </Typography>
-                  <Typography gutterBottom variant="subtitle1">
-                    {rest.address.postCode + " " + rest.address.city + ", " + rest.address.street}
-                  </Typography>
-                  <Typography gutterBottom variant="subtitle1">
-                    {rest.contactInformation}
-                  </Typography>
-                  <Box component="fieldset" mb={3} borderColor="transparent">
-                    <Rating
-                      name={"customized-empty" + rest.id}
-                      value={rest.rating}
-                      precision={0.5}
-                      emptyIcon={<StarBorderIcon fontSize="inherit" />}
-                    />
-                  </Box>
                 </CardContent>
                 <CardActions>
                   <Button variant="contained" size="small" color="primary" style={{margin:15}}>
-                    <RouterLink to={"/Restaurant/" + rest.id}> 
-                      Details
-                    </RouterLink>
+                      Accept
+                  </Button>
+                  <Button variant="contained" size="small" color="secondary"style={{margin:15}}>
+                      Reject
                   </Button>
                 </CardActions>
               </Card>
