@@ -143,6 +143,11 @@ export default function RestaurateurRestaurantList() {
                   Discount codes
                 </RouterLink>
               </Button>
+              <Button variant="contained" color="default">
+                <RouterLink to="/AddNewRestaurant">
+                  Add new restaurant
+                </RouterLink>
+              </Button>
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">

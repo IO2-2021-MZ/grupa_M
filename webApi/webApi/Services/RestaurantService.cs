@@ -68,18 +68,19 @@ namespace webApi.Services
             if (section is null) throw new NotFoundException("Resources not found");
             if (user is null || user.RestaurantId != section.RestaurantId) throw new UnathorisedException("Unauthorized");
 
+            dish.SectionId = id;
             _context.Dishes.Add(dish);
             _context.SaveChanges();
 
             return dish.Id;
         }
 
-        public int CreateNewRestaurant(NewRestaurant newRestaurant)
+        public int CreateNewRestaurant(NewRestaurant newRestaurant, int userId)
         {
             if (newRestaurant is null) throw new BadRequestException("Bad request");
 
             var restaurant = _mapper.Map<Restaurant>(newRestaurant);
-            restaurant.State = 1;
+            restaurant.State = (int)RestaurantState.Inactive;
             var address = _mapper.Map<Address>(newRestaurant.Address);
             int addressId;
 
@@ -100,7 +101,10 @@ namespace webApi.Services
             }
 
             restaurant.AddressId = addressId;
+            restaurant.DateOfJoining = DateTime.Now;
             _context.Restaurants.Add(restaurant);
+            _context.SaveChanges();
+            _context.UserRests.Add(new UserRest() { UserId = userId, RestaurantId = restaurant.Id });
             _context.SaveChanges();
             return restaurant.Id;
         }

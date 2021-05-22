@@ -22,6 +22,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import apiUrl from "../shared/apiURL";
 import UserContext from "../contexts/UserContext";
+import {Link as RouterLink} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -71,40 +72,40 @@ const AddNewRestaurant = (props) => {
   const [city, setCity] = useState("");
   const [postCode, setPostCode] = useState("");
   const [email, setEmail] = useState("");
+  const [added, setAdded] = useState(false);
 
   const handleRestaurantNameChange = (p) => {
-    setRestaurantName(p);
+    setRestaurantName(p.target.value);
   };
   const handleStreetChange = (s) => {
-    setStreet(s);
+    setStreet(s.target.value);
   };
 
   const handleCityChange = (c) => {
-    setCity(c);
+    setCity(c.target.value);
   };
 
   const handlePostCodeChange = (p) => {
-    setPostCode(p);
+    setPostCode(p.target.value);
   };
   const handleEmailChange = (p) => {
-    setEmail(p);
+    setEmail(p.target.value);
   };
 
   const saveNewRestaurant = async () => {
     var config = {
       method: "post",
       url: apiUrl + "restaurant",
-      header: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + user.token,
+      headers: {
+        "Authorization": "Bearer " + user.token,
       },
       data: {
-        name: restaurantName,
-        contactInformation: email,
-        address: {
-          street: street,
-          city: city,
-          postCode: postCode,
+        "name": restaurantName,
+        "contactInformation": email,
+        "address": {
+          "street": street,
+          "city": city,
+          "postCode": postCode,
         },
       },
     };
@@ -120,6 +121,7 @@ const AddNewRestaurant = (props) => {
         },
       });
       await axios(config);
+      setAdded(true);
     } catch (e) {
       console.error(e);
       setSnackbar({
@@ -131,15 +133,28 @@ const AddNewRestaurant = (props) => {
   };
 
   return (
+    <div> 
+      { added ?
+      <div>
+      <Typography style={{margin:150}} variant="h4">Added succesfully!</Typography>
+      <Button variant="contained" color="default" size="large">
+          <RouterLink to="/RestaurateurRestaurantList">
+              Back
+          </RouterLink>
+      </Button>
+  </div>
+      :
     <React.Fragment>
       <CssBaseline />
       <AppBar>
         <Toolbar>
           <Button>
+            <RouterLink to ="/RestaurateurRestaurantList">
             <ArrowBackIcon fontSize="large" />
+            </RouterLink>
           </Button>
           <Typography variant="h6" color="inherit" noWrap>
-            Make New Order
+            Make New Restaurant
           </Typography>
         </Toolbar>
       </AppBar>
@@ -152,7 +167,7 @@ const AddNewRestaurant = (props) => {
                   <Typography variant="h5" align="left" color="textPrimary">
                     Create new restaurant
                   </Typography>
-                  <TextField
+                  <TextField style={{margin:10}}
                     id="restaurantName-multiline-static"
                     label="Restaurant Name"
                     multiline
@@ -161,7 +176,7 @@ const AddNewRestaurant = (props) => {
                     fullWidth={true}
                     onChange={handleRestaurantNameChange}
                   />
-                  <TextField
+                  <TextField style={{margin:10}}
                     id="email-multiline-static"
                     label="Email"
                     multiline
@@ -174,7 +189,7 @@ const AddNewRestaurant = (props) => {
               </Card>
               <Card>
                 <CardContent>
-                  <TextField
+                  <TextField style={{margin:10}}
                     id="street-multiline-static"
                     label="Street"
                     multiline
@@ -183,7 +198,7 @@ const AddNewRestaurant = (props) => {
                     fullWidth={true}
                     onChange={handleStreetChange}
                   />
-                  <TextField
+                  <TextField style={{margin:10}}
                     id="city-multiline-static"
                     label="City"
                     multiline
@@ -192,7 +207,7 @@ const AddNewRestaurant = (props) => {
                     fullWidth={true}
                     onChange={handleCityChange}
                   />
-                  <TextField
+                  <TextField style={{margin:10}}
                     id="PostCode-multiline-static"
                     label="PostCode"
                     multiline
@@ -203,7 +218,7 @@ const AddNewRestaurant = (props) => {
                   />
                   <br />
                   <br />
-                  <Button
+                  <Button style={{margin:10}}
                     variant="contained"
                     color="primary"
                     onClick={() => saveNewRestaurant()}
@@ -219,6 +234,8 @@ const AddNewRestaurant = (props) => {
         </Container>
       </div>
     </React.Fragment>
+}
+    </div>
   );
 };
 

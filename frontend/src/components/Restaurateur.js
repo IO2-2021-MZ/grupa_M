@@ -9,6 +9,7 @@ import FinanceAndStats from "./FinanceAndStatsComponent";
 import RestaurateurSections from "./RestaurateurSections";
 import RabatCodeList from "./RabatCodeList";
 import NewRabatCode from "./NewRabatCode";
+import AddNewRestaurant from "./AddNewRestaurantComponent"
 
 const RestaurateurRestaurantWithId = ({ match }) => {
   return <RestaurateurRestaurant restId={match.params.id} />;
@@ -38,6 +39,7 @@ function Restaurateur(props) {
           path="/RestaurateurRestaurantList"
           component={RestaurateurRestaurantList}
         />
+        <Route path="/AddNewRestaurant" component={AddNewRestaurant}/>
         <Route path="/AddNewDish/:id" component={AddNewDishWithId} />
         <Route path="/AddNewSection/:id" component={AddNewSectionWithId} />
         <Route
