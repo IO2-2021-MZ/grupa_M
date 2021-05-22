@@ -39,7 +39,7 @@ namespace webApi.Controllers
         [Authorize(Role.Admin, Role.Customer, Role.Restaurer)]
         public ActionResult<DiscountCodeDTO> GetDiscountCode([FromQuery] string? code)
         {
-            var discountCode = _discountCodeService.GetDiscountCodeByCode(code);
+            var discountCode = _discountCodeService.GetDiscountCodeByCode(code, Account.Id);
             if (discountCode == null)
             {
                 return NotFound("Resource not Found");
@@ -58,7 +58,7 @@ namespace webApi.Controllers
         [Authorize(Role.Admin, Role.Restaurer)]
         public ActionResult CreateDiscountCode([FromBody] NewDiscountCode newDiscountCode)
         {
-            int id = _discountCodeService.CreateNewDiscountCode(newDiscountCode);
+            int id = _discountCodeService.CreateNewDiscountCode(newDiscountCode, Account.Id);
             return Ok($"/discountCode/{id}");
         }
 
@@ -76,7 +76,7 @@ namespace webApi.Controllers
         public ActionResult DeleteDiscountCode([FromQuery] int id)
         {
             // Mapping example
-            _discountCodeService.DeleteDiscountCode(id);
+            _discountCodeService.DeleteDiscountCode(id, Account.Id);
             return Ok();
         }
 
@@ -91,7 +91,7 @@ namespace webApi.Controllers
         [Authorize(Role.Admin, Role.Customer, Role.Restaurer)]
         public ActionResult<IEnumerable<DiscountCodeDTO>> GetAllDiscountCodes()
         {
-            IEnumerable<DiscountCodeDTO> discountCodes = _discountCodeService.GetAllDiscountCodes();
+            IEnumerable<DiscountCodeDTO> discountCodes = _discountCodeService.GetAllDiscountCodes(Account.Id);
             return Ok(discountCodes);
         }
 
