@@ -22,6 +22,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import apiUrl from "../shared/apiURL";
 import UserContext from "../contexts/UserContext";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -77,7 +78,7 @@ const FinanceAndStats = (props) => {
       // headers: {
       //     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MjE1MTgwOTIsImV4cCI6MTYyMTUxODk5MiwiaWF0IjoxNjIxNTE4MDkyfQ.MPO_yJ2V5eBGlnZW_KbLKcrgho7R85j1vmr82AHbN14'
       //   }
-      url: apiUrl + "restaurant?id=" + restaurantId,
+      url: apiUrl + "restaurant?id=" + id,
       headers: {
         Authorization: "Bearer " + user.token,
       },
@@ -108,7 +109,12 @@ const FinanceAndStats = (props) => {
       <AppBar>
         <Toolbar>
           <Button>
-            <ArrowBackIcon fontSize="large" />
+            <RouterLink
+              to={"/RestaurateurRestaurant/" + restaurantId}
+              style={{ color: "#FFF" }}
+            >
+              <ArrowBackIcon fontSize="large" />
+            </RouterLink>
           </Button>
           <Typography variant="h6" color="inherit" noWrap>
             Make New Order
@@ -122,13 +128,16 @@ const FinanceAndStats = (props) => {
               <Card>
                 <CardContent>
                   <Typography variant="h4" align="left" color="textPrimary">
-                    Finances and statistics of restaurant "{restaurant.name}"
+                    Finances and statistics of
+                  </Typography>
+                  <Typography variant="h3" align="left" color="textPrimary">
+                    {restaurant.name}
                   </Typography>
                   <br />
-                  <Typography variant="h5" component="h2">
+                  <Typography variant="h5" component="h2" align="left">
                     Owing: {restaurant.owing}
                   </Typography>
-                  <Typography variant="h5" component="h2">
+                  <Typography variant="h5" component="h2" align="left">
                     Aggregate Payment: {restaurant.aggregatePayment}
                   </Typography>
                 </CardContent>
