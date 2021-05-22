@@ -17,6 +17,9 @@ import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
+import apiUrl from "../shared/apiURL"
+import UserContext from "../contexts/UserContext"
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -55,49 +58,86 @@ const CreateReview = (props) => {
     const { setSnackbar } = useContext(SnackbarContext);
     const [content, setContent] = useState("");
     const [rating, setRating] = useState(1);
-    var restaurantId = props.restaurantId;
-    var customerId = props.customerId;
+    const {user, setUser} = useContext(UserContext);
+    const { setLoading } = useContext(LoadingContext);
+    const [rest, setRest] = useState([]);
+    const [added, setAdded] = useState(false);
+    var restaurantId = props.restId;
+    var customerId = user.id;
     const classes = useStyles();
     
     const onContentChange = (event) =>{
         setContent(event.target.value);
     }
- 
-    const saveNewComplaint = async () => {
-        var config = {
-            method: 'post',
-            url: 'https://localhost:44384/review',
-            header:{
-                'Content-Type': 'application/json'
-            },
-            data: {
-                content: content,
-                rating: rating,
-                customerId: customerId,
-                restaurantId: restaurantId
-              }
-        };
 
-        try
-        {
-            console.log({
-                content: content,
-                rating: rating
-              });
-            await axios(config);
+    async function fetchData() {
+      setLoading(true);
+  
+      var config = {
+        method: 'get',
+        url: apiUrl + "restaurant?id=" + restaurantId,
+        headers: { 
+          'Authorization': 'Bearer ' + user.token
         }
-        catch(e)
-        {
-            console.error(e);
-            setSnackbar({
-                open: true,
-                message: 'Error occured',
-                type: 'error'
-            })
+      };
+      
+      try
+      {
+        const response = await axios(config);
+        setRest(response.data);
+      }
+      catch(error)
+      {
+        console.error(error);
+                  setSnackbar({
+                      open: true,
+                      message: "Loading data failed",
+                      type: "error"
+                  });
+      }
+      setLoading(false);
+      }
+  
+      useEffect(() => {
+          fetchData();
+      }, [setRest]);
+ 
+    const saveNewReview = async () => {
+      setLoading(true);
+      var config = {
+        method: 'post',
+        url: apiUrl + "review",
+        headers: { 
+          'Authorization': 'Bearer ' + user.token
+        },
+        data:{
+            "content": content,
+            "rating": rating,
+            "restaurantId": restaurantId,
+            "customerId": customerId
         }
+      };
+      const response =  axios(config)
+        .then(() => setLoading(false))
+        .then(() => setAdded(true))
+        .then(() => setLoading(false))
+        .catch((error) => setSnackbar(error.message))
+        .then(() => setLoading(false));
     }
 
-    return(
+    return(<div>
+      { added ? 
+            <div>
+                <Typography style={{margin:150}} variant="h4">Added succesfully!</Typography>
+                <Button variant="contained" color="default" size="large">
+                    <RouterLink to="/RestaurantList">
+                        Back
+                    </RouterLink>
+                </Button>
+            </div>
+            :
+
+        <div>
         <React.Fragment>
           <CssBaseline/>
           <AppBar>
@@ -120,10 +160,10 @@ const CreateReview = (props) => {
                       />
                       <CardContent className={classes.cardContent}>
                         <Typography variant="h5" align="left" color="textPrimary">
-                         Create new review for restaurant: {props.restaurantId}
+                         {rest.name}
                         </Typography>
                         <Box component="fieldset" mb={3} borderColor="transparent">
-                          <Typography component="legend">Controlled</Typography>
+                          <Typography component="legend">Rate restaurant</Typography>
                             <Rating
                             name="simple-controlled"
                             value={rating}
@@ -135,7 +175,7 @@ const CreateReview = (props) => {
                         <br/>                        
                         <TextField
                             id="outlined-multiline-static"
-                            label="Make a complaint"
+                            label="Write a review"
                             multiline
                             defaultValue=""
                             variant="outlined"
@@ -144,9 +184,9 @@ const CreateReview = (props) => {
                         />
                         <br/>
                         <br/>
-                        <Button variant="contained" color="primary" onClick={() => saveNewComplaint()}>
+                        <Button variant="contained" color="primary" onClick={() => saveNewReview()}>
                           <Typography variant="button" color="inherit">
-                            Save
+                            Save {console.log(restaurantId)}
                           </Typography>
                         </Button>
                       </CardContent>
@@ -156,6 +196,9 @@ const CreateReview = (props) => {
             </Container>
           </div>
         </React.Fragment> 
+        </div>
+        }
+        </div>
     )
 }
 

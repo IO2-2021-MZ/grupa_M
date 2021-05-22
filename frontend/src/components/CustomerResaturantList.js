@@ -146,7 +146,7 @@ export default function CustomerRestaurantList() {
                   </Box>
                 </CardContent>
                 <CardActions>
-                  <Button variant="contained" size="small" color="primary" style={{margin:15}}>
+                  <Button variant="contained" size="small" style={{margin:15}}>
                     <RouterLink to={"/Restaurant/" + rest.id}> 
                       Details
                     </RouterLink>
