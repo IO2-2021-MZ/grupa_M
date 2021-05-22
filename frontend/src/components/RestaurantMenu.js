@@ -125,9 +125,24 @@ function RestaurantMenu(props) {
                     {section.name}
                   </Typography>
                   {section.positions.map((position) => (
-                    <Grid container>
-                      dupa
-                    </Grid>
+                    <Container maxWidth="sm" style={{padding:10}}>
+                      <Typography variant="subtitle1" color="textPrimary">
+                        {position.name}
+                      </Typography>
+                      <Typography variant="subtitle2" color="textPrimary" paragraph>
+                        Price: {position.price}pln
+                      </Typography>
+                      <Typography variant="subtitle2" color="textSecondary" paragraph>
+                        {position.description}
+                      </Typography>
+                      <Container align="right">
+                        <Typography variant="subtitle2" color="textPrimary" paragraph>
+                          Count: 0
+                        </Typography>
+                        <Button variant="contained" >-</Button>
+                        <Button variant="contained" >+</Button>
+                      </Container>
+                    </Container>
                   ))}
                   </CardContent>
                 </Card>
