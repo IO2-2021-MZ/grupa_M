@@ -62,6 +62,7 @@ function CustomerRestaurant(props) {
     const { setSnackbar } = useContext(SnackbarContext);
     const [rest, setRest] = useState([]);
     const {user, setUser} = useContext(UserContext);
+    const [stars, setStars] = useState(2);
     const {restId} = props;
 
     async function fetchData() {
@@ -79,6 +80,7 @@ function CustomerRestaurant(props) {
         {
           const response = await axios(config);
           setRest(response.data);
+          setStars(response.data.rating)
           
         }
         catch(error)
@@ -120,17 +122,22 @@ function CustomerRestaurant(props) {
             <Box component="fieldset" mb={3} borderColor="transparent">
                 <Rating
                   name={"customized-empty" + rest.id}
-                  value={rest.rating}
+                  value={stars}
                   precision={0.5}
                   emptyIcon={<StarBorderIcon fontSize="inherit" />}                    />
             </Box>
-            <Button variant="contained" size="small" color="primary" style={{margin:15}}>
+            <Button variant="contained" size="small"  style={{margin:15}}>
                 <RouterLink to={"/Restaurant/menu/" + rest.id}> 
                     Menu
                 </RouterLink>
             </Button>
-            <Button variant="contained" size="small" color="primary" style={{margin:15}}>
+            <Button variant="contained" size="small"  style={{margin:15}}>
                 Reviews
+            </Button>
+            <Button variant="contained" size="small"  style={{margin:15}}>
+                <RouterLink to={"/Review/create/"+rest.id}> 
+                    Create Review
+                </RouterLink>
             </Button>
           </Container>
         </div>
