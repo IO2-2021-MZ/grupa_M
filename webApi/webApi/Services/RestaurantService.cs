@@ -281,6 +281,7 @@ namespace webApi.Services
             var restaurants = _context
                 .Restaurants
                 .Include(item => item.Address)
+                .Include(item => item.Reviews)
                 .ToList();
             
             var user = _context
@@ -299,6 +300,7 @@ namespace webApi.Services
                 restaurants = restaurants.Where(r => urs.Any(ur => ur.RestaurantId == r.Id)).ToList();
             }
 
+
             if (user.Role == (int)Role.Customer)
             {
                 restaurants = restaurants.Where(r => r.State == (int)RestaurantState.Active).ToList();
@@ -309,6 +311,12 @@ namespace webApi.Services
                 var rests = _mapper.Map<List<RestaurantDTO>>(restaurants);
                 foreach (var rest in rests) restaurantDTOs.Add(rest);
             }
+
+            for(int i=0; i<restaurantDTOs.Count; i++)
+            {
+                restaurantDTOs[i].Rating = restaurants[i].Reviews.Count == 0 ? 0: restaurants[i].Reviews.Average(r => r.Rating);
+            }
+
             return restaurantDTOs;
         }
 
