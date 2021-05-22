@@ -64,7 +64,7 @@ namespace webApi.Services
             if (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == codeToDelete.RestaurantId))
                 throw new UnathorisedException("Forbidden");
 
-            if (user.Role == (int)Role.Employee && user.RestaurantId != newDiscountCode.RestaurantId)
+            if (user.Role == (int)Role.Employee && user.RestaurantId != codeToDelete.RestaurantId)
                 throw new UnathorisedException("Forbidden");
 
             var orders = _context.Orders.Where(o => o.DiscountCodeId == codeToDelete.Id);
