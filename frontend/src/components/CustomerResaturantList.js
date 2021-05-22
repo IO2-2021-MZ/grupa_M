@@ -64,6 +64,27 @@ export default function CustomerRestaurantList() {
   const [rests, setRests] = useState([]);
   const {user, setUser} = useContext(UserContext);
 
+  const handleSettingFavourite = (restId) => {
+    setLoading(true);
+
+    var config = {
+      method: 'post',
+      url: apiUrl + "restaurant/favourite?id=" + restId,
+      headers: { 
+        'Authorization': 'Bearer ' + user.token
+      }
+    };
+        
+    axios(config)
+    .then(() => fetchData())
+    .catch((error) => setSnackbar({
+      open: true,
+      message: "Loading data failed",
+      type: "error"
+    }))
+    .then(() => setLoading(false))
+  }
+
   async function fetchData() {
     setLoading(true);
 
@@ -150,6 +171,9 @@ export default function CustomerRestaurantList() {
                     <RouterLink to={"/Restaurant/" + rest.id}> 
                       Details
                     </RouterLink>
+                  </Button>
+                  <Button onClick={() => handleSettingFavourite(rest.id)} disabled={user?.favouriteRestaurants?.map(el => el.id)?.contains(rest.id)} variant="contained" size="small" style={{margin:15}}>
+                      { user?.favouriteRestaurants?.map(el => el.id)?.contains(rest.id) ? "Is fav!" : "Set as fav"}
                   </Button>
                 </CardActions>
               </Card>
