@@ -139,7 +139,12 @@ const AdminRestaurantView = (props) => {
           <React.Fragment>
               <AppBar position="relative">
       <Toolbar>
-        <HomeIcon className={classes.icon} />
+        
+          <RouterLink to="/RestaurantList">
+          <HomeIcon className={classes.icon}>
+          </HomeIcon>
+          </RouterLink>
+        
         <Typography variant="h6" color="inherit" noWrap>
           Restaurant List
         </Typography>
@@ -163,7 +168,9 @@ const AdminRestaurantView = (props) => {
                 emptyIcon={<StarBorderIcon fontSize="inherit" />}                    />
           </Box>
                   <Button variant="contained" size="small" color="primary"style={{margin:15}}>
-                      Stats
+                      <RouterLink to = {"/FinanceAndStats/" + restId}>
+                        Stats
+                      </RouterLink>
                   </Button>
                   <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
                       {rest.state == "Blocked"  ? "Unblock" : "Block"}

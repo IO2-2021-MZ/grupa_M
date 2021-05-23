@@ -125,7 +125,7 @@ export default function RestaurateurRestaurant(props) {
         <Toolbar>
           <Button>
             <RouterLink
-              to={"/RestaurateurRestaurantList"}
+              to={"/RestaurantList"}
               style={{ color: "#FFF" }}
             >
               <ArrowBackIcon fontSize="large" />

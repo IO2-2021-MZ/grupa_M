@@ -110,7 +110,7 @@ const FinanceAndStats = (props) => {
         <Toolbar>
           <Button>
             <RouterLink
-              to={"/RestaurateurRestaurant/" + restaurantId}
+              to={"/Restaurant/" + restaurantId}
               style={{ color: "#FFF" }}
             >
               <ArrowBackIcon fontSize="large" />

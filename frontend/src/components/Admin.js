@@ -5,10 +5,17 @@ import AdminRestaurantList from "./AdminRestaurantList";
 import NewRabatCode from "./NewRabatCode"
 import RabatCodeList from "./RabatCodeList"
 import Rest from "./AdminRestaurantView";
+import FinanceAndStats from "./FinanceAndStatsComponent";
 
 const RestWithId = ({match}) => {
     return(
         <Rest restId={match.params.id}/>
+    );
+}
+
+const FinanceAndStatsWithId = ({match}) => {
+    return(
+        <FinanceAndStats restaurantId={match.params.id}/>
     );
 }
 
@@ -20,6 +27,7 @@ function Admin(props){
                 <Route path='/RabatCodeList' component={RabatCodeList}/>
                 <Route path='/NewRabatCode' component={NewRabatCode}/>
                 <Route path='/Restaurant/:id' component={RestWithId}/>
+                <Route path="/FinanceAndStats/:id" component={FinanceAndStatsWithId} />
                 <Redirect to='/RestaurantList' />
             </Switch>
         </BrowserRouter>

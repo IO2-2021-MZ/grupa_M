@@ -46,7 +46,7 @@ function Restaurateur(props) {
     <BrowserRouter>
       <Switch>
         <Route
-          path="/RestaurateurRestaurantList"
+          path="/RestaurantList"
           component={RestaurateurRestaurantList}
         />
         <Route path="/AddNewRestaurant" component={AddNewRestaurant}/>
@@ -55,7 +55,7 @@ function Restaurateur(props) {
         <Route path="/PatchSection/:id" component={PatchSectionWithId} />
         <Route path="/PatchDish/:id" component={PatchDishWithId} />
         <Route
-          path="/RestaurateurRestaurant/:id"
+          path="/Restaurant/:id"
           component={RestaurateurRestaurantWithId}
         />
         <Route
@@ -65,7 +65,7 @@ function Restaurateur(props) {
         <Route path="/FinanceAndStats/:id" component={FinanceAndStatsWithId} />
         <Route path='/RabatCodeList' component={RabatCodeList}/>
         <Route path='/NewRabatCode' component={NewRabatCode}/>
-        <Redirect to="/RestaurateurRestaurantList" />
+        <Redirect to="/RestaurantList" />
       </Switch>
     </BrowserRouter>
   );

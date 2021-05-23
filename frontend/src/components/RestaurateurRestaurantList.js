@@ -194,7 +194,7 @@ export default function RestaurateurRestaurantList() {
                       style={{ margin: 15 }}
                     >
                       <RouterLink
-                        to={"/RestaurateurRestaurant/" + rest.id}
+                        to={"/Restaurant/" + rest.id}
                         style={{ color: "#FFF" }}
                       >
                         Details
