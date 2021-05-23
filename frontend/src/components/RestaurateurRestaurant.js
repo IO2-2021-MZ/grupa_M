@@ -198,7 +198,7 @@ export default function RestaurateurRestaurant(props) {
                       Show Orders
                     </RouterLink>
                   </Button>
-
+                  &nbsp; &nbsp;
                   <Button variant="contained" color="primary">
                 <RouterLink to={"/Complaints/"+restId} style={{ color: "#FFF" }}>
                   Complaints

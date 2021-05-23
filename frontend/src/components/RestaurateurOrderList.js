@@ -116,7 +116,7 @@ function RestaurateurOrderList(props) {
         <Toolbar>
           <Button>
             <RouterLink
-              to={"/RestaurateurRestaurant/" + restId}
+              to={"/Restaurant/" + restId}
               style={{ color: "#FFF" }}
             >
               <ArrowBackIcon fontSize="large" />
@@ -137,9 +137,7 @@ function RestaurateurOrderList(props) {
                 <TableRow>
                     {console.log(orders)}
                     <TableCell>Order id</TableCell>
-                    <TableCell align="right">Date</TableCell>
-                    <TableCell align="right">Address</TableCell>
-                    <TableCell align="right"></TableCell>
+                    <TableCell align="center">Date</TableCell>
                     <TableCell align="right"></TableCell>
                 </TableRow>
                 </TableHead>
@@ -149,21 +147,13 @@ function RestaurateurOrderList(props) {
                     <TableCell component="th" scope="row">
                         {row.id}
                     </TableCell>
-                    <TableCell align="right">{row.date.replace('T',' ')}</TableCell>
-                    <TableCell align="right">{row.address}</TableCell>
+                    <TableCell align="center">{row.date.replace('T',' ')}</TableCell>
                     <TableCell align="right">
                         <Button variant="contained" color="primary">
                             <RouterLink to={"/RestaurateurOrder/"+row.id}  style={{ color: "#FFF" }}>
                                 Details
                             </RouterLink>
                         </Button>
-                        {/* <Button variant="contained" color="primary" onClick = {() => refuseOrder(row.id)}>
-                            Accept
-                        </Button>
-                        &nbsp;
-                        <Button variant="contained" color="secondary" onClick = {() => refuseOrder(row.id)}>
-                            Refuse
-                        </Button> */}
                     </TableCell>
                     </TableRow>
                 ))}
