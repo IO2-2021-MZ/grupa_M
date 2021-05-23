@@ -267,7 +267,6 @@ export default function RestaurateurOrder(props) {
                             {position.name}
                         </Typography> 
                     ))}
-                        
                         <Button variant="contained" color="primary" onClick = {() => acceptOrder(order.id)}>
                             Accept
                         </Button>
