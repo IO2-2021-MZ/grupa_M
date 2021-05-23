@@ -16,6 +16,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
+import headers from "../shared/authheader";
+import apiURL from "../shared/apiURL"
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -65,7 +67,8 @@ const AllReviews = (props) => {
     async function fetchData(id){          
         var config = {
             method: 'get',
-            url: 'https://localhost:44384/restaurant/review/all?id=' + id
+            url: apiURL + "restaurant/review/all?id=" + id,
+            headers: headers(user)
         }
         
         try

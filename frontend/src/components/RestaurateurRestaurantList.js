@@ -22,6 +22,7 @@ import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Box from "@material-ui/core/Box";
 import { Link as RouterLink } from "react-router-dom";
+import headers from "../shared/authheader";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -68,9 +69,7 @@ export default function RestaurateurRestaurantList() {
     var config = {
       method: "get",
       url: apiUrl + "restaurant/all",
-      headers: {
-        Authorization: "Bearer " + user.token,
-      },
+      headers: headers(user)
     };
 
     try {
@@ -97,9 +96,7 @@ export default function RestaurateurRestaurantList() {
     var config = {
       method: "delete",
       url: apiUrl + "restaurant?id=" + id,
-      headers: {
-        Authorization: "Bearer " + user.token,
-      },
+      headers: headers(user)
     };
 
     const response = axios(config)

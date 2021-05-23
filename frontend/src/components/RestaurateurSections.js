@@ -22,6 +22,8 @@ import TextField from "@material-ui/core/TextField";
 import apiUrl from "../shared/apiURL";
 import UserContext from "../contexts/UserContext";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import headers from "../shared/authheader";
+
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -79,9 +81,7 @@ export default function SectionsList(props) {
     var config = {
       method: "get",
       url: apiUrl + "restaurant/menu?id=" + restId,
-      headers: {
-        Authorization: "Bearer " + user.token,
-      },
+      headers: headers(user)
     };
 
     try {
@@ -104,9 +104,7 @@ export default function SectionsList(props) {
     var config = {
       method: "delete",
       url: apiUrl + "restaurant/menu/section?id=" + id,
-      headers: {
-        Authorization: "Bearer " + user.token,
-      },
+      headers: headers(user)
     };
 
       axios(config)
@@ -124,9 +122,7 @@ export default function SectionsList(props) {
     var config = {
       method: "delete",
       url: apiUrl + "restaurant/menu/position?id=" + id,
-      headers: {
-        Authorization: "Bearer " + user.token,
-      },
+      headers: headers(user)
     };
 
       axios(config)

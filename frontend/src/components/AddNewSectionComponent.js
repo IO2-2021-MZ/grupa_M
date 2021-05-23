@@ -23,6 +23,7 @@ import Select from "@material-ui/core/Select";
 import apiUrl from "../shared/apiURL";
 import UserContext from "../contexts/UserContext";
 import {Link as RouterLink} from 'react-router-dom'
+import headers from "../shared/authheader";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -79,9 +80,7 @@ const AddNewSection = (props) => {
     var config = {
       method: "post",
       url: apiUrl + "restaurant/menu/section?id=" + restaurantId +"&section="+sectionName,
-      headers: {
-        'Authorization': "Bearer " + user.token,
-      },
+      headers: headers(user)
     };
 
     try {

@@ -18,7 +18,7 @@ import UserContext from "../contexts/UserContext";
 import apiUrl from "../shared/apiURL"
 import {Link as RouterLink} from 'react-router-dom'
 import apiURL from "../shared/apiURL";
-
+import headers from "../shared/authheader";
 
   const useStyles = makeStyles((theme) => ({
     icon: {
@@ -70,9 +70,7 @@ import apiURL from "../shared/apiURL";
       var config = {
         method: 'delete',
         url: apiURL + "complaint?id=" + id,
-        headers: { 
-          'Authorization': 'Bearer ' + user.token
-        }
+        headers: headers(user)
     }
     
     try
@@ -95,9 +93,7 @@ import apiURL from "../shared/apiURL";
       var config = {
           method: 'get',
           url: apiUrl + "restaurant/complaint/all?id=" + id,
-          headers: { 
-            'Authorization': 'Bearer ' + user.token
-          }
+          headers: headers(user)
       }
       
       try
