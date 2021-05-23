@@ -12,6 +12,8 @@ import NewRabatCode from "./NewRabatCode";
 import AddNewRestaurant from "./AddNewRestaurantComponent";
 import PatchSection from "./PatchSection";
 import PatchDish from "./PatchDish"
+import AllComplaints from "./AllComplaintsEmployee"
+import Response from "./ComplaintResponseComponent"
 
 const RestaurateurRestaurantWithId = ({ match }) => {
   return <RestaurateurRestaurant restId={match.params.id} />;
@@ -41,6 +43,18 @@ const PatchDishWithId = ({ match }) => {
   return <PatchDish sectionId={match.params.id} />;
 };
 
+const ComplaintsWithId = ({match}) => {
+  return(
+      <AllComplaints restaurantId={match.params.id}/>
+  );
+}
+
+const ResponseWithId = ({match}) => {
+  return(
+      <Response complaintId={match.params.id}/>
+  );
+}
+
 function Restaurateur(props) {
   return (
     <BrowserRouter>
@@ -49,6 +63,8 @@ function Restaurateur(props) {
           path="/RestaurantList"
           component={RestaurateurRestaurantList}
         />
+        <Route path='/Complaints/:id' component = {ComplaintsWithId} />
+        <Route path='/Response/:id' component = {ResponseWithId} />
         <Route path="/AddNewRestaurant" component={AddNewRestaurant}/>
         <Route path="/AddNewDish/:id" component={AddNewDishWithId} />
         <Route path="/AddNewSection/:id" component={AddNewSectionWithId} />

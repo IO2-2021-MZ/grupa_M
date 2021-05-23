@@ -242,11 +242,11 @@ namespace webApi.Services
             List<ComplaintR> complaintDTOs = new List<ComplaintR>();
             if (user.Role == (int)Role.Restaurer || user.Role == (int)Role.Employee)
             {
-                complaintDTOs = _mapper.Map<List<ComplaintR>>(restaurant.Reviews);
+                complaintDTOs = _mapper.Map<List<ComplaintR>>(complaints);
             }
             else
             {
-                var rests = _mapper.Map<List<ComplaintDTO>>(restaurant.Reviews);
+                var rests = _mapper.Map<List<ComplaintDTO>>(complaints);
                 foreach (var rest in rests) complaintDTOs.Add(rest);
             }
             return complaintDTOs;

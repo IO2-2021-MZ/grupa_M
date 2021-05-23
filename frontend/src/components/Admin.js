@@ -6,6 +6,8 @@ import NewRabatCode from "./NewRabatCode"
 import RabatCodeList from "./RabatCodeList"
 import Rest from "./AdminRestaurantView";
 import FinanceAndStats from "./FinanceAndStatsComponent";
+import AllComplaints from "./AllComplaintsComponent";
+
 
 const RestWithId = ({match}) => {
     return(
@@ -19,10 +21,18 @@ const FinanceAndStatsWithId = ({match}) => {
     );
 }
 
+const ComplaintsWithId = ({match}) => {
+    return(
+        <AllComplaints restaurantId={match.params.id}/>
+    );
+}
+
+
 function Admin(props){
     return(
         <BrowserRouter>
             <Switch>
+                <Route path='/Complaints/:id' component = {ComplaintsWithId} />
                 <Route path='/RestaurantList' component={AdminRestaurantList}/>
                 <Route path='/RabatCodeList' component={RabatCodeList}/>
                 <Route path='/NewRabatCode' component={NewRabatCode}/>

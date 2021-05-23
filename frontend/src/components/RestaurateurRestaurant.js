@@ -115,6 +115,7 @@ export default function RestaurateurRestaurant(props) {
   }
 
   useEffect(() => {
+    setLoading(true);
     fetchData();
   }, [setRestaurant]);
 
@@ -187,6 +188,11 @@ export default function RestaurateurRestaurant(props) {
                       Show Sections
                     </RouterLink>
                   </Button>
+                  <Button variant="contained" color="primary">
+                <RouterLink to={"/Complaints/"+restId} style={{ color: "#FFF" }}>
+                  Complaints
+                </RouterLink>
+              </Button>
                 </CardContent>
               </Card>
             </Grid>
