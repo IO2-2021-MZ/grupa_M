@@ -167,6 +167,7 @@ export default function RestaurateurRestaurant(props) {
                       name={"customized-empty" + restaurant.id}
                       value={restaurant.rating}
                       precision={0.5}
+                      readOnly
                       emptyIcon={<StarBorderIcon fontSize="inherit" />}
                     />
                   </Box>
@@ -187,11 +188,22 @@ export default function RestaurateurRestaurant(props) {
                       Show Sections
                     </RouterLink>
                   </Button>
+                  &nbsp; &nbsp;
+                  <Button variant="contained" color="primary">
+                    <RouterLink
+                      to={"/RestaurateurOrdersList/" + restaurant.id}
+                      style={{ color: "#FFF" }}
+                    >
+                      Show Orders
+                    </RouterLink>
+                  </Button>
+                  &nbsp; &nbsp;
                   <Button variant="contained" color="primary">
                 <RouterLink to={"/Complaints/"+restId} style={{ color: "#FFF" }}>
                   Complaints
                 </RouterLink>
               </Button>
+
                 </CardContent>
               </Card>
             </Grid>
