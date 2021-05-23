@@ -139,7 +139,6 @@ export default function RestaurateurOrder(props) {
       console.log(restId);
       setOrder(response.data);
       setRestId(response.data.restaurant.id);
-      
     } catch (e) {
       console.error(e);
       setSnackbar({
@@ -237,7 +236,7 @@ export default function RestaurateurOrder(props) {
                           State: {order.state}  
                     </Typography>
                     <Typography variant="h5" color="textPrimary" align="left">
-                          Date: {order.date}  
+                          Date: {order.date.replace('T',' ')}  
                     </Typography>
                     <Typography variant="h5" color="textPrimary" align="left">
                           Address: {order.address.postCode +
@@ -267,17 +266,22 @@ export default function RestaurateurOrder(props) {
                             {position.name}
                         </Typography> 
                     ))}
+                        {order.state === "Unrealized" ? (
+                        <div>
                         <Button variant="contained" color="primary" onClick = {() => acceptOrder(order.id)}>
                             Accept
                         </Button>
                         &nbsp;
-                        <Button variant="contained" color="primary" onClick = {() => realizeOrder(order.id)}>
-                            Realize
-                        </Button>
                         &nbsp;
                         <Button variant="contained" color="secondary" onClick = {() => refuseOrder(order.id)}>
                             Refuse
                         </Button>
+                        </div>) : (<div></div>)}
+                        {order.state === "Pending" ? (
+                        <Button variant="contained" color="primary" onClick = {() => realizeOrder(order.id)}>
+                            Realize
+                        </Button>) : (<div></div>)}
+                        
                         
                 </CardContent>
                 
