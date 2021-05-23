@@ -155,17 +155,26 @@ import apiURL from "../shared/apiURL";
                         {complaint.response === null ?
                         <Typography variant="button" color="inherit">
                         </Typography> :
-                        <Typography variant="h6" color="textSecondary">
+                        <Typography variant="h6" color="textSecondary" align="left">
                           {complaint.response}
                         </Typography>
                         }
                         <br/>
                         <CardActions>
-                          <Button variant="contained" color="secondary" onClick={() => deleteComplaint(complaint.id)}>
+                          {complaint.open ?
+                          <Button variant="contained" color="primary" onClick={() => closeComplaint(complaint.id)}>
+                            <RouterLink to ={"/Response/" + complaint.id}>
                             <Typography variant="button" color="inherit">
-                              Delete
+                              Response
+                            </Typography>
+                            </RouterLink>
+                          </Button> :
+                          <Button variant="contained" color="primary" disabled={true}>
+                            <Typography variant="button" color="inherit">
+                              Closed
                             </Typography>
                           </Button>
+                          }
                         </CardActions>
                       </CardContent>
                     </Card>

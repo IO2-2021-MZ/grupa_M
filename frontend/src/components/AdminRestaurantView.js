@@ -172,6 +172,11 @@ const AdminRestaurantView = (props) => {
                         Stats
                       </RouterLink>
                   </Button>
+                  <Button variant="contained" style={{margin:15}} size="small" color="primary">
+                <RouterLink to={"/Complaints/"+restId}>
+                  Complaints
+                </RouterLink>
+              </Button>
                   <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
                       {rest.state == "Blocked"  ? "Unblock" : "Block"}
                   </Button>
