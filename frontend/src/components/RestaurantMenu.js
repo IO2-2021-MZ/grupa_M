@@ -22,6 +22,14 @@ import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
 import { Link as RouterLink } from 'react-router-dom';
+import headers from "../shared/authheader";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -63,6 +71,9 @@ function RestaurantMenu(props) {
     const [sections, setSections] = useState([]);
     const {user, setUser} = useContext(UserContext);
     const {restId} = props;
+    const [orders, setOrders] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [countId, setCountId] = useState(0);
 
     async function fetchData() {
         setLoading(true);
@@ -70,9 +81,7 @@ function RestaurantMenu(props) {
         var config = {
           method: 'get',
           url: apiUrl + "restaurant/menu?id=" + restId,
-          headers: { 
-            'Authorization': 'Bearer ' + user.token
-          }
+          headers: headers(user)
         };
         
         try
@@ -96,6 +105,24 @@ function RestaurantMenu(props) {
         useEffect(() => {
             fetchData();
         }, [setSections]);
+
+        const addPosition = (position) => {
+          setOrders(orders => [...orders, {position, countId}]);
+          setCountId(countId + 1);
+          setTotalPrice(totalPrice + position.price);
+        }
+
+        const removePosition = (position) => {
+          var positionsInMenu = orders.filter(item => item.position == position);
+          if(positionsInMenu.length !== 0)
+          {
+            setOrders(orders.filter(item => item.countId !== positionsInMenu[0].countId));
+            setTotalPrice(totalPrice - position.price);
+            setCountId(countId - 1);
+          }
+        }
+
+
 
     return (
             <React.Fragment>
@@ -136,17 +163,47 @@ function RestaurantMenu(props) {
                         {position.description}
                       </Typography>
                       <Container align="right">
-                        <Typography variant="subtitle2" color="textPrimary" paragraph>
-                          Count: 0
-                        </Typography>
-                        <Button variant="contained" >-</Button>
-                        <Button variant="contained" >+</Button>
+                        <Button variant="contained" onClick={() => removePosition(position)}>-</Button>
+                        <Button variant="contained" onClick={() => addPosition(position)}>+</Button>
                       </Container>
                     </Container>
                   ))}
                   </CardContent>
                 </Card>
             ))}
+            <Card className={classes.card}>
+              <CardContent className={classes.cardContent}>
+            <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                <TableRow>
+                    <TableCell align="right">Name</TableCell>
+                    <TableCell align="right">Price</TableCell>
+                </TableRow>
+                </TableHead>
+                <TableBody>
+                  {orders.map((row) => (
+                    <TableRow key={row.countId}>
+                      <TableCell align="right">{row.position.name}</TableCell>
+                      <TableCell align="right">{row.position.price}</TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow>
+                    <TableCell allign="right">Total</TableCell>
+                    <TableCell allign="right">{totalPrice}</TableCell>
+                  </TableRow>
+                </TableBody>
+            </Table>
+          </TableContainer>
+          </CardContent>
+          <CardActions>
+            <Button variant="contained" color="primary" size="small" style={{margin:15}}>
+              <RouterLink to={"/NewOrder"}> 
+                Set address and payment method
+              </RouterLink>
+            </Button>
+          </CardActions>
+          </Card>
         </Container>
       </main>
     </React.Fragment>

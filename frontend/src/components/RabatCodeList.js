@@ -29,6 +29,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import headers from "../shared/authheader";
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -77,9 +78,7 @@ function RabatCodeList() {
       var config = {
         method: 'get',
         url: apiUrl + "discountCode/all",
-        headers: { 
-          'Authorization': 'Bearer ' + user.token
-        }
+        headers: headers(user)
       };
       
       try
@@ -109,9 +108,7 @@ function RabatCodeList() {
         var config = {
           method: 'delete',
           url: apiUrl + "discountCode?id=" + id,
-          headers: { 
-            'Authorization': 'Bearer ' + user.token
-          }
+          headers: headers(user)
         };
         
         const response =  axios(config)

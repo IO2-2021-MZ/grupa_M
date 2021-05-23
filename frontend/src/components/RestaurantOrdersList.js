@@ -22,6 +22,7 @@ import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
 import { Link as RouterLink } from 'react-router-dom';
+import headers from "../shared/authheader";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -70,9 +71,7 @@ export default function RestaurantOrdersList() {
     var config = {
       method: 'get',
       url: apiUrl + "restaurant/order/all?id=1",
-      headers: { 
-        'Authorization': 'Bearer ' + user.token
-      }
+      headers: headers(user)
     };
     
     try

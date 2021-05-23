@@ -20,6 +20,7 @@ import Box from '@material-ui/core/Box';
 import apiUrl from "../shared/apiURL"
 import UserContext from "../contexts/UserContext"
 import { Link as RouterLink } from 'react-router-dom';
+import headers from "../shared/authheader";
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -76,9 +77,7 @@ const CreateReview = (props) => {
       var config = {
         method: 'get',
         url: apiUrl + "restaurant?id=" + restaurantId,
-        headers: { 
-          'Authorization': 'Bearer ' + user.token
-        }
+        headers: headers(user)
       };
       
       try
@@ -107,9 +106,7 @@ const CreateReview = (props) => {
       var config = {
         method: 'post',
         url: apiUrl + "review",
-        headers: { 
-          'Authorization': 'Bearer ' + user.token
-        },
+        headers: headers(user),
         data:{
             "content": content,
             "rating": rating,

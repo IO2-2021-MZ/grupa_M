@@ -22,6 +22,7 @@ import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
 import { Link as RouterLink } from 'react-router-dom';
+import headers from "../shared/authheader";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -70,9 +71,7 @@ export default function CustomerRestaurantList() {
     var config = {
       method: 'post',
       url: apiUrl + "restaurant/favourite?id=" + restId,
-      headers: { 
-        'Authorization': 'Bearer ' + user.token
-      }
+      headers: headers(user)
     };
         
     axios(config)
@@ -91,9 +90,7 @@ export default function CustomerRestaurantList() {
     var config = {
       method: 'get',
       url: apiUrl + "restaurant/all",
-      headers: { 
-        'Authorization': 'Bearer ' + user.token
-      }
+      headers: headers(user)
     };
     
     try

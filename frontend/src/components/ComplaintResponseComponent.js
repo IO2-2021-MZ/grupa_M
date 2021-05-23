@@ -17,7 +17,7 @@ import TextField from '@material-ui/core/TextField';
 import UserContext from "../contexts/UserContext";
 import apiURL from "../shared/apiURL"
 import {Link as RouterLink} from 'react-router-dom'
-
+import headers from "../shared/authheader";
 
   const useStyles = makeStyles((theme) => ({
     icon: {
@@ -72,11 +72,7 @@ import {Link as RouterLink} from 'react-router-dom'
         var config = {
             method: 'POST',
             url: apiURL + 'complaint/respond?id='+id,
-            headers: {
-              'Accept': 'application/json, text/plain',
-              'Content-Type': 'application/json;charset=UTF-8',
-              'Authorization': 'Bearer ' + user.token
-            },
+            headers: headers(user),
             data: JSON.stringify(content)
         };
 

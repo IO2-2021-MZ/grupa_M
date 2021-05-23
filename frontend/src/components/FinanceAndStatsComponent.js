@@ -23,6 +23,8 @@ import Select from "@material-ui/core/Select";
 import apiUrl from "../shared/apiURL";
 import UserContext from "../contexts/UserContext";
 import { Link as RouterLink } from "react-router-dom";
+import headers from "../shared/authheader";
+
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -79,9 +81,7 @@ const FinanceAndStats = (props) => {
       //     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYmYiOjE2MjE1MTgwOTIsImV4cCI6MTYyMTUxODk5MiwiaWF0IjoxNjIxNTE4MDkyfQ.MPO_yJ2V5eBGlnZW_KbLKcrgho7R85j1vmr82AHbN14'
       //   }
       url: apiUrl + "restaurant?id=" + id,
-      headers: {
-        Authorization: "Bearer " + user.token,
-      },
+      headers: headers(user)
     };
 
     try {

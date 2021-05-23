@@ -29,6 +29,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import headers from "../shared/authheader";
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -78,9 +79,7 @@ const useStyles = makeStyles((theme) => ({
         var config = {
           method: 'get',
           url: apiUrl + "restaurant?id=" + restId,
-          headers: { 
-            'Authorization': 'Bearer ' + user.token
-          }
+          headers: headers(user)
         };
         
         try
@@ -114,9 +113,7 @@ const useStyles = makeStyles((theme) => ({
       var config = {
         method: 'get',
         url: apiUrl + "restaurant/review/all?id=" + restId,
-        headers: { 
-          'Authorization': 'Bearer ' + user.token
-        }
+        headers: headers(user)
       };
       
       try
