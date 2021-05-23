@@ -86,8 +86,8 @@ namespace webApi.Services
             var address = _mapper.Map<Address>(newRestaurant.Address);
             int addressId;
 
-            restaurant.AggregatePayment = 100.0m;
-            restaurant.Owing = 100.0m;
+            restaurant.AggregatePayment = 0.0m;
+            restaurant.Owing = 24.99m;
 
             Address add = _context.Addresses.FirstOrDefault(a => a.City == address.City && a.PostCode == address.PostCode && a.Street == address.Street);
 
@@ -242,11 +242,11 @@ namespace webApi.Services
             List<ComplaintR> complaintDTOs = new List<ComplaintR>();
             if (user.Role == (int)Role.Restaurer || user.Role == (int)Role.Employee)
             {
-                complaintDTOs = _mapper.Map<List<ComplaintR>>(restaurant.Reviews);
+                complaintDTOs = _mapper.Map<List<ComplaintR>>(complaints);
             }
             else
             {
-                var rests = _mapper.Map<List<ComplaintDTO>>(restaurant.Reviews);
+                var rests = _mapper.Map<List<ComplaintDTO>>(complaints);
                 foreach (var rest in rests) complaintDTOs.Add(rest);
             }
             return complaintDTOs;
@@ -315,6 +315,24 @@ namespace webApi.Services
             for(int i=0; i<restaurantDTOs.Count; i++)
             {
                 restaurantDTOs[i].Rating = restaurants[i].Reviews.Count == 0 ? 0: restaurants[i].Reviews.Average(r => r.Rating);
+                if(user.Role != (int)Role.Customer)
+                {
+                    var orders = _context.Orders.Where(o => o.RestaurantId == restaurantDTOs[i].Id).ToList();
+                    Func<OrderDish, decimal> func1 = od =>
+                    {
+                        var dish = _context.Dishes.Where(d => d.Id == od.DishId).FirstOrDefault();
+                        if (dish is null) return 0;
+                        return dish.Price;
+                    };
+
+                    Func<Order, decimal> func = o =>
+                    {
+                        var orderDishes = _context.OrderDishes.Where(od => od.OrderId == o.Id).ToList();
+                        if (orderDishes.Count() == 0) return 0;
+                        return orderDishes.Sum(func1);
+                    };
+                    ((RestaurantDTO)restaurantDTOs[i]).AggregatePayment = orders.Count() == 0 ? 0 : orders.Sum(func);
+                }
             }
 
             return restaurantDTOs;
@@ -375,7 +393,27 @@ namespace webApi.Services
             if (user.Role == (int)Role.Customer)
                 restaurantDTO = _mapper.Map<RestaurantC>(restaurant);
             else
+            {
                 restaurantDTO = _mapper.Map<RestaurantDTO>(restaurant);
+                var orders = _context.Orders.Where(o => o.RestaurantId == restaurantDTO.Id).ToList();
+                Func<OrderDish, decimal> func1 = od =>
+                {
+                    var dish = _context.Dishes.Where(d => d.Id == od.DishId).FirstOrDefault();
+                    if (dish is null) return 0;
+                    return dish.Price;
+                };
+
+                Func<Order,decimal> func = o =>
+                {
+                    var orderDishes = _context.OrderDishes.Where(od => od.OrderId == o.Id).ToList();
+                    if (orderDishes.Count() == 0) return 0;
+                    return orderDishes.Sum(func1);
+                };
+                ((RestaurantDTO)restaurantDTO).AggregatePayment = orders.Count() == 0 ? 0 : orders.Sum(func);
+            }
+
+            
+
             return restaurantDTO;
         }
 

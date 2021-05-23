@@ -151,7 +151,7 @@ export default function SectionsList(props) {
         <Toolbar>
           <Button>
             <RouterLink
-              to={"/RestaurateurRestaurant/" + restId}
+              to={"/Restaurant/" + restId}
               style={{ color: "#FFF" }}
             >
               <ArrowBackIcon fontSize="large" />

@@ -209,9 +209,6 @@ export default function AdminRestaurantList() {
                       Details
                     </RouterLink>
                   </Button>
-                  <Button variant="contained" size="small" color="primary"style={{margin:15}}>
-                      Stats
-                  </Button>
                   <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
                       {rest.state == "Blocked"  ? "Unblock" : "Block"}
                   </Button>
