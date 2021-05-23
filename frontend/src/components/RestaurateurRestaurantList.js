@@ -143,6 +143,7 @@ export default function RestaurateurRestaurantList() {
                   Discount codes
                 </RouterLink>
               </Button>
+              &nbsp; &nbsp;
               <Button variant="contained" color="default">
                 <RouterLink to="/AddNewRestaurant">
                   Add new restaurant
@@ -182,6 +183,7 @@ export default function RestaurateurRestaurantList() {
                         name={"customized-empty" + rest.id}
                         value={rest.rating}
                         precision={0.5}
+                        readOnly
                         emptyIcon={<StarBorderIcon fontSize="inherit" />}
                       />
                     </Box>

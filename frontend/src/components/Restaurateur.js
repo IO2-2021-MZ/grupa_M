@@ -12,6 +12,8 @@ import NewRabatCode from "./NewRabatCode";
 import AddNewRestaurant from "./AddNewRestaurantComponent";
 import PatchSection from "./PatchSection";
 import PatchDish from "./PatchDish"
+import RestaurateurOrderList from "./RestaurateurOrderList";
+import RestaurateurOrder from "./RestaurateurOrder";
 
 const RestaurateurRestaurantWithId = ({ match }) => {
   return <RestaurateurRestaurant restId={match.params.id} />;
@@ -41,6 +43,14 @@ const PatchDishWithId = ({ match }) => {
   return <PatchDish sectionId={match.params.id} />;
 };
 
+const RestaurateurOrdersListWithId = ({ match }) => {
+  return <RestaurateurOrderList restId={match.params.id} />;
+};
+
+const RestaurateurOrderWithId = ({ match }) => {
+  return <RestaurateurOrder orderId={match.params.id} />;
+};
+
 function Restaurateur(props) {
   return (
     <BrowserRouter>
@@ -63,6 +73,8 @@ function Restaurateur(props) {
           component={RestaurateurSectionsWithId}
         />
         <Route path="/FinanceAndStats/:id" component={FinanceAndStatsWithId} />
+        <Route path="/RestaurateurOrdersList/:id" component={RestaurateurOrdersListWithId} />
+        <Route path="/RestaurateurOrder/:id" component={RestaurateurOrderWithId} />
         <Route path='/RabatCodeList' component={RabatCodeList}/>
         <Route path='/NewRabatCode' component={NewRabatCode}/>
         <Redirect to="/RestaurateurRestaurantList" />
