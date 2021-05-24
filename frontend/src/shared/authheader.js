@@ -1,5 +1,4 @@
 function authHeader(user){
-    console.log(user)
     return {
         headers: { 
             apiKey: user.apiKey,
