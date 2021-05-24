@@ -13,16 +13,16 @@ function Main(){
     if(user === undefined){
         return <LogOut/>;
     }
-    if(user.role === 'Restaurer'){
+    if(user.role.toLowerCase() === 'restaurer' || user.role.toLowerCase() === ' restaurer'){
         return <Restaurer />;
     }
-    if(user.role === 'Admin'){
+    if(user.role.toLowerCase() === 'admin' || user.role.toLowerCase() === ' admin'){
         return <Admin/>;
     }
-    if(user.role === 'Customer'){
+    if(user.role.toLowerCase() === 'customer' || user.role.toLowerCase() === ' customer'){
         return <Customer/>;
     }
-    if(user.role === 'Employee'){
+    if(user.role.toLowerCase() === 'employee' || user.role.toLowerCase() === ' employee'){
         return <Employee/>;
     }
 }

@@ -97,7 +97,7 @@ const tiers = [
     title: 'Restaurer',
     price: '30',
     description: [
-      'Manage your restauran',
+      'Manage your restaurant',
     ],
     buttonText: 'Sign in',
     buttonVariant: 'contained',
@@ -139,12 +139,9 @@ export default function StartUp() {
             Group M
           </Typography>
           <nav>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+            <RouterLink variant="button" to={"/signin/admin"} className={classes.link}>
               For Admins
-            </Link>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-              Support
-            </Link>
+            </RouterLink>
           </nav>
         </Toolbar>
       </AppBar>
@@ -174,9 +171,7 @@ export default function StartUp() {
                 />
                 <CardContent>
                   <div className={classes.cardPricing}>
-                    <Typography variant="h6" color="textSecondary">
-                      /mo
-                    </Typography>
+                   
                   </div>
                   <ul>
                     {tier.description.map((line) => (
