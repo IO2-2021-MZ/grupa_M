@@ -20,6 +20,17 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { useLocation } from "react-router-dom";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import apiUrl from "../shared/apiURL"
+import headers from "../shared/authheader";
+import UserContext from "../contexts/UserContext"
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -64,36 +75,129 @@ const useStyles = makeStyles((theme) => ({
 const AddNewOrder = (props) => {
     const { setSnackbar } = useContext(SnackbarContext);
     const classes = useStyles();
+    const { setLoading } = useContext(LoadingContext);
+    const { user, setUser } = useContext(UserContext);
+    const [added, setAdded] = useState(false);
+    const {restId} = props;
 
     const [paymentMethod, setPaymentMethod] = useState("");
     const [date, setDate] = useState("");
     const [street, setStreet] = useState("");
     const [city, setCity] = useState("");
     const [postCode, setPostCode] = useState("");
+    const [discountCodeString, setDiscountCodeString] = useState("");
+    const [discountCode, setDiscountCode] = useState({id: null});
 
-    var discountCodeId = props.discountCodeId;
-    var customerId = props.customerId;
-    var restaurantId = props.restaurantId;
+    let orders = useLocation().state.orders;
+    var originalPrice = orders.map(order => order.position.price).reduce((a, b) => a + b);
+    const [finalPrice, setFinalPrice] = useState(originalPrice);
+    var positionsIds = orders.map(order => order.position.id);
 
     const handlePaymentMethodChange = (event) => {
         setPaymentMethod(event.target.value);
     };
 
-    const handleDateChange = (date) => {
-        setDate(date);
+    const handleDateChange = (event) => {
+        setDate(event.target.value);
     };
 
-    const handleStreetChange = (s) => {
-        setStreet(s);
+    const handleStreetChange = (event) => {
+        setStreet(event.target.value);
     };
 
-    const handleCityChange = (c) => {
-        setCity(c);
+    const handleCityChange = (event) => {
+        setCity(event.target.value);
     };
 
-    const handlePostCodeChange = (p) => {
-        setPostCode(p);
+    const handlePostCodeChange = (event) => {
+        setPostCode(event.target.value);
     };
+
+    const handleDiscountCodeStringChange = (event) => {
+        setDiscountCodeString(event.target.value);
+    }
+
+    const saveNewOrder = async () => {
+        setLoading(true);
+        var config;
+        if(discountCode == undefined)
+        {
+            console.log("chuj")
+            config = {
+                method: 'post',
+                url: apiUrl + "order",
+                headers: headers(user),
+                data: {
+                    "paymentMethod": paymentMethod,
+                    "date": "2021-05-23T18:30:16.966Z",
+                    "address": {
+                        "city": city,
+                        "street": street,
+                        "postCode": postCode
+                    },
+                    "customerId": user.id,
+                    "restaurantId": restId,
+                    "positionsId": positionsIds
+                }
+            };
+        } else
+        {
+            config = {
+                method: 'post',
+                url: apiUrl + "order",
+                headers: headers(user),
+                data: {
+                    "paymentMethod": paymentMethod,
+                    "date": "2021-05-23T18:30:16.966Z",
+                    "address": {
+                        "city": city,
+                        "street": street,
+                        "postCode": postCode
+                    },
+                    "discountCodeId": discountCode.id,
+                    "customerId": user.id,
+                    "restaurantId": restId,
+                    "positionsId": positionsIds
+                }
+            };
+        } 
+
+        const response = axios(config)
+            .then(() => setLoading(false))
+            .then(() => setAdded(true))
+            .then(() => setLoading(false))
+            .catch((error) => setSnackbar(error.message))
+            .then(() => setLoading(false));
+    }
+
+    const validateDiscountCode = async () => {
+        var config = {
+            method: 'get',
+            url: apiUrl + "discountCode?code=" + discountCodeString,
+            headers: headers(user)
+        };
+        try
+        {
+          const response = await axios(config);
+          setDiscountCode(response.data);
+        }
+        catch(error)
+        {
+          removeDiscountCode();
+          setDiscountCode();
+        }
+    }
+
+    const applyDiscountCode = () => {
+        if(discountCode !== undefined)
+        {
+            setFinalPrice(originalPrice * (1 - discountCode.percent * 0.01));
+        }
+    }
+
+    const removeDiscountCode = () =>{
+        setFinalPrice(originalPrice);
+    }
 
     return (
         <React.Fragment>
@@ -117,7 +221,7 @@ const AddNewOrder = (props) => {
                                 <CardContent className={classes.cardContent}>
                                     <Typography variant="h5" align="left" color="textPrimary">
                                         Make a new order
-                        </Typography>
+                                    </Typography>
                                     <br />
                                     <FormControl className={classes.formControl}>
                                         <InputLabel id="payment-method-label">Payment method</InputLabel>
@@ -135,7 +239,7 @@ const AddNewOrder = (props) => {
                                     <form className={classes.container} noValidate>
                                         <TextField
                                             id="datetime-local"
-                                            label="Next appointment"
+                                            label="Date"
                                             type="datetime-local"
                                             defaultValue="2017-05-24T10:30"
                                             className={classes.textField}
@@ -175,7 +279,53 @@ const AddNewOrder = (props) => {
                                         fullWidth={true}
                                         onChange={handlePostCodeChange}
                                     />
+                                    <TextField
+                                        id="discountCode-multiline-static"
+                                        label="DiscountCode"
+                                        multiline
+                                        defaultValue=""
+                                        variant="outlined"
+                                        fullWidth={true}
+                                        onChange={handleDiscountCodeStringChange}
+                                    />
+                                    <Button variant="contained" color="primary" size="small" style={{ margin: 15 }} onClick={validateDiscountCode}>
+                                        Validate Code
+                                    </Button>
+                                    <Button variant="contained" color="primary" size="small" style={{ margin: 15 }} onClick={applyDiscountCode}>
+                                        Apply Discount Code
+                                    </Button>
+                                    <TableContainer component={Paper}>
+                                        <Table className={classes.table} aria-label="simple table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell align="right">Name</TableCell>
+                                                    <TableCell align="right">Price</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {orders.map((row) => (
+                                                    <TableRow key={row.countId}>
+                                                        <TableCell align="right">{row.position.name}</TableCell>
+                                                        <TableCell align="right">{row.position.price}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                                <TableRow>
+                                                    <TableCell allign="right">Original price</TableCell>
+                                                    <TableCell allign="right">{originalPrice}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell allign="right">Final price</TableCell>
+                                                    <TableCell allign="right">{finalPrice}</TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
                                 </CardContent>
+                                <CardActions>
+                                    <Button variant="contained" color="primary" size="small" style={{ margin: 15 }} onClick={saveNewOrder}>
+                                        Submit order
+                                    </Button>
+                                </CardActions>
                             </Card>
                         </Grid>
                     </Grid>

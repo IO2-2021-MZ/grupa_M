@@ -118,7 +118,7 @@ function RestaurantMenu(props) {
           {
             setOrders(orders.filter(item => item.countId !== positionsInMenu[0].countId));
             setTotalPrice(totalPrice - position.price);
-            setCountId(countId - 1);
+            //setCountId(countId - 1);
           }
         }
 
@@ -198,7 +198,7 @@ function RestaurantMenu(props) {
           </CardContent>
           <CardActions>
             <Button variant="contained" color="primary" size="small" style={{margin:15}}>
-              <RouterLink to={"/NewOrder"}> 
+              <RouterLink to={{pathname: "/NewOrder/Restaurant/" + restId, state: {orders}} }> 
                 Set address and payment method
               </RouterLink>
             </Button>

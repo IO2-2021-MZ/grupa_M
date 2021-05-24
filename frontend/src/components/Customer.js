@@ -32,15 +32,21 @@ const ReviewForRestaurantWithId = ({match}) => {
     );
 }
 
+const NewOrderRestaurantWithId = ({match}) => {
+    return(
+        <AddNewOrder restId={match.params.id}/>
+    );
+}
+
 function Customer(props){
     return(
         <BrowserRouter>
             <Switch>
                 <Route path='/RestaurantList' component={RestsList}/>
-                <Route path='/NewOrder' component={AddNewOrder}/>
+                <Route path='/NewOrder/Restaurant/:id' component={NewOrderRestaurantWithId}/>
                 <Route path='/Restaurant/:id' component={RestWithId}/>
                 <Route path='/Review/create/:id' component={ReviewWithId}/>
-                <Route path='/Menu/:id' component={RestMenuWithId}/>
+                <Route path='/Menu/Restaurant/:id' component={RestMenuWithId}/>
                 <Route path='/reviews/restaurant/:id' component={ReviewForRestaurantWithId}/>
                 <Redirect to='/RestaurantList' />
             </Switch>
