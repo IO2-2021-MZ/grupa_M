@@ -1,6 +1,11 @@
 function authHeader(user){
+    console.log(user)
     return {
-        headers: { apiKey: user.token }
+        headers: { 
+            apiKey: user.apiKey,
+            'Accept': 'application/json, text/plain',
+            'Content-Type': 'application/json;charset=UTF-8' 
+        }
     };
 }
 
