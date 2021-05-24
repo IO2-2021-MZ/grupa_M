@@ -142,7 +142,7 @@ export default function CustomerRestaurantList() {
         </div>
         <Container className={classes.cardGrid}>
           {/* End hero unit */}
-          <Grid container spacing={12}>
+          <Grid container spacing={10}>
             {rests.map((rest) => (
                  <Grid item key={rest.id} xs={12} sm={6} md={6} style={{padding:10}}>
                 <Card className={classes.card} >
@@ -166,12 +166,12 @@ export default function CustomerRestaurantList() {
                   </Box>
                 </CardContent>
                 <CardActions>
-                  <Button variant="contained" size="small" style={{margin:15}}>
-                    <RouterLink to={"/Restaurant/" + rest.id}> 
+                  <Button variant="contained" color="primary" size="small" style={{margin:15}}>
+                    <RouterLink to={"/Restaurant/" + rest.id} style={{ color: "#FFF" }}> 
                       Details
                     </RouterLink>
                   </Button>
-                  <Button onClick={() => handleSettingFavourite(rest.id)} disabled={user?.favouriteRestaurants?.map(el => el.id)?.contains(rest.id)} variant="contained" size="small" style={{margin:15}}>
+                  <Button onClick={() => handleSettingFavourite(rest.id)} disabled={user?.favouriteRestaurants?.map(el => el.id)?.contains(rest.id)} variant="contained" color="primary" size="small" style={{margin:15}}>
                       { user?.favouriteRestaurants?.map(el => el.id)?.contains(rest.id) ? "Is fav!" : "Set as fav"}
                   </Button>
                 </CardActions>

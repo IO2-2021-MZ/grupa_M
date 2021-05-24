@@ -150,7 +150,7 @@ export default function RestaurateurRestaurantList() {
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
-          <Grid container spacing={12}>
+          <Grid container spacing={10}>
             {rests.map((rest) => (
               <Grid
                 item
