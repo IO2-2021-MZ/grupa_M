@@ -136,7 +136,9 @@ export default function CustomerRestaurantList() {
               App allows to make orders from local restaurants.
             </Typography>
             <Button variant="contained" color="default">
+            <RouterLink to={"/OrdersHistory"}> 
               Orders history
+            </RouterLink>
             </Button>
           </Container>
         </div>

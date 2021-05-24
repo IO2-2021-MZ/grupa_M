@@ -7,6 +7,7 @@ import Rest from "./CustomerRestaurant";
 import RestMenu from "./RestaurantMenu";
 import CreateReview from "./CreateNewReviewComponent"
 import ReviewList from "./RestaurantReviewsCustomerComponent"
+import OrdersHistory from "./CustomerOrdersHistory"
 
 const RestWithId = ({match}) => {
     return(
@@ -45,6 +46,7 @@ function Customer(props){
                 <Route path='/RestaurantList' component={RestsList}/>
                 <Route path='/NewOrder/Restaurant/:id' component={NewOrderRestaurantWithId}/>
                 <Route path='/Restaurant/:id' component={RestWithId}/>
+                <Route path='/OrdersHistory' component={OrdersHistory}/>
                 <Route path='/Review/create/:id' component={ReviewWithId}/>
                 <Route path='/Menu/Restaurant/:id' component={RestMenuWithId}/>
                 <Route path='/reviews/restaurant/:id' component={ReviewForRestaurantWithId}/>
