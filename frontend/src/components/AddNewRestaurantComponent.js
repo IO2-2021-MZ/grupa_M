@@ -23,6 +23,7 @@ import Select from "@material-ui/core/Select";
 import apiUrl from "../shared/apiURL";
 import UserContext from "../contexts/UserContext";
 import {Link as RouterLink} from 'react-router-dom'
+import headers from "../shared/authheader";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -96,9 +97,7 @@ const AddNewRestaurant = (props) => {
     var config = {
       method: "post",
       url: apiUrl + "restaurant",
-      headers: {
-        "Authorization": "Bearer " + user.token,
-      },
+      headers: headers(user),
       data: {
         "name": restaurantName,
         "contactInformation": email,
@@ -138,7 +137,7 @@ const AddNewRestaurant = (props) => {
       <div>
       <Typography style={{margin:150}} variant="h4">Added succesfully!</Typography>
       <Button variant="contained" color="default" size="large">
-          <RouterLink to="/RestaurateurRestaurantList">
+          <RouterLink to="/RestaurantList">
               Back
           </RouterLink>
       </Button>
@@ -149,7 +148,7 @@ const AddNewRestaurant = (props) => {
       <AppBar>
         <Toolbar>
           <Button>
-            <RouterLink to ="/RestaurateurRestaurantList">
+            <RouterLink to ="/RestaurantList">
             <ArrowBackIcon fontSize="large" />
             </RouterLink>
           </Button>

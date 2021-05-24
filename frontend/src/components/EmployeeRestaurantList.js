@@ -22,6 +22,7 @@ import UserContext from "../contexts/UserContext"
 import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
+import headers from "../shared/authheader";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -70,9 +71,7 @@ export default function AdminRestaurantList() {
     var config = {
       method: 'get',
       url: apiUrl + "restaurant/all",
-      headers: { 
-        'Authorization': 'Bearer ' + user.token
-      }
+      headers: headers(user)
     };
     
     try
@@ -104,9 +103,7 @@ export default function AdminRestaurantList() {
       var config = {
         method: 'delete',
         url: apiUrl + "restaurant?id=" + id,
-        headers: { 
-          'Authorization': 'Bearer ' + user.token
-        }
+        headers: headers(user)
       };
       
       const response =  axios(config)
@@ -122,9 +119,7 @@ export default function AdminRestaurantList() {
       var config = {
         method: 'post',
         url: apiUrl + "restaurant/" + (toBeBlocked ? "block" : "unblock") + "?id=" + id,
-        headers: { 
-          'Authorization': 'Bearer ' + user.token
-        }
+        headers: headers(user)
       };
       
       const response =  axios(config)

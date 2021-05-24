@@ -22,6 +22,7 @@ import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
 import { Link as RouterLink } from 'react-router-dom';
+import headers from "../shared/authheader";
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -71,9 +72,7 @@ const AdminRestaurantView = (props) => {
       var config = {
         method: 'get',
         url: apiUrl + "restaurant?id=" + restId,
-        headers: { 
-          'Authorization': 'Bearer ' + user.token
-        }
+        headers: headers(user)
       };
       
       try
@@ -106,9 +105,7 @@ const AdminRestaurantView = (props) => {
         var config = {
           method: 'post',
           url: apiUrl + "restaurant/" + (toBeBlocked ? "block" : "unblock") + "?id=" + id,
-          headers: { 
-            'Authorization': 'Bearer ' + user.token
-          }
+          headers: headers(user)
         };
         
         const response =  axios(config)
@@ -124,10 +121,8 @@ const AdminRestaurantView = (props) => {
         var config = {
           method: 'post',
           url: apiUrl + "restaurant/" + (toBeBlocked ? "deactivate" : "reactivate") + "?id=" + id,
-          headers: { 
-            'Authorization': 'Bearer ' + user.token
-          }
-        };
+          headers: headers(user)
+        }
         
         const response =  axios(config)
         .then(() => fetchData())
@@ -172,6 +167,11 @@ const AdminRestaurantView = (props) => {
                         Stats
                       </RouterLink>
                   </Button>
+                  <Button variant="contained" style={{margin:15}} size="small" color="primary">
+                <RouterLink to={"/Complaints/"+restId}>
+                  Complaints
+                </RouterLink>
+              </Button>
                   <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
                       {rest.state == "Blocked"  ? "Unblock" : "Block"}
                   </Button>

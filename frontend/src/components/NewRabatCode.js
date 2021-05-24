@@ -30,6 +30,8 @@ import Select from '@material-ui/core/Select';
 import { white } from 'material-ui/styles/colors';
 import { black } from 'material-ui/styles/colors';
 import { Filter9 } from '@material-ui/icons';
+import headers from "../shared/authheader";
+
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -108,9 +110,7 @@ function NewRabatCode() {
         var config = {
           method: 'post',
           url: apiUrl + "discountCode",
-          headers: { 
-            'Authorization': 'Bearer ' + user.token
-          },
+          headers: headers(user),
           data:{
               "code": code,
               "dateFrom": dateFrom+"T01:00:00.000Z",
@@ -133,9 +133,7 @@ function NewRabatCode() {
       var config = {
         method: 'get',
         url: apiUrl + "restaurant/all",
-        headers: { 
-          'Authorization': 'Bearer ' + user.token
-        }
+        headers: headers(user)
       };
       
       try

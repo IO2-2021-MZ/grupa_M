@@ -29,7 +29,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import headers from "../shared/authheader";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -63,63 +63,31 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-  function RestaurantReviewsCustomerComponent(props) {
+function RestaurateurOrderList(props) {
     
     const classes = useStyles();
+    const { restId } = props;
     const { setLoading } = useContext(LoadingContext);
     const { setSnackbar } = useContext(SnackbarContext);
-    const [reviews, setReviews] = useState([]);
+    const [orders, setOrders] = useState([]);
     const {user, setUser} = useContext(UserContext);
-    var restId = props.restId;
-    const [rest, setRest] = useState([]);
-
-    async function fetchRestaurant() {
-        setLoading(true);
-    
-        var config = {
-          method: 'get',
-          url: apiUrl + "restaurant?id=" + restId,
-          headers: headers(user)
-        };
-        
-        try
-        {
-          const response = await axios(config);
-          setRest(response.data);
-          console.log(response.data)
-          
-        }
-        catch(error)
-        {
-          console.error(error);
-                    setSnackbar({
-                        open: true,
-                        message: "Loading data failed",
-                        type: "error"
-                    });
-        }
-        setLoading(false);
-        }
-    
-        useEffect(() => {
-            fetchRestaurant();
-            fetchData();
-        }, [setRest]);
 
   
     async function fetchData() {
       setLoading(true);
-  
+    console.log("id:"+{restId});
       var config = {
         method: 'get',
-        url: apiUrl + "restaurant/review/all?id=" + restId,
-        headers: headers(user)
+        url: apiUrl + "restaurant/order/all?id="+restId,
+        headers: { 
+          'Authorization': 'Bearer ' + user.token
+        }
       };
       
       try
       {
         const response = await axios(config);
-        setReviews(response.data);
+        setOrders(response.data);
       }
       catch(error)
       {
@@ -130,46 +98,71 @@ const useStyles = makeStyles((theme) => ({
                       type: "error"
                   });
       }
+
+
+
       setLoading(false);
       }
   
       useEffect(() => {
           fetchData();
-      }, [setReviews]);
+      }, [setOrders]);
   
+      
+    
     return (
+        <React.Fragment>
+        <AppBar position="relative">
+        <Toolbar>
+          <Button>
+            <RouterLink
+              to={"/Restaurant/" + restId}
+              style={{ color: "#FFF" }}
+            >
+              <ArrowBackIcon fontSize="large" />
+            </RouterLink>
+          </Button>
+          <Typography variant="h6" color="inherit" noWrap>
+            List of orders view
+          </Typography>
+        </Toolbar>
+      </AppBar>
         <div>
         <Typography color="primary" variant="h4">
-            {rest.name} : reviews
+            List of all orders for restaurant
         </Typography>
-        <Button variant="contained" color="default">
-            <RouterLink to="/RestaurantList">
-            Back
-            </RouterLink>
-        </Button>
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                 <TableRow>
-                    {console.log(reviews)}
-                    <TableCell align="right">Content</TableCell>
-                    <TableCell align="right">Rating</TableCell>
+                    {console.log(orders)}
+                    <TableCell>Order id</TableCell>
+                    <TableCell align="center">Date</TableCell>
                     <TableCell align="right"></TableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>
-                {reviews.map((row) => (
+                {orders.map((row) => (
                     <TableRow key={row.id}>
-
-                    <TableCell align="right">{row.content}</TableCell>
-                    <TableCell align="right">{row.rating}</TableCell>
+                    <TableCell component="th" scope="row">
+                        {row.id}
+                    </TableCell>
+                    <TableCell align="center">{row.date.replace('T',' ')}</TableCell>
+                    <TableCell align="right">
+                        <Button variant="contained" color="primary">
+                            <RouterLink to={"/RestaurateurOrder/"+row.id}  style={{ color: "#FFF" }}>
+                                Details
+                            </RouterLink>
+                        </Button>
+                    </TableCell>
                     </TableRow>
                 ))}
                 </TableBody>
             </Table>
         </TableContainer>
         </div>
+        </React.Fragment>
     )
 }
 
-export default RestaurantReviewsCustomerComponent
+export default RestaurateurOrderList

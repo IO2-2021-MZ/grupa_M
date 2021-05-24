@@ -22,6 +22,7 @@ import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Box from "@material-ui/core/Box";
 import { Link as RouterLink } from "react-router-dom";
+import headers from "../shared/authheader";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -68,9 +69,7 @@ export default function RestaurateurRestaurantList() {
     var config = {
       method: "get",
       url: apiUrl + "restaurant/all",
-      headers: {
-        Authorization: "Bearer " + user.token,
-      },
+      headers: headers(user)
     };
 
     try {
@@ -97,9 +96,7 @@ export default function RestaurateurRestaurantList() {
     var config = {
       method: "delete",
       url: apiUrl + "restaurant?id=" + id,
-      headers: {
-        Authorization: "Bearer " + user.token,
-      },
+      headers: headers(user)
     };
 
     const response = axios(config)
@@ -143,6 +140,7 @@ export default function RestaurateurRestaurantList() {
                   Discount codes
                 </RouterLink>
               </Button>
+              &nbsp; &nbsp;
               <Button variant="contained" color="default">
                 <RouterLink to="/AddNewRestaurant">
                   Add new restaurant
@@ -182,6 +180,7 @@ export default function RestaurateurRestaurantList() {
                         name={"customized-empty" + rest.id}
                         value={rest.rating}
                         precision={0.5}
+                        readOnly
                         emptyIcon={<StarBorderIcon fontSize="inherit" />}
                       />
                     </Box>

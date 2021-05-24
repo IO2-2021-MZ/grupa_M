@@ -14,7 +14,10 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
-
+import UserContext from "../contexts/UserContext";
+import apiURL from "../shared/apiURL"
+import {Link as RouterLink} from 'react-router-dom'
+import headers from "../shared/authheader";
 
   const useStyles = makeStyles((theme) => ({
     icon: {
@@ -57,30 +60,29 @@ import TextField from '@material-ui/core/TextField';
     const { setSnackbar } = useContext(SnackbarContext);
     const [complaint, setComplaint] = useState();
     const [content, setResponse] = useState("");
+    const {user} = useContext(UserContext);
+    const [added, setAdded] = useState(false);
 
     const onTextChange = (event) =>{
         setResponse( event.target.value);
     }
 
     const saveResponse = async (id) => {
+      console.log("siema")
         var config = {
             method: 'POST',
-            url: 'https://localhost:44384/complaint/respond?id='+id,
-            headers: {
-              'Accept': 'application/json, text/plain',
-              'Content-Type': 'application/json;charset=UTF-8'
-            },
+            url: apiURL + 'complaint/respond?id='+id,
+            headers: headers(user),
             data: JSON.stringify(content)
         };
 
         try
         {
-            console.log(content);
             await axios(config);
+            setAdded(true);
         }
         catch(e)
         {
-            console.error(e);
             setSnackbar({
                 open: true,
                 message: 'Error occured',
@@ -93,7 +95,10 @@ import TextField from '@material-ui/core/TextField';
     async function fetchData(id){          
       var config = {
           method: 'get',
-          url: 'https://localhost:44384/complaint?id='+id
+          url: apiURL + 'complaint?id='+id,
+          headers: {
+            'Authorization': 'Bearer ' + user.token
+          },
       }
       
       try
@@ -112,20 +117,32 @@ import TextField from '@material-ui/core/TextField';
       }
       setLoading(false);
   }
-    useEffect(() => {   
-        setLoading(true);   
+    useEffect(() => { 
         fetchData(complaintId);
-    }, [setComplaint, setLoading, setSnackbar, complaintId, fetchData]);
+    }, [fetchData]);
 
     return(
-        complaint === undefined ? <div>Loading...</div> :
+      <div>
+      { complaint === undefined ? <></> :
+       added ?
+      <div>
+      <Typography style={{margin:150}} variant="h4">Added succesfully!</Typography>
+      <Button variant="contained" color="default" size="large">
+          <RouterLink to={"/Complaints/"+localStorage.getItem('rest_id')}>
+              Back
+          </RouterLink>
+      </Button>
+      </div>
+      :
 
         <React.Fragment>
           <CssBaseline/>
           <AppBar>
             <Toolbar>
               <Button>
-                <ArrowBackIcon fontSize = "large"/>
+                <RouterLink to={"/Complaints/" + localStorage.getItem('rest_id')}>
+                  <ArrowBackIcon fontSize = "large"/>
+                </RouterLink>
               </Button>
               <Typography variant="h6" color="inherit" noWrap>
                 Response
@@ -142,24 +159,18 @@ import TextField from '@material-ui/core/TextField';
                       />
                       <CardContent className={classes.cardContent}>
                         <Typography variant="h5" align="left" color="textPrimary">
-                          {complaint.content}
+                          {complaint?.content}
                         </Typography>
                         <br/>                        
                         <TextField
-                            id="outlined-multiline-static"
                             label="Response"
-                            multiline
-                            defaultValue=""
-                            variant="outlined"
-                            fullWidth={true}
+                            defaultValue= ""
                             onChange = {onTextChange}
                         />
                         <br/>
                         <br/>
                         <Button variant="contained" color="primary" onClick={() => saveResponse(complaintId)}>
-                          <Typography variant="button" color="inherit">
                             Save
-                          </Typography>
                         </Button>
                       </CardContent>
                     </Card>
@@ -168,6 +179,8 @@ import TextField from '@material-ui/core/TextField';
             </Container>
           </div>
         </React.Fragment>
+  }
+  </div>
     )
 }
 

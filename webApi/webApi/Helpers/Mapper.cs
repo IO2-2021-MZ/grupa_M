@@ -57,6 +57,8 @@ namespace webApi.Helpers
             //Complaint Mapper
             CreateMap<Complaint, ComplaintDTO>().ReverseMap();
 
+            CreateMap<Complaint, ComplaintR>().ReverseMap();
+
             CreateMap<Complaint, NewComplaint>().ReverseMap();
 
             //Restaurant Mappers

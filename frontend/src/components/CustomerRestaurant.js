@@ -22,6 +22,7 @@ import Rating from '@material-ui/lab/Rating';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import Box from '@material-ui/core/Box';
 import { Link as RouterLink } from 'react-router-dom';
+import headers from "../shared/authheader";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -71,9 +72,7 @@ function CustomerRestaurant(props) {
         var config = {
           method: 'get',
           url: apiUrl + "restaurant?id=" + restId,
-          headers: { 
-            'Authorization': 'Bearer ' + user.token
-          }
+          headers: headers(user)
         };
         
         try
@@ -127,7 +126,7 @@ function CustomerRestaurant(props) {
                   emptyIcon={<StarBorderIcon fontSize="inherit" />}                    />
             </Box>
             <Button variant="contained" size="small" style={{margin:15}}>
-                <RouterLink to={"/Menu/" + rest.id}> 
+                <RouterLink to={"/Menu/Restaurant/" + rest.id}> 
                     Menu
                 </RouterLink>
             </Button>

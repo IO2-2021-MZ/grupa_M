@@ -15,6 +15,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
+import headers from "../shared/authheader";
+import apiURL from "../shared/apiURL"
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -62,10 +64,8 @@ const MakeComplaint = (props) => {
     const saveNewComplaint = async () => {
         var config = {
             method: 'post',
-            url: 'https://localhost:44384/complaint',
-            header:{
-                'Content-Type': 'application/json'
-            },
+            url: apiURL + 'complaint',
+            header:headers,
             data: {
                 content: content,
                 orderId: orderId
