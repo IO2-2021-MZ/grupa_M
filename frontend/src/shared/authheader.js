@@ -1,6 +1,6 @@
 function authHeader(user){
     return {
-        headers: { apiKey: user.token }
+        apiKey: user.apiKey 
     };
 }
 

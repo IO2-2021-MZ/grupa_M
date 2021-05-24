@@ -85,6 +85,7 @@ export default function CustomerRestaurantList() {
   }
 
   async function fetchData() {
+    console.log(user.apiKey)
     setLoading(true);
 
     var config = {
