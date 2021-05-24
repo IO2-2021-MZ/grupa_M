@@ -2,11 +2,15 @@
 using webApi.DataTransferObjects.AuthenticateDTO;
 using webApi.DataTransferObjects.UserDTO;
 using webApi.Services;
-
 namespace webApi.Controllers
 {
     
     [ApiController]
+    [Route("user/admin/login")]
+    [Route("user/employee/login")]
+    [Route("user/customer/login")]
+    [Route("user/restaurer/login")]
+
     public class LoginController : AuthenticativeController
     {
 
@@ -24,18 +28,12 @@ namespace webApi.Controllers
         /// </summary>
         /// <param name="value"> Email i hasło użytkownika </param>
         /// <returns> Dane o użytkowniku </returns>
-        [HttpPost("authenticate")]
-        public IActionResult SignIn([FromBody] AuthenticateRequest value)
+        [HttpGet]
+        public IActionResult SignIn([FromQuery] AuthenticateRequest value)
         {
-            var response = _accountService.Authenticate(value, ipAddress());
+            
+            var response = _accountService.Authenticate(value);
             return Ok(response);
-        }
-        private string ipAddress()
-        {
-            if (Request.Headers.ContainsKey("X-Forwarded-For"))
-                return Request.Headers["X-Forwarded-For"];
-            else
-                return HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
         }
     }
 }

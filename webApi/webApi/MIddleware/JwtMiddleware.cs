@@ -24,7 +24,7 @@ namespace webApi.MIddleware
 
         public async Task Invoke(HttpContext context, IO2_RestaurantsContext  dataContext)
         {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var token = context.Request.Headers["apiKey"].ToString();
 
             if (token != null)
                 await attachAccountToContext(context, dataContext, token);
@@ -36,21 +36,9 @@ namespace webApi.MIddleware
         {
             try
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-                tokenHandler.ValidateToken(token, new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-                    ClockSkew = TimeSpan.Zero
-                }, out SecurityToken validatedToken);
-
-                var jwtToken = (JwtSecurityToken)validatedToken;
-                var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
-
+               
+                var info = token.Split(',');
+                int accountId = int.Parse(info[0]);
                 // attach account to context on successful jwt validation
                 context.Items["Account"] = await dataContext.Users.FindAsync(accountId);
             }

@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
     let history = useHistory();
     const [userInput, setUserInput] = useState({
         firstName: '',
@@ -340,7 +340,7 @@ export default function SignUp() {
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link component={RouterLink} to="/signin" variant="body2">
+                            <Link component={RouterLink} to={"/signin/" + props.role} variant="body2">
                                 Już masz konto? Zaloguj się
                             </Link>
                         </Grid>

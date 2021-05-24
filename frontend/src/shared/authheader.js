@@ -1,6 +1,6 @@
 function authHeader(user){
     return {
-        headers: { Authorization: 'Bearer ' + user.token }
+        headers: { apiKey: user.token }
     };
 }
 
