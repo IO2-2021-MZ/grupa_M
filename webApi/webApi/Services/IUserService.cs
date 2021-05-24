@@ -12,10 +12,14 @@ namespace webApi.Services
     {
         public User GetUserWithId(int? id);
         public RegisterResponse CreateNewUser(RegisterRequest newUser);
+
+        public User CreateNewEmployee(NewEmployee value);
+        public User CreateNewAdmin(NewAdministrator value);
+        public User CreateNewCustomer(NewCustomer value);
         public void DeleteUser(int? id );
-        public IEnumerable<Order> GetAllUserOrders(int? id);
+        public IEnumerable<Order> GetAllUserOrders(int id);
         public IEnumerable<Complaint> GetAllUserComplaint(int? id);
-        public IEnumerable<User> GetAllUsers();
+        public IEnumerable<User> GetAllUsers(int role);
 
 
 

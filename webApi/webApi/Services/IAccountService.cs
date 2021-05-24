@@ -12,12 +12,13 @@ using webApi.DataTransferObjects.AuthenticateDTO;
 using webApi.Models;
 using webApi.Helpers;
 using webApi.Exceptions;
+using webApi.Enums;
 
 namespace webApi.Services
 {
     public interface IAccountService
     {
-        AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
+        string Authenticate(AuthenticateRequest model);
 
     }
 
@@ -39,16 +40,12 @@ namespace webApi.Services
             _appSettings = appSettings.Value;
 
         }
-        public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
+        public string Authenticate(AuthenticateRequest model)
         {
             var account = _context.Users.SingleOrDefault(x => x.Email == model.Email);
-
-            if (account == null || !BC.Verify(model.Password, account.PasswordHash))  
-                throw new UnathorisedException("Email or password is incorrect");
-            var jwtToken = generateJwtToken(account);
-            var response = _mapper.Map<AuthenticateResponse>(account);
-            response.Token = jwtToken;
-            return response;
+            string apiToken = account.Id.ToString() + ", " + Enum.GetName(typeof(Role),account.Role);
+          
+            return apiToken;
         }
         private string generateJwtToken(User account)
         {

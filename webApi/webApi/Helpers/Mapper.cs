@@ -76,7 +76,7 @@ namespace webApi.Helpers
                 .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }))
                 .ForMember(dest => dest.State, opts => opts.MapFrom(src => ((RestaurantState)src.State).ToString("G")));
 
-            CreateMap<AddressDTO, Address>();
+            CreateMap<AddressDTO, Address>().ReverseMap();
 
             CreateMap<Section, SectionDTO>()
                 .ForMember(dest => dest.Positions, opts => opts.MapFrom(src => src.Dishes));
@@ -86,11 +86,17 @@ namespace webApi.Helpers
             CreateMap<Dish, PositionFromMenuDTO>().ReverseMap();
             
             CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<User, NewEmployee>().ReverseMap();
+            CreateMap<User, Employee>().ReverseMap();
             CreateMap<User, AuthenticateResponse>().ReverseMap();
             CreateMap<User, RegisterRequest>().ReverseMap();
-
-
-
+            CreateMap<User, NewAdministrator>().ReverseMap();
+            CreateMap<User, CustomerC>()
+                .ForMember(x => x.address, opt => opt.Ignore())
+                .ReverseMap();
+             CreateMap<User, NewCustomer>()
+                .ForMember(x => x.address, opt => opt.Ignore())
+                .ReverseMap();
 
         }
     }

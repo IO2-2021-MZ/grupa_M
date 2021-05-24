@@ -392,7 +392,7 @@
             User Controller
             </summary>
         </member>
-        <member name="M:webApi.Controllers.UserController.#ctor(webApi.Services.IUserService,AutoMapper.IMapper)">
+        <member name="M:webApi.Controllers.UserController.#ctor(webApi.Models.IO2_RestaurantsContext,webApi.Services.IUserService,AutoMapper.IMapper)">
             <summary>
             User Controller constructor
             </summary>
@@ -440,7 +440,7 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response>
         </member>
-        <member name="M:webApi.Controllers.UserController.GetAllComplaint">
+        <member name="M:webApi.Controllers.UserController.GetAllComplaint(System.Nullable{System.Int32})">
             <summary>
             Returns all complaints of user with exact id
             </summary>
@@ -451,7 +451,7 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.UserController.GetAllUsers">
+        <member name="M:webApi.Controllers.UserController.GetAllUsers(System.String)">
             <summary>
             Returns all users
             </summary>

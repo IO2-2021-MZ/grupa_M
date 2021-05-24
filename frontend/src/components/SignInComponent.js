@@ -21,16 +21,17 @@ import UserContext from '../contexts/UserContext'
 
 const authorize = async (values) => {
   try{
-      const response = await axios.post(
-          apiURL + 'authenticate', 
-          { email : values.email, password: values.password },
-          { withCredentials: true });
+      const response = await axios.get(
+          apiURL + 'user/' + values.role + '/login', { params: { Email: values.email } });
       return response.data;
   }catch(error){
       console.error(error);
   }
 }
 
+const TokenParse = (response) =>{
+
+}
 
 function Copyright() {
 return (
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: "url(/bg4.jpg)",
+    backgroundImage: "url(https://restauracjaakademia.pl/wp-content/uploads//2018/04/restauracja-akademia-trendy-gastronomiczne-blog.jpg)",
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -94,12 +95,13 @@ export default function SignIn(props) {
   const [emailValid, setEmailValid] = useState(true);
   const {setUser} = useContext(UserContext);
   const { setLoading } = useContext(LoadingContext);
-
-  const { startRefreshToken } = props;
-
+  const { role } = props.role;
 const handleSubmit = async (values) => {
+  
   setLoading(true);
-  setUser(await authorize(values));
+  const token =  await authorize(values);
+  const usr = token.split(', ');
+  setUser(usr[1]);
   setLoading(false);
 }
 const emailChanged = (event) => {
@@ -126,7 +128,7 @@ const emailChanged = (event) => {
           <form className={classes.form} noValidate onSubmit={
                     (event) => {
                         event.preventDefault(); 
-                        handleSubmit({email, password, remember});
+                        handleSubmit({email, role: props.role });
                     }}>
                     <TextField
                         variant="outlined"
@@ -161,7 +163,7 @@ const emailChanged = (event) => {
                         color="primary"
                         className={classes.submit}
                     >
-                        Zaloguj
+                        Sign In
                     </Button>
                     <Grid container>
                         <Grid item xs>
@@ -170,7 +172,7 @@ const emailChanged = (event) => {
                             </RouterLink>
                         </Grid>
                         <Grid item>
-                            <Link component={RouterLink} to="/signup" variant="body2">
+                            <Link component={RouterLink} to={"/signup/" + props.role} variant="body2">
                                 {"Nie masz konta? Utwórz je"}
                             </Link>
                         </Grid>

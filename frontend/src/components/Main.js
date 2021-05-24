@@ -5,7 +5,7 @@ import Admin from "./Admin";
 import Customer from "./Customer";
 import Employee from "./Employee";
 import LogOut from "./LogOut";
-import RestaurantOrder from "./RestaurantOrdersList"
+
 
 
 function Main(){
@@ -13,21 +13,21 @@ function Main(){
     if(user === undefined){
         return <LogOut/>;
     }
-    if(user.role === 0){ // role
+    if(user === 'Restaurer'){ // role
         return <Restaurer />;
         // RestaurateurRestaurant List
         // AddNewDish 
     }
-    if(user.role === 1){
+    if(user === 'Admin'){
         return <Admin/>;
         //AdminRestaurantList
     }
-    if(user.role === 2){
+    if(user === 'Customer'){
         return <Customer/>;
         // Customer RestaurantList
         // AddNewOrder
     }
-    if(user.role === 3){
+    if(user === 'Employee'){
         return <Employee/>;
         //EmployeeRestaurantList
     }
