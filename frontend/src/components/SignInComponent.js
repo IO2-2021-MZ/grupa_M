@@ -93,7 +93,7 @@ export default function SignIn(props) {
   const [email, setEmail] = useState('');
   const [remember, setRemember] = useState(false);
   const [emailValid, setEmailValid] = useState(true);
-  const {setUser} = useContext(UserContext);
+  const {user , setUser} = useContext(UserContext);
   const { setLoading } = useContext(LoadingContext);
   const { role } = props.role;
 const handleSubmit = async (values) => {
@@ -101,7 +101,7 @@ const handleSubmit = async (values) => {
   setLoading(true);
   const token =  await authorize(values);
   const usr = token.split(', ');
-  setUser(usr[1]);
+  setUser({apiKey: token,role: usr[1]});
   setLoading(false);
 }
 const emailChanged = (event) => {
