@@ -13,23 +13,17 @@ function Main(){
     if(user === undefined){
         return <LogOut/>;
     }
-    if(user === 'Restaurer'){ // role
+    if(user.role === 'Restaurer'){
         return <Restaurer />;
-        // RestaurateurRestaurant List
-        // AddNewDish 
     }
-    if(user === 'Admin'){
+    if(user.role === 'Admin'){
         return <Admin/>;
-        //AdminRestaurantList
     }
-    if(user === 'Customer'){
+    if(user.role === 'Customer'){
         return <Customer/>;
-        // Customer RestaurantList
-        // AddNewOrder
     }
-    if(user === 'Employee'){
+    if(user.role === 'Employee'){
         return <Employee/>;
-        //EmployeeRestaurantList
     }
 }
 
