@@ -173,7 +173,7 @@ export default function AdminRestaurantList() {
         </div>
         <Container className={classes.cardGrid}>
           {/* End hero unit */}
-          <Grid container spacing={12}>
+          <Grid container spacing={10}>
             {rests.map((rest) => (
                  <Grid item key={rest.id} xs={12} sm={6} md={6} style={{padding:10}}>
                 <Card className={classes.card} >

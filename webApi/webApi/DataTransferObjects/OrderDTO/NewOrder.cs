@@ -14,7 +14,7 @@ namespace webApi.DataTransferObjects.OrderDTO
         public DateTime Date { get; set; }
         [Required]
         public AddressDTO.AddressDTO Address { get; set; }
-        public int DiscountCodeId { get; set; }
+        public int? DiscountCodeId { get; set; }
         [Required]
         public int CustomerId { get; set; }
         [Required]

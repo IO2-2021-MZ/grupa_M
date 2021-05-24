@@ -55,15 +55,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignUp(props) {
+export default function SignUpEmployee(props) {
     let history = useHistory();
     const [userInput, setUserInput] = useState({
         firstName: '',
         lastName: '',
-        tel: '',
         email: '',
-        password: '',
-        repeatPassword: ''
     });
     const [errors, setErrors] = useState({});
     const [acceptterms, setAcceptterms] = useState(true);
@@ -128,14 +125,12 @@ export default function SignUp(props) {
 
         try {
             await axios.post(
-                apiURL + 'ParentSignUp', 
+                apiURL +'user/employee', 
                 { 
-                    imie : userInput.firstName,
-                    nazwisko : userInput.lastName,
-                    telefon : userInput.tel,
+                    name : userInput.firstName,
+                    surname : userInput.lastName,
                     email : userInput.email,
-                    haslo : userInput.password,
-                    potwierdzHaslo : userInput.repeatPassword
+                    isRestaurateur: false,
                 }
             );
             signupsuccess = true;
@@ -143,16 +138,16 @@ export default function SignUp(props) {
             setSnackbar({
                 open: true,
                 type: 'error',
-                message: 'Nie udało się utworzyć konta'
+                message: 'Creation failed'
             });
         }
         if(signupsuccess){
             setSnackbar({
                 open: true,
                 type: 'success',
-                message: 'Udało się utworzyć. Sprawdź skrzynke mailową.'
+                message: 'Creation succesfull'
             });
-            history.push('/parenthome')
+            history.push('/startup')
         }
 
         setLoading(false);
@@ -172,9 +167,25 @@ export default function SignUp(props) {
                     continue;
                 }
             }
-            if(field === 'tel'){
+            if(field === 'city'){
                 if(userInput[field].length === 0){
                     errors[field] = 'Pole jest wymagane';
+                    continue;
+                }
+            }
+            if(field === 'street'){
+                if(userInput[field].length === 0){
+                    errors[field] = 'Pole jest wymagane';
+                    continue;
+                }
+            }
+            if(field === 'postCode'){
+                if(userInput[field].length === 0){
+                    errors[field] = 'Pole jest wymagane';
+                    continue;
+                }
+                else if(userInput[field].length > 6){
+                    errors[field] = 'Zbyt długie';
                     continue;
                 }
             }
@@ -188,18 +199,6 @@ export default function SignUp(props) {
                         errors[field] = 'Niepoprawny adres email';
                         continue;
                     }
-                }
-            }
-            if(field === 'password'){
-                if(userInput[field].length < 6){
-                    errors[field] = 'Hasło musi być dłuższe niż 5 znaków';
-                    continue;
-                }
-            }
-            if(field === 'repeatPassword'){
-                if(userInput[field] === '' || userInput[field] !== userInput['password']){
-                    errors[field] = 'Hasła powinny się zgadzać';
-                    continue;
                 }
             }
             errors[field] = '';
@@ -231,7 +230,7 @@ export default function SignUp(props) {
                                 required
                                 fullWidth
                                 id="firstName"
-                                label="Imię"
+                                label="Name"
                                 autoFocus
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -245,7 +244,7 @@ export default function SignUp(props) {
                                 required
                                 fullWidth
                                 id="lastName"
-                                label="Nazwisko"
+                                label="Surname"
                                 name="lastName"
                                 autoComplete="lname"
                                 onChange={handleChange}
@@ -270,56 +269,6 @@ export default function SignUp(props) {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <MuiPhoneNumber 
-                                defaultCountry={'pl'}
-                                id="tel"
-                                label="Telefon"
-                                name="tel"
-                                variant="outlined"
-                                fullWidth
-                                required
-                                onChange={(value) => setUserInput(userInput => {
-                                    return {
-                                        ...userInput,
-                                        tel : value
-                                    }
-                                })}
-                                onBlur={handleBlur}
-                                error={errors["tel"] === undefined ? false : errors["tel"].length > 0}
-                                helperText={errors["tel"] || ''}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Hasło"
-                                type="password"
-                                id="password"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                error={errors["password"] === undefined ? false : errors["password"].length > 0}
-                                helperText={errors["password"] || ''}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="repeatPassword"
-                                label="Powtórz hasło"
-                                type="password"
-                                id="repeat-password"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                error={errors["repeatPassword"] === undefined ? false : errors["repeatPassword"].length > 0}
-                                helperText={errors["repeatPassword"] || ''}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
                             <FormControlLabel
                                 control={<Checkbox checked={userInput.acceptterms || false} color="primary" name="acceptterms" onChange={handleChange}/>}
                                 label="Akceptuję warunki regulaminu"
@@ -340,7 +289,7 @@ export default function SignUp(props) {
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link component={RouterLink} to={"/signin/" + props.role} variant="body2">
+                            <Link component={RouterLink} to={"startup"} variant="body2">
                                 Już masz konto? Zaloguj się
                             </Link>
                         </Grid>

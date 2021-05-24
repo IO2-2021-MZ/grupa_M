@@ -11,7 +11,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import HomeIcon from '@material-ui/icons/Home';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SnackbarContext from '../contexts/SnackbarContext';
 import LoadingContext from '../contexts/LoadingContext';
 import axios from 'axios';
@@ -102,10 +102,13 @@ function CustomerRestaurant(props) {
             <React.Fragment>
                 <AppBar position="relative">
         <Toolbar>
-          <HomeIcon className={classes.icon} />
-          <Typography variant="h6" color="inherit" noWrap>
-            Restaurant List
-          </Typography>
+        <RouterLink to={"/RestaurantList"} style={{ color: "#FFF" }}>
+          <ArrowBackIcon className={classes.icon} />
+        </RouterLink>
+              <Typography variant="h6" color="inherit" noWrap>
+                Restaurant View
+              </Typography>
+            
         </Toolbar>
       </AppBar>
       <main>
@@ -125,19 +128,19 @@ function CustomerRestaurant(props) {
                   precision={0.5}
                   emptyIcon={<StarBorderIcon fontSize="inherit" />}                    />
             </Box>
-            <Button variant="contained" size="small" style={{margin:15}}>
-                <RouterLink to={"/Menu/Restaurant/" + rest.id}> 
+            <Button variant="contained" color="primary" size="small" style={{margin:15}}>
+                <RouterLink to={"/Menu/Restaurant/" + rest.id} style={{ color: "#FFF" }}> 
                     Menu
                 </RouterLink>
             </Button>
-            <Button variant="contained" size="small"  style={{margin:15}}>
-            <RouterLink to={"/reviews/restaurant/"+rest.id}> 
+            <Button variant="contained" color="primary" size="small" style={{margin:15}}>
+            <RouterLink to={"/reviews/restaurant/"+rest.id} style={{ color: "#FFF" }}> 
               Reviews
             </RouterLink>
                 
             </Button>
-            <Button variant="contained" size="small"  style={{margin:15}}>
-                <RouterLink to={"/Review/create/"+rest.id}> 
+            <Button variant="contained" color="primary" size="small" style={{margin:15}}>
+                <RouterLink to={"/Review/create/"+rest.id} style={{ color: "#FFF" }}> 
                     Create Review
                 </RouterLink>
             </Button>
@@ -145,9 +148,6 @@ function CustomerRestaurant(props) {
         </div>
         <Container className={classes.cardGrid}>
           {/* End hero unit */}
-          <Grid container spacing={12}>
-                
-          </Grid>
         </Container>
       </main>
     </React.Fragment>

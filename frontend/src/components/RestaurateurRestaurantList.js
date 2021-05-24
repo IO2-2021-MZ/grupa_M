@@ -104,6 +104,7 @@ export default function RestaurateurRestaurantList() {
       .catch((error) => setSnackbar(error.message));
   };
 
+
   return (
     <React.Fragment>
       <AppBar position="relative">
@@ -141,23 +142,25 @@ export default function RestaurateurRestaurantList() {
                 </RouterLink>
               </Button>
               &nbsp; &nbsp;
+              {rests.length == 0 ?
               <Button variant="contained" color="default">
                 <RouterLink to="/AddNewRestaurant">
                   Add new restaurant
                 </RouterLink>
-              </Button>
+              </Button> : <></>
+              }
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
-          <Grid container spacing={12}>
+          <Grid container spacing={10}>
             {rests.map((rest) => (
               <Grid
                 item
                 key={rest.id}
                 xs={12}
-                sm={6}
-                md={6}
+                sm={12}
+                md={12}
                 style={{ padding: 10 }}
               >
                 <Card className={classes.card}>
@@ -198,6 +201,15 @@ export default function RestaurateurRestaurantList() {
                       >
                         Details
                       </RouterLink>
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      color="secondary"
+                      style={{ margin: 15 }}
+                      onClick = {() => deleteRestaurant(rest.id)}
+                    >
+                      DELETE
                     </Button>
                   </CardActions>
                 </Card>
