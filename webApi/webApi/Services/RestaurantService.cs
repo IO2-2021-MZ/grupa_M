@@ -102,10 +102,17 @@ namespace webApi.Services
                 addressId = add.Id;
             }
 
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+
+            if (urs != null)
+                DeleteRestaurant(urs.RestaurantId, userId);
+
             restaurant.AddressId = addressId;
             restaurant.DateOfJoining = DateTime.Now;
             _context.Restaurants.Add(restaurant);
             _context.SaveChanges();
+                
+                
             _context.UserRests.Add(new UserRest() { UserId = userId, RestaurantId = restaurant.Id });
             _context.SaveChanges();
             return restaurant.Id;
@@ -297,7 +304,10 @@ namespace webApi.Services
             if(user.Role == (int)Role.Restaurer)
             {
                 var urs = _context.UserRests.Where(ur => ur.UserId == user.Id);
-                restaurants = restaurants.Where(r => urs.Any(ur => ur.RestaurantId == r.Id)).ToList();
+                var res = restaurants.Where(r => urs.Any(ur => ur.RestaurantId == r.Id)).FirstOrDefault();
+                if (res is null)
+                    return new List<RestaurantC>();
+                restaurants = new List<Restaurant>() { res };
             }
 
 
