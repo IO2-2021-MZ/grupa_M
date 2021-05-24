@@ -144,18 +144,6 @@ const emailChanged = (event) => {
                         error={!emailValid}
                         helperText={!emailValid && "Niepoprawny adres email"}
                     />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Hasło"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        onChange={(event)=>{setPassword(event.target.value)}}
-                    />
                     <Button
                         type="submit"
                         fullWidth
