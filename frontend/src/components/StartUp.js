@@ -122,7 +122,7 @@ const footers = [
     description: ['Privacy policy',],
   },
   {
-    title: 'Bartosz Luszatk',
+    title: 'Bartosz Lusztak',
     description: ['Privacy policy'],
   },
 ];
