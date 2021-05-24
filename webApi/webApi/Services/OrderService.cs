@@ -166,6 +166,47 @@ namespace webApi.Services
 
             return orderDTO;
         }
+        public List<OrderA> GetOrdersArchive()
+        {
+            var orders = _context
+                        .Orders
+                        .Include(o => o.Address)
+                        .Include(o => o.DiscountCode)
+                        .Include(o => o.Customer)
+                        .Include(o => o.OrderDishes)
+                        .Include(o => o.Restaurant)
+                        .Include(o => o.Employee)
+                        .ToList();
+
+            if (orders is null)
+                throw new NotFoundException("Resource not found");
+
+            List<OrderA> orderDTOs = new List<OrderA>();
+            decimal originalPrice = 0;
+            decimal finalPrice = 0;
+            for (int i = 0; i < orders.Count; i++)
+            { 
+                foreach(var orderDish in orders[i].OrderDishes)
+                {
+                    var dish = _context
+                                .Dishes
+                                .FirstOrDefault(d => d.Id == orderDish.DishId);
+                    originalPrice += dish.Price;
+                }
+                if (orders[i].DiscountCode is null)
+                    finalPrice = originalPrice;
+                else
+                    finalPrice = originalPrice * (100 - orders[i].DiscountCode.Percent) * (decimal)0.01;
+                orderDTOs.Add(new OrderA());
+                orderDTOs[i] = _mapper.Map<OrderA>(orders[i]);
+                orderDTOs[i].OriginalPrice = originalPrice;
+                orderDTOs[i].FinalPrice = finalPrice;
+                originalPrice = 0;
+                finalPrice = 0;
+            }
+
+            return orderDTOs;
+        }
         public void AcceptOrder(int id, int userId)
         {
             var order = _context

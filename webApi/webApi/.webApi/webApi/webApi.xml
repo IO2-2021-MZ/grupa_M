@@ -104,6 +104,15 @@
             <response code="401">Unauthorized</response>
             <response code="404">Resource Not Found</response> 
         </member>
+        <member name="M:webApi.Controllers.OrderController.GetOrdersArchive">
+            <summary>
+            Returns Order Archive
+            </summary>
+            <returns> Returns All Orders </returns>
+            <response code="200">Return orders</response>
+            <response code="400">Bad Request</response> 
+            <response code="401">Unauthorized</response>
+        </member>
         <member name="M:webApi.Controllers.OrderController.CreateOrder(webApi.DataTransferObjects.OrderDTO.NewOrder)">
             <summary>
             Creates New Order

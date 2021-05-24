@@ -39,6 +39,21 @@ namespace webApi.Controllers
         }
 
         /// <summary>
+        /// Returns Order Archive
+        /// </summary>
+        /// <returns> Returns All Orders </returns>
+        /// <response code="200">Return orders</response>
+        /// <response code="400">Bad Request</response> 
+        /// <response code="401">Unauthorized</response>
+        [HttpGet("archive")]
+        [Authorize(Role.Admin)]
+        public ActionResult<IEnumerable<OrderA>> GetOrdersArchive()
+        {
+            IEnumerable<OrderA> orders = _orderService.GetOrdersArchive();
+            return Ok(orders);
+        }
+
+        /// <summary>
         /// Creates New Order
         /// </summary>
         /// <returns> Creates New Order </returns>
