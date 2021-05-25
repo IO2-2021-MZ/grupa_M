@@ -175,6 +175,7 @@ export default function CustomerRestaurantList() {
                   </Button>
                   <Button onClick={() => handleSettingFavourite(rest.id)} disabled={user?.favouriteRestaurants?.map(el => el.id)?.contains(rest.id)} variant="contained" color="primary" size="small" style={{margin:15}}>
                       { user?.favouriteRestaurants?.map(el => el.id)?.contains(rest.id) ? "Is fav!" : "Set as fav"}
+                      {console.log(user)}
                   </Button>
                 </CardActions>
               </Card>

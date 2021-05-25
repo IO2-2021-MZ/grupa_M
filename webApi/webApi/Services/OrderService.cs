@@ -98,9 +98,11 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+
             if (user is null ||
                 (user.Role == (int)Role.Customer && order.CustomerId != user.Id) ||
-                (user.Role == (int)Role.Restaurer && order.RestaurantId != user.RestaurantId) ||
+                (user.Role == (int)Role.Restaurer && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
                 (user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId))
                 throw new UnathorisedException("Unathourized");
 
@@ -221,10 +223,13 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+
+
             if (user is null ||
                 user.Role == (int)Role.Customer ||
                 user.Role == (int)Role.Admin ||
-                user.Role == (int)Role.Restaurer && order.RestaurantId != user.RestaurantId ||
+                (user.Role == (int)Role.Restaurer && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
                 user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId)
                 throw new UnathorisedException("Unathourized");
 
@@ -246,11 +251,13 @@ namespace webApi.Services
                 .Users
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+
 
             if (user is null ||
                 user.Role == (int)Role.Customer ||
                 user.Role == (int)Role.Admin ||
-                user.Role == (int)Role.Restaurer && order.RestaurantId != user.RestaurantId ||
+               (user.Role == (int)Role.Restaurer && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
                 user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId)
                 throw new UnathorisedException("Unathourized");
 
@@ -273,10 +280,13 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+
+
             if (user is null ||
                 user.Role == (int)Role.Customer ||
                 user.Role == (int)Role.Admin ||
-                user.Role == (int)Role.Restaurer && order.RestaurantId != user.RestaurantId ||
+              (user.Role == (int)Role.Restaurer && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
                 user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId)
                 throw new UnathorisedException("Unathourized");
 
