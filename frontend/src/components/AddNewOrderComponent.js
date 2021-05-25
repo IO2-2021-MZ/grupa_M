@@ -188,10 +188,6 @@ const AddNewOrder = (props) => {
         }
     }
 
-    const test = () => {
-        console.log(user);
-    }
-
     return (
         <div>
             { added ?
@@ -298,9 +294,6 @@ const AddNewOrder = (props) => {
                                                 style={{ margin: 10 }}
                                             />
                                             <Button variant="contained" color="primary" size="small" style={{ margin: 15 }} onClick={validateDiscountCode}>
-                                                Validate Code
-                                    </Button>
-                                            <Button variant="contained" color="primary" size="small" style={{ margin: 15 }} onClick={test}>
                                                 Validate Code
                                     </Button>
                                             <TableContainer component={Paper}>

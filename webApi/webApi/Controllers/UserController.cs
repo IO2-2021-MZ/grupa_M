@@ -177,13 +177,8 @@ namespace webApi.Controllers
         [HttpGet("customer/order/all")]
         public IActionResult GetAllOrders()
         {
-            var orders = _userService.GetAllUserOrders(Account.Id);
-            List<OrderC> response = new List<OrderC>();
-            foreach(var el in orders)
-            {
-                response.Add(_mapper.Map<OrderC>(el));
-            }
-            return Ok(response);
+            IEnumerable<OrderC> orders = _userService.GetAllUserOrders(Account.Id);
+            return Ok(orders);
         }
         /// <summary>
         /// Returns all complaints of user with exact id

@@ -137,6 +137,7 @@ function CustomerOrdersHistory(props) {
                     {console.log(orders)}
                     <TableCell>Order id</TableCell>
                     <TableCell align="center">State</TableCell>
+                    <TableCell align="center">Restaurant</TableCell>
                     <TableCell align="center">Price</TableCell>
                     <TableCell align="center">Date</TableCell>
                     <TableCell align="right"></TableCell>
@@ -149,7 +150,8 @@ function CustomerOrdersHistory(props) {
                         {row.id}
                     </TableCell>
                     <TableCell align="center">{row.state}</TableCell>
-                    <TableCell align="center">{row.finalprice}</TableCell>
+                    <TableCell align="center">{row.restaurant.name}</TableCell>
+                    <TableCell align="center">{row.finalPrice}</TableCell>
                     <TableCell align="center">{row.date.replace('T',' ')}</TableCell>
                     <TableCell align="right">
                     </TableCell>
