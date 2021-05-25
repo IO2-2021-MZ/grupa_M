@@ -18,6 +18,20 @@ EXECUTE (N'CREATE DATABASE IO2_Restaurants
 
 GO 
 
+--! powyzej ustawienia dla !BAZY LOKALNEJ!
+
+drop table if exists [Order_Dish] 
+drop table if exists [User_Rests]
+drop table if exists [Complaint]
+drop table if exists [Review]
+drop table if exists [Order]
+drop table if exists [Discount_Code]
+drop table if exists [User]
+drop table if exists [Dish]
+drop table if exists [Section]
+drop table if exists [Restaurant]
+drop table if exists [Address]
+
 set quoted_identifier on
 GO
 
@@ -86,8 +100,7 @@ CREATE TABLE [User] (
 	[name] varchar(50) NOT NULL,
 	surname varchar(50) NOT NULL,
 	email varchar(50) NOT NULL,
-	is_restaurateur bit NOT NULL,
-	is_administrator bit NOT NULL,
+	[role] int NOT NULL,
 	creation_date datetime NOT NULL,
 	password_hash varchar(100) NOT NULL,
 	address_id int,
@@ -211,6 +224,23 @@ CREATE TABLE Order_Dish(
 	(
 		order_id
 	) REFERENCES [Order]
+)
+
+GO
+
+CREATE TABLE User_Rests(
+	id int IDENTITY (1, 1) NOT NULL PRIMARY KEY,
+	user_id int NOT NULL,
+	restaurant_id int NOT NULL,
+
+	CONSTRAINT FK_URU FOREIGN KEY
+	(
+		user_id
+	) REFERENCES [User],
+	CONSTRAINT FK_URR FOREIGN KEY
+	(
+		restaurant_id
+	) REFERENCES Restaurant
 )
 
 GO

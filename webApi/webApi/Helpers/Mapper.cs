@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using webApi.DataTransferObjects.AddressDTO;
+using webApi.DataTransferObjects.AuthenticateDTO;
 using webApi.DataTransferObjects.ComplaintDTO;
 using webApi.DataTransferObjects.DiscountCodeDTO;
 using webApi.DataTransferObjects.DishDTO;
@@ -33,14 +35,29 @@ namespace webApi.Helpers
             CreateMap<Review, ReviewDTO>().ReverseMap();
 
             //Order Mapper
-            CreateMap<Order, OrderDTO>() //TODO(?): mapping for enums
-                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }));
+            CreateMap<Order, OrderA>()
+                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }))
+                .ForMember(dest => dest.PaymentMethod, opts => opts.MapFrom(src => ((PaymentMethod)src.PaymentMethod).ToString("G")))
+                .ForMember(dest => dest.State, opts => opts.MapFrom(src => ((OrderState)src.State).ToString("G")));
+
+            CreateMap<Order, OrderR>()
+                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }))
+                .ForMember(dest => dest.PaymentMethod, opts => opts.MapFrom(src => ((PaymentMethod)src.PaymentMethod).ToString("G")))
+                .ForMember(dest => dest.State, opts => opts.MapFrom(src => ((OrderState)src.State).ToString("G")));
+
+            CreateMap<Order, OrderC>()
+                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }))
+                .ForMember(dest => dest.PaymentMethod, opts => opts.MapFrom(src => ((PaymentMethod)src.PaymentMethod).ToString("G")))
+                .ForMember(dest => dest.State, opts => opts.MapFrom(src => ((OrderState)src.State).ToString("G")));
 
             CreateMap<NewOrder, Order>()
-                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => null as object));
+                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => null as object))
+                .ForMember(dest => dest.PaymentMethod, opts => opts.MapFrom(src => Enum.Parse(typeof(PaymentMethod), src.PaymentMethod)));
 
             //Complaint Mapper
             CreateMap<Complaint, ComplaintDTO>().ReverseMap();
+
+            CreateMap<Complaint, ComplaintR>().ReverseMap();
 
             CreateMap<Complaint, NewComplaint>().ReverseMap();
 
@@ -54,18 +71,32 @@ namespace webApi.Helpers
                 .ForMember(dest => dest.Address, opts => opts.MapFrom(src => null as object))
                 .ForMember(dest => dest.State, opts => opts.MapFrom(src => 1));
 
-            CreateMap<AddressDTO, Address>();
+            CreateMap<Restaurant, RestaurantC>()
+                .ForMember(dest => dest.State, opts => opts.MapFrom(src => (RestaurantState)src.State))
+                .ForMember(dest => dest.Address, opts => opts.MapFrom(src => new AddressDTO() { Street = src.Address.Street, City = src.Address.City, PostCode = src.Address.PostCode }))
+                .ForMember(dest => dest.State, opts => opts.MapFrom(src => ((RestaurantState)src.State).ToString("G")));
 
-            CreateMap<Section, SectionDTO>();
+            CreateMap<AddressDTO, Address>().ReverseMap();
+
+            CreateMap<Section, SectionDTO>()
+                .ForMember(dest => dest.Positions, opts => opts.MapFrom(src => src.Dishes));
 
             CreateMap<Dish, NewPositionFromMenu>().ReverseMap();
 
             CreateMap<Dish, PositionFromMenuDTO>().ReverseMap();
             
             CreateMap<User, UserDTO>().ReverseMap();
-            
-            CreateMap<User, NewUserDTO>().ReverseMap();
-
+            CreateMap<User, NewEmployee>().ReverseMap();
+            CreateMap<User, Employee>().ReverseMap();
+            CreateMap<User, AuthenticateResponse>().ReverseMap();
+            CreateMap<User, RegisterRequest>().ReverseMap();
+            CreateMap<User, NewAdministrator>().ReverseMap();
+            CreateMap<User, CustomerC>()
+                .ForMember(x => x.address, opt => opt.Ignore())
+                .ReverseMap();
+             CreateMap<User, NewCustomer>()
+                .ForMember(x => x.address, opt => opt.Ignore())
+                .ReverseMap();
 
         }
     }

@@ -7,5 +7,9 @@ namespace webApi.DataTransferObjects.UserDTO
 {
     public class NewCustomer
     {
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Email { get; set; }
+        public AddressDTO.AddressDTO address { get; set; }
     }
 }

@@ -16,5 +16,9 @@ namespace webApi.DataTransferObjects.DiscountCodeDTO
         public DateTime DateFrom { get; set; }
         [Required]
         public DateTime DateTo { get; set; }
+        [Required]
+        public int RestaurantId { get; set; }
+        [Required]
+        public int Percent { get; set; }
     }
 }

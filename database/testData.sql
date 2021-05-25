@@ -1,6 +1,7 @@
 use IO2_Restaurants
 
 delete from [Order_Dish]
+delete from [User_Rests]
 delete from [Complaint]
 delete from [Review]
 delete from [Order]
@@ -12,8 +13,7 @@ delete from [Restaurant]
 delete from [Address]
 
 
-
- set identity_insert [Address] on
+set identity_insert [Address] on
 
 insert into [Address] 
 	(id,city,street,post_code)
@@ -59,11 +59,11 @@ set identity_insert [Dish] on
 insert into [Dish] 
 	(id, [name], [description], price, section_id )
 values
-	(1, 'Kasza jaglana', 'Najlepsza kasza na œwiecie!', 24.59, 1),
+	(1, 'Kasza jaglana', 'Najlepsza kasza na ï¿½wiecie!', 24.59, 1),
 	(2, 'Kaszanka', 'Idealna na grilla!', 2.59, 1),
-	(3, 'Woda', 'Naturalne orzeŸwienie', 1.59, 2),
-	(4, 'Pomidorowa', 'Z pomidorów z nad Ba³tyku!', 23.56, 3),
-	(5, 'Z miêsem', 'Miêêêêêêêêso', 3.56, 4),
+	(3, 'Woda', 'Naturalne orzeï¿½wienie', 1.59, 2),
+	(4, 'Pomidorowa', 'Z pomidorï¿½w z nad Baï¿½tyku!', 23.56, 3),
+	(5, 'Z miï¿½sem', 'Miï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½so', 3.56, 4),
 	(6, 'Ze szpinakiem ', 'Idealne dla wegetarian', 3.56, 4),
 	(7, 'Pepsi', 'Nie cola', 4.49, 5)
 set identity_insert [Dish] off
@@ -72,11 +72,11 @@ set identity_insert [Dish] off
 set identity_insert [User] on
 
 insert into [User] 
-	(id, [name], surname, email, is_restaurateur, is_administrator, creation_date, password_hash, address_id, restaurant_id)
+	(id, [name], surname, email, role, creation_date, password_hash, address_id, restaurant_id)
 values
-	(1, 'Michael', 'Jackson', 'abc@s1.com', 1, 0,'2020-03-20T11:59:59', 'ajshgdja', 1, 1),
-	(2, 'Elisabeth', 'Smith', 'abc@s2.com', 0, 1, '2020-03-20T11:59:59', 'ajshgdja', 2, null),
-	(3, 'Daniel', 'Craig', 'abc@s3.com', 0, 0, '2020-03-20T11:59:59', 'ajshgdja', 3, null)
+	(1, 'Michael', 'Jackson', 'abc@s1.com', 1,'2020-03-20T11:59:59', '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 1, 1),
+	(2, 'Elisabeth', 'Smith', 'abc@s2.com', 2, '2020-03-20T11:59:59', '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 2, null),
+	(3, 'Daniel', 'Craig', 'abc@s3.com', 0, '2020-03-20T11:59:59', '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 3, 1)
 set identity_insert [User] off
 
 set identity_insert [Discount_Code] on
@@ -101,9 +101,8 @@ set identity_insert [Complaint] on
 insert into [Complaint]
 	(id, content, response, [open], customer_id, order_id)
 values
-	(1, 'Jedzenie by³o zimne', 'Przepraszamy za niedogodnoœæ, do³o¿ymy wszelkich starañ, ¿eby nastêpnym razem by³o lepiej', 0, 3, 1)
+	(1, 'Jedzenie byï¿½o zimne', 'Przepraszamy za niedogodnoï¿½ï¿½, doï¿½oï¿½ymy wszelkich staraï¿½, ï¿½eby nastï¿½pnym razem byï¿½o lepiej', 0, 3, 1)
 set identity_insert [Complaint] off
-
 
 set identity_insert Review on
 insert into Review
@@ -121,3 +120,14 @@ values
 	(2, 1, 1),
 	(3, 2, 1)
 set identity_insert Order_Dish off
+
+
+set identity_insert User_Rests on
+insert into User_Rests
+	(id, user_id, restaurant_id)
+values
+	(1, 3, 1),
+	(2, 3, 2),
+	(3, 2, 1),
+	(4, 2, 1)
+set identity_insert User_Rests off

@@ -27,15 +27,16 @@ namespace webApi.Models
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<Section> Sections { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserRest> UserRests { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=IO2_Restaurants;Trusted_Connection=True;");
-            }
-        }
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=IO2_Restaurants;Trusted_Connection=True;");
+//            }
+//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -352,10 +353,6 @@ namespace webApi.Models
                     .IsUnicode(false)
                     .HasColumnName("email");
 
-                entity.Property(e => e.IsAdministrator).HasColumnName("is_administrator");
-
-                entity.Property(e => e.IsRestaurateur).HasColumnName("is_restaurateur");
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -369,6 +366,8 @@ namespace webApi.Models
                     .HasColumnName("password_hash");
 
                 entity.Property(e => e.RestaurantId).HasColumnName("restaurant_id");
+
+                entity.Property(e => e.Role).HasColumnName("role");
 
                 entity.Property(e => e.Surname)
                     .IsRequired()
@@ -385,6 +384,29 @@ namespace webApi.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RestaurantId)
                     .HasConstraintName("FK_User_Restaurant");
+            });
+
+            modelBuilder.Entity<UserRest>(entity =>
+            {
+                entity.ToTable("User_Rests");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.RestaurantId).HasColumnName("restaurant_id");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.Restaurant)
+                    .WithMany(p => p.UserRests)
+                    .HasForeignKey(d => d.RestaurantId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_URR");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserRests)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_URU");
             });
 
             OnModelCreatingPartial(modelBuilder);

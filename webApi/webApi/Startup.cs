@@ -1,3 +1,4 @@
+using webApi.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,8 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using webApi.MIddleware;
-using webApi.Models;
-using webApi.Services;
+using webApi.Models;using webApi.Services;
 
 
 namespace webApi
@@ -33,6 +33,7 @@ namespace webApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             var connection = Configuration["DatabaseConnectionString"];
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -44,20 +45,32 @@ namespace webApi
             });
 
             //Wstrzykiwaæ od ogólnego do szczegó³owego
-            services.AddScoped<IUserService, UserService>();    
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRestaurantService, RestaurantService>();
             services.AddScoped<IDiscountCodeService, DiscountCodeService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IComplaintService, ComplaintService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddDbContext<IO2_RestaurantsContext>(options => options.UseSqlServer(connection)); // database
             services.AddScoped<ErrorHandlingMiddleware>();
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+           options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddCors(o => o.AddPolicy("AllowOrigin", builder =>
+            {
+                builder.SetIsOriginAllowed(s => true)
+                       .AllowCredentials()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
 
             if (env.IsDevelopment())
             {
@@ -65,12 +78,18 @@ namespace webApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "webApi v1"));
             }
-            
+
+
             app.UseMiddleware<ErrorHandlingMiddleware>();
+
+            app.UseMiddleware<JwtMiddleware>();
+
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("AllowOrigin");
 
             app.UseAuthorization();
 

@@ -34,27 +34,19 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.ComplaintController.GetAllComplaints">
-            <summary>
-            Returns All Complaints
-            </summary>
-            <returns> Returns All Complaints </returns>
-            <response code="200">Returns all complaints </response>
-            <response code="400">Bad Request</response> 
-            <response code="401">UnAuthorised</response> 
-        </member>
-        <member name="M:webApi.Controllers.ComplaintController.CloseComplaint(System.Int32)">
+        <member name="M:webApi.Controllers.ComplaintController.ResponsecComplaint(System.Int32,System.String)">
             <summary>
             Closes complaint
             </summary>
             <param name="id"> Complaint Id </param>
+            <param name="content"> Complaint response </param>
             <returns> Closes Complaint </returns>
             <response code="200">Complaint closed</response>
             <response code="400">Bad Request</response> 
             <response code="401">UnAuthorised</response> 
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.DiscountCodeController.GetDiscountCode(System.Nullable{System.Int32})">
+        <member name="M:webApi.Controllers.DiscountCodeController.GetDiscountCode(System.String)">
             <summary>
             Returns DiscountCode Details
             </summary>
@@ -93,6 +85,14 @@
             <response code="400">Bad Request</response> 
             <response code="401">UnAuthorised</response> 
         </member>
+        <member name="M:webApi.Controllers.LoginController.SignIn(webApi.DataTransferObjects.AuthenticateDTO.AuthenticateRequest)">
+            <summary>
+            Zwraca dane o użytkowniku wraz z krótkoterminowym tokenem dostępu i 
+            długoterminowym refresh tokenem umiesczonym w plikach cookies. 
+            </summary>
+            <param name="value"> Email i hasło użytkownika </param>
+            <returns> Dane o użytkowniku </returns>
+        </member>
         <member name="M:webApi.Controllers.OrderController.GetOrder(System.Nullable{System.Int32})">
             <summary>
             Returns Order Details
@@ -103,6 +103,15 @@
             <response code="400">Bad Request</response> 
             <response code="401">Unauthorized</response>
             <response code="404">Resource Not Found</response> 
+        </member>
+        <member name="M:webApi.Controllers.OrderController.GetOrdersArchive">
+            <summary>
+            Returns Order Archive
+            </summary>
+            <returns> Returns All Orders </returns>
+            <response code="200">Return orders</response>
+            <response code="400">Bad Request</response> 
+            <response code="401">Unauthorized</response>
         </member>
         <member name="M:webApi.Controllers.OrderController.CreateOrder(webApi.DataTransferObjects.OrderDTO.NewOrder)">
             <summary>
@@ -174,16 +183,6 @@
             <response code="200">Restaurant deleted</response>
             <response code="400">Bad Request</response> 
             <response code="401">UnAuthorised</response>
-            <response code="404">Resource Not Found</response> 
-        </member>
-        <member name="M:webApi.Controllers.RestaurantController.GetDish(System.Int32)">
-            <summary>
-            Deletes Restaurant
-            </summary>
-            <param name="id"> Dish Id </param>
-            <returns> Delete Restaurant </returns>
-            <response code="200">Dish returned</response>
-            <response code="400">Bad Request</response> 
             <response code="404">Resource Not Found</response> 
         </member>
         <member name="M:webApi.Controllers.RestaurantController.GetSectionByRestaurantsId(System.Int32)">
@@ -304,7 +303,7 @@
             <response code="401">UnAuthorised</response> 
         </member>
         <member name="M:webApi.Controllers.RestaurantController.SetFavouriteRestaurant(System.Int32)">
-            <summary>
+            <summary> 
             Sets Favourite Restaurant
             </summary>
             <param name="id"> Restaurant Id </param>
@@ -402,7 +401,7 @@
             User Controller
             </summary>
         </member>
-        <member name="M:webApi.Controllers.UserController.#ctor(webApi.Services.IUserService,AutoMapper.IMapper)">
+        <member name="M:webApi.Controllers.UserController.#ctor(webApi.Models.IO2_RestaurantsContext,webApi.Services.IUserService,AutoMapper.IMapper)">
             <summary>
             User Controller constructor
             </summary>
@@ -418,7 +417,7 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.UserController.PostUser(webApi.DataTransferObjects.UserDTO.NewUserDTO)">
+        <member name="M:webApi.Controllers.UserController.SignUp(webApi.DataTransferObjects.AuthenticateDTO.RegisterRequest)">
             <summary>
             Creates new User
             </summary>
@@ -439,7 +438,7 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.UserController.GetAllOrders(System.Nullable{System.Int32})">
+        <member name="M:webApi.Controllers.UserController.GetAllOrders">
             <summary>
             Returns orders of exact user
             </summary>
@@ -448,7 +447,7 @@
             <response code="200">Return user's orders </response>
             <response code="400">Bad Request</response> 
             <response code="401">UnAuthorised</response>
-            <response code="404">Resource Not Found</response> 
+            <response code="404">Resource Not Found</response>
         </member>
         <member name="M:webApi.Controllers.UserController.GetAllComplaint(System.Nullable{System.Int32})">
             <summary>
@@ -461,7 +460,7 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.UserController.GetAllUsers">
+        <member name="M:webApi.Controllers.UserController.GetAllUsers(System.String)">
             <summary>
             Returns all users
             </summary>
