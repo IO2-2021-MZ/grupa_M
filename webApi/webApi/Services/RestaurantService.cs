@@ -259,19 +259,29 @@ namespace webApi.Services
             return complaintDTOs;
         }
 
-        public List<OrderR> GetAllOrdersForRestaurants(int id, int userId)
+        public List<OrderR> GetAllOrdersForRestaurants(int? id, int userId)
         {
-            var restaurant = _context
-                .Restaurants
-                .Include(item => item.Orders)
-                .FirstOrDefault(item => item.Id == id);
 
             var user = _context
                 .Users
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
+            if (user is null) throw new UnathorisedException("Forbidden");
+
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+
+            if (urs.FirstOrDefault() is null) return new List<OrderR>();
+
+            if (id is null)
+            {
+                id = urs.FirstOrDefault().UserId;
+            }
+
+            var restaurant = _context
+                .Restaurants
+                .Include(item => item.Orders)
+                .FirstOrDefault(item => item.Id == id);
 
             if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
                 throw new UnathorisedException("Unathourized");
@@ -283,7 +293,7 @@ namespace webApi.Services
             return orderDTOs;
         }
 
-        public List<RestaurantC> GetAllRestaurants(int userId)
+        public List<RestaurantC> GetAllRestaurants(int? userId)
         {
             var restaurants = _context
                 .Restaurants
@@ -298,10 +308,10 @@ namespace webApi.Services
 
 
             List<RestaurantC> restaurantDTOs = new List<RestaurantC>();
-            if (user.Role == (int)Role.Employee)
+            if (user is not null && user.Role == (int)Role.Employee)
                 restaurants = restaurants.Where(r => r.Id == user.RestaurantId).ToList();
 
-            if(user.Role == (int)Role.Restaurer)
+            if( user is not null && user.Role == (int)Role.Restaurer)
             {
                 var urs = _context.UserRests.Where(ur => ur.UserId == user.Id);
                 var res = restaurants.Where(r => urs.Any(ur => ur.RestaurantId == r.Id)).FirstOrDefault();
@@ -311,7 +321,12 @@ namespace webApi.Services
             }
 
 
-            if (user.Role == (int)Role.Customer)
+            if(userId is null)
+            {
+                restaurants = restaurants.Where(r => r.State == (int)RestaurantState.Active).ToList();
+                restaurantDTOs = _mapper.Map<List<RestaurantC>>(restaurants); 
+            }
+            else if (user.Role == (int)Role.Customer)
             {
                 restaurants = restaurants.Where(r => r.State == (int)RestaurantState.Active).ToList();
                 restaurantDTOs = _mapper.Map<List<RestaurantC>>(restaurants);
@@ -325,7 +340,7 @@ namespace webApi.Services
             for(int i=0; i<restaurantDTOs.Count; i++)
             {
                 restaurantDTOs[i].Rating = restaurants[i].Reviews.Count == 0 ? 0: restaurants[i].Reviews.Average(r => r.Rating);
-                if(user.Role != (int)Role.Customer)
+                if(user is not null && user.Role != (int)Role.Customer)
                 {
                     var orders = _context.Orders.Where(o => o.RestaurantId == restaurantDTOs[i].Id).ToList();
                     Func<OrderDish, decimal> func1 = od =>

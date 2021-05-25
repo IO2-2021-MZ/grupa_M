@@ -20,8 +20,8 @@ namespace webApi.Services
         int CreateNewPositionFromMenu(int id, NewPositionFromMenu newPosition, int userId);
         void UpdatePositionFromMenu(int id, NewPositionFromMenu newPosition, int userId);
         void RemovePositionFromMenu(int id, int userId);
-        List<RestaurantC> GetAllRestaurants(int userId);
-        List<OrderR> GetAllOrdersForRestaurants(int id, int userId);
+        List<RestaurantC> GetAllRestaurants(int? userId);
+        List<OrderR> GetAllOrdersForRestaurants(int? id, int userId);
         List<ReviewR> GetAllReviewsForRestaurants(int? id, int userId);
         List<ComplaintR> GetAllComplaitsForRestaurants(int? id, int userId);
         void SetFavouriteRestaurant(int id, int userId);

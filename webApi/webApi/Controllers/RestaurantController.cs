@@ -201,10 +201,9 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("all")]
-        [Authorize(Role.Restaurer, Role.Employee, Role.Admin, Role.Customer)]
         public ActionResult<IEnumerable<RestaurantC>> GetAllRestaurants()
         {
-            IEnumerable<RestaurantC> restaurants = _restaurantService.GetAllRestaurants(Account.Id);
+            IEnumerable<RestaurantC> restaurants = _restaurantService.GetAllRestaurants(Account?.Id);
             return Ok(restaurants);
         }
 
@@ -218,7 +217,7 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("order/all")]
         [Authorize(Role.Restaurer, Role.Employee)]
-        public ActionResult<IEnumerable<OrderR>> GetAllOrdersForRestaurant([FromQuery] int id)
+        public ActionResult<IEnumerable<OrderR>> GetAllOrdersForRestaurant([FromQuery] int? id)
         {
             //id z tokenu po zalogowaniu
             IEnumerable<OrderR> orders = _restaurantService.GetAllOrdersForRestaurants(id, Account.Id);

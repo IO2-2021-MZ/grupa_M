@@ -26,6 +26,7 @@ import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Box from "@material-ui/core/Box";
 import { Link as RouterLink } from "react-router-dom";
+import headers from "../shared/authheader"
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -128,9 +129,7 @@ export default function RestaurateurOrder(props) {
     var config = {
       method: "get",
       url: apiUrl + "order?id=" + orderId,
-      headers: {
-        Authorization: "Bearer " + user.token,
-      },
+      headers: headers(user),
     };
 
     try {
@@ -156,9 +155,7 @@ export default function RestaurateurOrder(props) {
     var config = {
       method: 'post',
       url: apiUrl + "order/refuse?id=" + order.id,
-      headers: { 
-        'Authorization': 'Bearer ' + user.token
-      }
+      headers: headers(user)
     };
     
     const response =  axios(config)
@@ -173,9 +170,7 @@ export default function RestaurateurOrder(props) {
     var config = {
       method: 'post',
       url: apiUrl + "order/accept?id=" + order.id,
-      headers: { 
-        'Authorization': 'Bearer ' + user.token
-      }
+      headers: headers(user)
     };
     
     const response =  axios(config)
@@ -190,9 +185,7 @@ export default function RestaurateurOrder(props) {
     var config = {
       method: 'post',
       url: apiUrl + "order/realized?id=" + order.id,
-      headers: { 
-        'Authorization': 'Bearer ' + user.token
-      }
+      headers: headers(user)
     };
     
     const response =  axios(config)
