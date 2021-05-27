@@ -130,7 +130,7 @@ namespace webApi.Services
         public User CreateNewEmployee(NewEmployee value)
         {
             var user = _mapper.Map<User>(value);
-            user.Role = value.isRestaurateur ? (int)Role.Restaurer : (int)Role.Employee;
+            user.Role = value.isRestaurateur ? (int)Role.restaurateur : (int)Role.employee;
             user.RestaurantId = _context.Restaurants.Any(x => x.Id == value.restaurantId)  ? value.restaurantId : null;
             user.PasswordHash = "$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK";
             user.CreationDate = DateTime.Now;
@@ -141,7 +141,7 @@ namespace webApi.Services
         public User CreateNewAdmin(NewAdministrator value)
         {
             var user = _mapper.Map<User>(value);
-            user.Role = (int)Role.Admin;
+            user.Role = (int)Role.admin;
             user.PasswordHash = "$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK";
             user.CreationDate = DateTime.Now;
             _context.Users.Add(user);
@@ -154,7 +154,7 @@ namespace webApi.Services
             var address = _mapper.Map<Address>(value.address);
             var user = _mapper.Map<User>(value);
             user.Address = address;
-            user.Role = (int)Role.Customer;
+            user.Role = (int)Role.customer;
             user.PasswordHash = "$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK";
             user.CreationDate = DateTime.Now;
             _context.Users.Add(user);

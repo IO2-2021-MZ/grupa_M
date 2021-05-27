@@ -31,7 +31,7 @@ namespace webApi.Services
                 .FirstOrDefault();
 
             if (user is null ||
-                user.Role != (int)Role.Customer)
+                user.Role != (int)Role.customer)
                 throw new UnathorisedException("Unathourized");
 
             if (newComplaint is null) throw new BadRequestException("Bad request");
@@ -51,7 +51,7 @@ namespace webApi.Services
                 .FirstOrDefault();
 
             if (user is null ||
-                user.Role != (int)Role.Admin)
+                user.Role != (int)Role.admin)
                 throw new UnathorisedException("Unathourized");
 
             var complaintToDelete = _context.Complaints.FirstOrDefault(c => c.Id == id);
@@ -82,9 +82,9 @@ namespace webApi.Services
                 .FirstOrDefault();
 
             if (user is null ||
-                (user.Role == (int)Role.Customer && complaint.CustomerId != user.Id) ||
-                (user.Role == (int)Role.Restaurer && complaint.Order.RestaurantId != user.RestaurantId) ||
-                (user.Role == (int)Role.Employee && complaint.Order.RestaurantId != user.RestaurantId))
+                (user.Role == (int)Role.customer && complaint.CustomerId != user.Id) ||
+                (user.Role == (int)Role.restaurateur && complaint.Order.RestaurantId != user.RestaurantId) ||
+                (user.Role == (int)Role.employee && complaint.Order.RestaurantId != user.RestaurantId))
                 throw new UnathorisedException("Unathourized");
 
             if (complaint is null) throw new NotFoundException("Resource not found");
@@ -106,10 +106,10 @@ namespace webApi.Services
                 .FirstOrDefault();
 
             if (user is null ||
-                (user.Role == (int)Role.Customer ) ||
-                (user.Role == (int)Role.Admin) ||
-                (user.Role == (int)Role.Restaurer && complaint.Order.RestaurantId != user.RestaurantId) ||
-                (user.Role == (int)Role.Employee && complaint.Order.RestaurantId != user.RestaurantId))
+                (user.Role == (int)Role.customer ) ||
+                (user.Role == (int)Role.admin) ||
+                (user.Role == (int)Role.restaurateur && complaint.Order.RestaurantId != user.RestaurantId) ||
+                (user.Role == (int)Role.employee && complaint.Order.RestaurantId != user.RestaurantId))
                 throw new UnathorisedException("Unathourized");
 
             if (response == null || response == string.Empty) return;

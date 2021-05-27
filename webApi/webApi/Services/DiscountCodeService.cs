@@ -36,10 +36,10 @@ namespace webApi.Services
 
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == newDiscountCode.RestaurantId))
+            if (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == newDiscountCode.RestaurantId))
                 throw new UnathorisedException("Forbidden");
 
-            if (user.Role == (int)Role.Employee && user.RestaurantId != newDiscountCode.RestaurantId)
+            if (user.Role == (int)Role.employee && user.RestaurantId != newDiscountCode.RestaurantId)
                 throw new UnathorisedException("Forbidden");
 
             var ndc = _mapper.Map<DiscountCode>(newDiscountCode);
@@ -61,10 +61,10 @@ namespace webApi.Services
 
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == codeToDelete.RestaurantId))
+            if (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == codeToDelete.RestaurantId))
                 throw new UnathorisedException("Forbidden");
 
-            if (user.Role == (int)Role.Employee && user.RestaurantId != codeToDelete.RestaurantId)
+            if (user.Role == (int)Role.employee && user.RestaurantId != codeToDelete.RestaurantId)
                 throw new UnathorisedException("Forbidden");
 
             var orders = _context.Orders.Where(o => o.DiscountCodeId == codeToDelete.Id);
@@ -87,12 +87,12 @@ namespace webApi.Services
 
             var queryResult = (from Codes in _context.DiscountCodes select Codes).OrderBy(x => x.Id).ToList();
 
-            if(user.Role == (int)Role.Restaurer)
+            if(user.Role == (int)Role.restaurateur)
             {
                 queryResult = queryResult.Where(code => urs.Any(ur => ur.RestaurantId == code.RestaurantId)).ToList();
             }
 
-            if (user.Role == (int)Role.Employee)
+            if (user.Role == (int)Role.employee)
             {
                 queryResult = queryResult.Where(code => code.RestaurantId == user.RestaurantId).ToList();
             }
@@ -115,10 +115,10 @@ namespace webApi.Services
 
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == dc.RestaurantId))
+            if (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == dc.RestaurantId))
                 throw new UnathorisedException("Forbidden");
 
-            if (user.Role == (int)Role.Employee && user.RestaurantId != dc.RestaurantId)
+            if (user.Role == (int)Role.employee && user.RestaurantId != dc.RestaurantId)
                 throw new UnathorisedException("Forbidden");
 
             var dcDTO = _mapper.Map<DiscountCodeDTO>(dc);

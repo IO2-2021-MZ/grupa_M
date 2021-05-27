@@ -32,7 +32,7 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(Role.Admin, Role.Customer, Role.Restaurer, Role.Employee)]
+        [Authorize(Role.admin, Role.customer, Role.restaurateur, Role.employee)]
         public ActionResult<ComplaintDTO> GetComplaint([FromQuery] int? id)
         {
             ComplaintDTO complaint = _complaintService.GetComplaintById(id, Account.Id);
@@ -55,7 +55,7 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(Role.Customer)]
+        [Authorize(Role.customer)]
         public ActionResult CreateComplaint([FromBody] NewComplaint newComplaint)
         {
             int id = _complaintService.CreateNewComplaint(newComplaint, Account.Id);
@@ -76,7 +76,7 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(Role.Admin)]
+        [Authorize(Role.admin)]
         public ActionResult DeleteComplaint([FromQuery] int id)
         {
             _complaintService.DeleteComplaint(id, Account.Id);
@@ -99,7 +99,7 @@ namespace webApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [Authorize(Role.Employee, Role.Restaurer)]
+        [Authorize(Role.employee, Role.restaurateur)]
         public ActionResult ResponsecComplaint([FromQuery] int id, [FromBody] string content)
         {
             _complaintService.CloseComplaint(id, content, Account.Id);

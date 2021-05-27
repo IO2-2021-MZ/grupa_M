@@ -139,7 +139,7 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
-            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == id)))
+            if (user is null || (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == id)))
                 throw new UnathorisedException("Unauthorized");
 
             _context.Sections.Add(section);
@@ -173,7 +173,7 @@ namespace webApi.Services
 
             var ursOrigin = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (user is null || (user.Role == (int)Role.Restaurer && !ursOrigin.Any(ur => ur.RestaurantId == id))) throw new UnathorisedException("Unauthorized");
+            if (user is null || (user.Role == (int)Role.restaurateur && !ursOrigin.Any(ur => ur.RestaurantId == id))) throw new UnathorisedException("Unauthorized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
@@ -235,7 +235,7 @@ namespace webApi.Services
 
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
+            if (user is null || (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.employee && user.RestaurantId != id)) 
                 throw new UnathorisedException("Unathourized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
@@ -247,7 +247,7 @@ namespace webApi.Services
                 .ToList();
 
             List<ComplaintR> complaintDTOs = new List<ComplaintR>();
-            if (user.Role == (int)Role.Restaurer || user.Role == (int)Role.Employee)
+            if (user.Role == (int)Role.restaurateur || user.Role == (int)Role.employee)
             {
                 complaintDTOs = _mapper.Map<List<ComplaintR>>(complaints);
             }
@@ -283,7 +283,7 @@ namespace webApi.Services
                 .Include(item => item.Orders)
                 .FirstOrDefault(item => item.Id == id);
 
-            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
+            if (user is null || (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.employee && user.RestaurantId != id)) 
                 throw new UnathorisedException("Unathourized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
@@ -308,10 +308,10 @@ namespace webApi.Services
 
 
             List<RestaurantC> restaurantDTOs = new List<RestaurantC>();
-            if (user is not null && user.Role == (int)Role.Employee)
+            if (user is not null && user.Role == (int)Role.employee)
                 restaurants = restaurants.Where(r => r.Id == user.RestaurantId).ToList();
 
-            if( user is not null && user.Role == (int)Role.Restaurer)
+            if( user is not null && user.Role == (int)Role.restaurateur)
             {
                 var urs = _context.UserRests.Where(ur => ur.UserId == user.Id);
                 var res = restaurants.Where(r => urs.Any(ur => ur.RestaurantId == r.Id)).FirstOrDefault();
@@ -326,7 +326,7 @@ namespace webApi.Services
                 restaurants = restaurants.Where(r => r.State == (int)RestaurantState.Active).ToList();
                 restaurantDTOs = _mapper.Map<List<RestaurantC>>(restaurants); 
             }
-            else if (user.Role == (int)Role.Customer)
+            else if (user.Role == (int)Role.customer)
             {
                 restaurants = restaurants.Where(r => r.State == (int)RestaurantState.Active).ToList();
                 restaurantDTOs = _mapper.Map<List<RestaurantC>>(restaurants);
@@ -340,7 +340,7 @@ namespace webApi.Services
             for(int i=0; i<restaurantDTOs.Count; i++)
             {
                 restaurantDTOs[i].Rating = restaurants[i].Reviews.Count == 0 ? 0: restaurants[i].Reviews.Average(r => r.Rating);
-                if(user is not null && user.Role != (int)Role.Customer)
+                if(user is not null && user.Role != (int)Role.customer)
                 {
                     var orders = _context.Orders.Where(o => o.RestaurantId == restaurantDTOs[i].Id).ToList();
                     Func<OrderDish, decimal> func1 = od =>
@@ -377,13 +377,13 @@ namespace webApi.Services
             
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.Employee && user.RestaurantId != id))
+            if (user is null || (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.employee && user.RestaurantId != id))
                 throw new UnathorisedException("Unathourized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
             List<ReviewR> reviewDTOs = new List<ReviewR>();
-            if (user.Role == (int)Role.Restaurer || user.Role == (int)Role.Employee)
+            if (user.Role == (int)Role.restaurateur || user.Role == (int)Role.employee)
             {
                 reviewDTOs = _mapper.Map<List<ReviewR>>(restaurant.Reviews);
             }
@@ -409,13 +409,13 @@ namespace webApi.Services
 
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.Employee && user.RestaurantId != id)) 
+            if (user is null || (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.employee && user.RestaurantId != id)) 
                 throw new UnathorisedException("Unathourized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
             RestaurantC restaurantDTO;
-            if (user.Role == (int)Role.Customer)
+            if (user.Role == (int)Role.customer)
                 restaurantDTO = _mapper.Map<RestaurantC>(restaurant);
             else
             {
@@ -496,7 +496,7 @@ namespace webApi.Services
 
             if (section is null) throw new NotFoundException("Resource not found");
 
-            if ((user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == section.RestaurantId)) || (user.Role == (int)Role.Employee && user.RestaurantId != section.RestaurantId))
+            if ((user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == section.RestaurantId)) || (user.Role == (int)Role.employee && user.RestaurantId != section.RestaurantId))
                 throw new UnathorisedException("Unauthorized");
 
 
@@ -521,7 +521,7 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            if (user is null || user.Role != (int)Role.Customer) 
+            if (user is null || user.Role != (int)Role.customer) 
                 throw new UnathorisedException("Unathourized");
 
 
@@ -562,7 +562,7 @@ namespace webApi.Services
 
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == section.RestaurantId)) || (user.Role == (int)Role.Employee && user.RestaurantId != section.RestaurantId))
+            if (user is null || (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == section.RestaurantId)) || (user.Role == (int)Role.employee && user.RestaurantId != section.RestaurantId))
                 throw new UnathorisedException("Unathourized");
 
             dish.Name = newPosition.Name;
@@ -588,7 +588,7 @@ namespace webApi.Services
 
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (user is null || (user.Role == (int)Role.Restaurer && !urs.Any(ur => ur.RestaurantId == section.RestaurantId)) || (user.Role == (int)Role.Employee && user.RestaurantId != section.RestaurantId)) 
+            if (user is null || (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == section.RestaurantId)) || (user.Role == (int)Role.employee && user.RestaurantId != section.RestaurantId)) 
                 throw new UnathorisedException("Unathourized");
 
             section.Name = newSectionName;

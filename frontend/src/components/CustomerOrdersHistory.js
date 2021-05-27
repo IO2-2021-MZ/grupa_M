@@ -115,7 +115,7 @@ function CustomerOrdersHistory(props) {
         <Toolbar>
           <Button>
             <RouterLink
-              to={"/Restaurant/" + restId}
+              to={"/RestaurantList"}
               style={{ color: "#FFF" }}
             >
               <ArrowBackIcon fontSize="large" />

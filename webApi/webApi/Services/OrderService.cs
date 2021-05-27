@@ -31,7 +31,7 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
-            if (user is null || user.Role != (int)Role.Customer)
+            if (user is null || user.Role != (int)Role.customer)
                 throw new UnathorisedException("Unathourized");
 
             if (newOrder is null)
@@ -101,9 +101,9 @@ namespace webApi.Services
             var urs = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
 
             if (user is null ||
-                (user.Role == (int)Role.Customer && order.CustomerId != user.Id) ||
-                (user.Role == (int)Role.Restaurer && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
-                (user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId))
+                (user.Role == (int)Role.customer && order.CustomerId != user.Id) ||
+                (user.Role == (int)Role.restaurateur && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
+                (user.Role == (int)Role.employee && order.RestaurantId != user.RestaurantId))
                 throw new UnathorisedException("Unathourized");
 
             
@@ -125,14 +125,14 @@ namespace webApi.Services
 
             switch (user.Role)
             {
-                case (int)Role.Admin:
+                case (int)Role.admin:
                     {
                         orderDTO = _mapper.Map<OrderA>(order);
                         (orderDTO as OrderA).OriginalPrice = originalPrice;
                         (orderDTO as OrderA).FinalPrice = finalPrice;
                         break;
                     }
-                case (int)Role.Customer:
+                case (int)Role.customer:
                     {
                         orderDTO = _mapper.Map<OrderC>(order);
                         (orderDTO as OrderC).Positions = new HashSet<PositionFromMenuDTO>();
@@ -227,10 +227,10 @@ namespace webApi.Services
 
 
             if (user is null ||
-                user.Role == (int)Role.Customer ||
-                user.Role == (int)Role.Admin ||
-                (user.Role == (int)Role.Restaurer && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
-                user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId)
+                user.Role == (int)Role.customer ||
+                user.Role == (int)Role.admin ||
+                (user.Role == (int)Role.restaurateur && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
+                user.Role == (int)Role.employee && order.RestaurantId != user.RestaurantId)
                 throw new UnathorisedException("Unathourized");
 
             order.State = 1;
@@ -255,10 +255,10 @@ namespace webApi.Services
 
 
             if (user is null ||
-                user.Role == (int)Role.Customer ||
-                user.Role == (int)Role.Admin ||
-               (user.Role == (int)Role.Restaurer && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
-                user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId)
+                user.Role == (int)Role.customer ||
+                user.Role == (int)Role.admin ||
+               (user.Role == (int)Role.restaurateur && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
+                user.Role == (int)Role.employee && order.RestaurantId != user.RestaurantId)
                 throw new UnathorisedException("Unathourized");
 
             order.State = 2;
@@ -284,10 +284,10 @@ namespace webApi.Services
 
 
             if (user is null ||
-                user.Role == (int)Role.Customer ||
-                user.Role == (int)Role.Admin ||
-              (user.Role == (int)Role.Restaurer && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
-                user.Role == (int)Role.Employee && order.RestaurantId != user.RestaurantId)
+                user.Role == (int)Role.customer ||
+                user.Role == (int)Role.admin ||
+              (user.Role == (int)Role.restaurateur && (urs is null || order.RestaurantId != urs.RestaurantId)) ||
+                user.Role == (int)Role.employee && order.RestaurantId != user.RestaurantId)
                 throw new UnathorisedException("Unathourized");
 
             order.State = 3;
