@@ -100,7 +100,7 @@ const handleSubmit = async (values) => {
   
   setLoading(true);
   const token =  await authorize(values);
-  const usr = token.split(', ');
+  const usr = token.split(',');
   setUser({apiKey: token,role: usr[1]});
   setLoading(false);
 }
