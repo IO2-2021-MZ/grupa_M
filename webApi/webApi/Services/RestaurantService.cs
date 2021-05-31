@@ -460,6 +460,31 @@ namespace webApi.Services
 
         }
 
+        public IEnumerable<OrderR> OrdersArchive(int userId)
+        {
+            var rest = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+
+            if (rest is null) throw new NotFoundException("Not found");
+
+            var orders = _context.Orders
+                .Include(o => o.Address)
+                .Include(o => o.OrderDishes)
+                .Include(o => o.DiscountCode)
+                .Where(o => o.RestaurantId == rest.RestaurantId).ToList();
+
+            var ordersDTO = _mapper.Map<List<OrderR>>(orders);
+
+            for(int i=0; i<orders.Count; i++)
+            {
+                var price = orders[i].OrderDishes.Sum(od => od.Dish.Price);
+                var priced = orders[i].DiscountCode == null ? price : price * (1.0m - orders[i].DiscountCode.Percent / 100.0m);
+                ordersDTO[i].OriginalPrice = price;
+                ordersDTO[i].FinalPrice = priced;
+            }
+
+            return ordersDTO;
+        }
+
         public void ReactivateRestaurant(int id, int userId)
         {
             var restaurant = _context

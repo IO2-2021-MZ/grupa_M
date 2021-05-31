@@ -206,6 +206,13 @@ namespace webApi.Controllers
             IEnumerable<RestaurantC> restaurants = _restaurantService.GetAllRestaurants(Account?.Id);
             return Ok(restaurants);
         }
+        [HttpGet("order/archive")]
+        [Authorize(Role.restaurateur)]
+        public ActionResult<IEnumerable<OrderR>> GetOrdersArchive()
+        {
+            IEnumerable<OrderR> orders = _restaurantService.OrdersArchive(Account.Id);
+            return Ok(orders);
+        }
 
         /// <summary>
         /// Returns Orders For Restaurant

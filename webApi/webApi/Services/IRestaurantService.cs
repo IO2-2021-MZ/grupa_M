@@ -30,5 +30,6 @@ namespace webApi.Services
         void DeactivateRestaurant(int id, int userId);
         void BlockRestaurant(int id);
         void UnblockRestaurant(int id);
+        IEnumerable<OrderR> OrdersArchive(int userId);
     }
 }
