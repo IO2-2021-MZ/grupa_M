@@ -148,7 +148,7 @@ namespace webApi.Services
                         (orderDTO as OrderC).FinalPrice = finalPrice;
                         break;
                     }
-                default: //Role.Restaurer and Role.Employee
+                default: //Role.Restaurateur and Role.Employee
                     {
                         orderDTO = _mapper.Map<OrderR>(order);
                         (orderDTO as OrderR).Positions = new HashSet<PositionFromMenuDTO>();
