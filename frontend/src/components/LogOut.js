@@ -6,7 +6,7 @@ import StartUp from "./StartUp";
 import SignUpCustomer from "./CustomerSU";
 import SignUpEmployee from "./EmployeeSU";
 import SignUpAdmin from "./AdminsSU";
-import SignUpRestaurer from "./RestaurerSU";
+import SignUpRestaurateur from "./RestaurateurSU";
 
 
 const SignInWithRole = ({match}) => {
@@ -24,7 +24,7 @@ function LogOut(props){
                 <Route path='/signin/:role' component={SignInWithRole}/>
                 <Route path='/signup/admin' component={SignUpAdmin}/>
                 <Route path='/signup/customer' component={SignUpCustomer}/>
-                <Route path='/signup/restaurer' component={SignUpRestaurer}/>
+                <Route path='/signup/restaurer' component={SignUpRestaurateur}/>
                 <Route path='/signup/employee' component={SignUpEmployee}/>
                 <Redirect to='/startup' />
             </Switch>
