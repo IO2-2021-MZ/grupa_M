@@ -154,6 +154,11 @@ function CustomerOrdersHistory(props) {
                     <TableCell align="center">{row.finalPrice}</TableCell>
                     <TableCell align="center">{row.date.replace('T',' ')}</TableCell>
                     <TableCell align="right">
+                      <Button variant="contained">
+                        <RouterLink to={"MakeComplaint/" + row.id}>
+                          Make complaint
+                        </RouterLink>
+                      </Button>
                     </TableCell>
                     </TableRow>
                 ))}

@@ -17,6 +17,7 @@ import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
 import headers from "../shared/authheader";
 import apiURL from "../shared/apiURL"
+import UserContext from "../contexts/UserContext";
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -53,10 +54,11 @@ const useStyles = makeStyles((theme) => ({
 
 const MakeComplaint = (props) => {
     const { setSnackbar } = useContext(SnackbarContext);
+    const {user} = useContext(UserContext);
     const [content, setContent] = useState("");
-    var orderId = props.orderId;
+    var orderId = props.orderIdd;
     const classes = useStyles();
-    
+    console.log(props)
     const onContentChange = (event) =>{
         setContent(event.target.value);
     }
@@ -65,19 +67,16 @@ const MakeComplaint = (props) => {
         var config = {
             method: 'post',
             url: apiURL + 'complaint',
-            header:headers,
+            header: headers(user),
             data: {
-                content: content,
-                orderId: orderId
+                'Content': content,
+                'OrderId': props.orderIdd
               }
         };
 
         try
         {
-            console.log({
-                content: content,
-                orderId: orderId
-              });
+            console.log(config);
             await axios(config);
         }
         catch(e)

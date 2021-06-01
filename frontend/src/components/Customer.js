@@ -8,6 +8,7 @@ import RestMenu from "./RestaurantMenu";
 import CreateReview from "./CreateNewReviewComponent"
 import ReviewList from "./RestaurantReviewsCustomerComponent"
 import OrdersHistory from "./CustomerOrdersHistory"
+import MakeComplaint from "./MakeComplaintComponent"
 
 const RestWithId = ({match}) => {
     return(
@@ -39,6 +40,12 @@ const NewOrderRestaurantWithId = ({match}) => {
     );
 }
 
+const MakeComplaintWithId = ({match}) => {
+    return(
+        <MakeComplaint orderIdd={match.params.id}/>
+    );
+}
+
 function Customer(props){
     return(
         <BrowserRouter>
@@ -50,6 +57,7 @@ function Customer(props){
                 <Route path='/Review/create/:id' component={ReviewWithId}/>
                 <Route path='/Menu/Restaurant/:id' component={RestMenuWithId}/>
                 <Route path='/reviews/restaurant/:id' component={ReviewForRestaurantWithId}/>
+                <Route path="/MakeComplaint/:id" component={MakeComplaintWithId}/>
                 <Redirect to='/RestaurantList' />
             </Switch>
         </BrowserRouter>
