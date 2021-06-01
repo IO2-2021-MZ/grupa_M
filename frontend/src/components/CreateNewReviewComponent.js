@@ -19,7 +19,7 @@ import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import apiUrl from "../shared/apiURL"
 import UserContext from "../contexts/UserContext"
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Route } from 'react-router-dom';
 import headers from "../shared/authheader";
 
 const useStyles = makeStyles((theme) => ({
@@ -139,9 +139,9 @@ const CreateReview = (props) => {
           <CssBaseline/>
           <AppBar>
             <Toolbar>
-              <Button>
-                <ArrowBackIcon fontSize = "large"/>
-              </Button>
+                <RouterLink to={"/Restaurant/" + restaurantId} style={{ color: "#FFF" }}>
+                  <ArrowBackIcon className={classes.icon}/>
+                </RouterLink>
               <Typography variant="h6" color="inherit" noWrap>
                 Create New Review
               </Typography>
