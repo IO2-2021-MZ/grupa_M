@@ -17,7 +17,7 @@ import RestaurateurOrderList from "./RestaurateurOrderList";
 import RestaurateurOrder from "./RestaurateurOrder";
 import AllComplaints from "./AllComplaintsEmployee"
 import Response from "./ComplaintResponseComponent"
-
+import ReviewList from "./AllReviewsComponent"
 
 const RestaurateurRestaurantWithId = ({ match }) => {
   return <RestaurateurRestaurant restId={match.params.id} />;
@@ -67,6 +67,12 @@ const ResponseWithId = ({match}) => {
   );
 }
 
+const ReviewForRestaurantWithId = ({match}) => {
+  return(
+      <ReviewList RestaurantId={match.params.id}/>
+  );
+}
+
 
 function Restaurateur(props) {
   return (
@@ -96,6 +102,7 @@ function Restaurateur(props) {
         <Route path="/RestaurateurOrder/:id" component={RestaurateurOrderWithId} />
         <Route path='/RabatCodeList' component={RabatCodeList}/>
         <Route path='/NewRabatCode' component={NewRabatCode}/>
+        <Route path='/reviews/restaurant/:id' component={ReviewForRestaurantWithId}/>
         <Redirect to="/RestaurantList" />
       </Switch>
     </BrowserRouter>

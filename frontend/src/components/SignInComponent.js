@@ -101,7 +101,11 @@ const handleSubmit = async (values) => {
   setLoading(true);
   const token =  await authorize(values);
   const usr = token.split(',');
-  setUser({apiKey: token,role: usr[1]});
+  setUser({
+    apiKey: token,
+    role: usr[1],
+    id: usr[0]
+  });
   setLoading(false);
 }
 const emailChanged = (event) => {

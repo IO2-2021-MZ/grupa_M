@@ -38,6 +38,7 @@ namespace webApi.Services
 
             var nc = _mapper.Map<Complaint>(newComplaint);
             nc.CustomerId = userId;
+            nc.Open = true;
             _context.Complaints.Add(nc);
             _context.SaveChanges();
 
@@ -82,9 +83,11 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
+            var restrest = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+
             if (user is null ||
                 (user.Role == (int)Role.customer && complaint.CustomerId != user.Id) ||
-                (user.Role == (int)Role.restaurateur && complaint.Order.RestaurantId != user.RestaurantId) ||
+                (user.Role == (int)Role.restaurateur && restrest is not null && complaint.Order.RestaurantId != restrest.RestaurantId) ||
                 (user.Role == (int)Role.employee && complaint.Order.RestaurantId != user.RestaurantId))
                 throw new UnathorisedException("Unathourized");
 
@@ -106,10 +109,12 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
+            var restrest = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+
             if (user is null ||
                 (user.Role == (int)Role.customer ) ||
                 (user.Role == (int)Role.admin) ||
-                (user.Role == (int)Role.restaurateur && complaint.Order.RestaurantId != user.RestaurantId) ||
+                (user.Role == (int)Role.restaurateur && restrest is not null && complaint.Order.RestaurantId != restrest.RestaurantId) ||
                 (user.Role == (int)Role.employee && complaint.Order.RestaurantId != user.RestaurantId))
                 throw new UnathorisedException("Unathourized");
 

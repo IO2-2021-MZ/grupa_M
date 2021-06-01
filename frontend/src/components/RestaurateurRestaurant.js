@@ -203,6 +203,11 @@ export default function RestaurateurRestaurant(props) {
                   Complaints
                 </RouterLink>
               </Button>
+              <Button variant="contained" color="primary" style={{margin:10}}>
+                <RouterLink to={"/reviews/restaurant/"+restId} style={{ color: "#FFF" }}>
+                  Reviews
+                </RouterLink>
+              </Button>
 
                 </CardContent>
               </Card>

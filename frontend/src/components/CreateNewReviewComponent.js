@@ -103,6 +103,7 @@ const CreateReview = (props) => {
  
     const saveNewReview = async () => {
       setLoading(true);
+
       var config = {
         method: 'post',
         url: apiUrl + "review",
@@ -111,7 +112,7 @@ const CreateReview = (props) => {
             "content": content,
             "rating": rating,
             "restaurantId": restaurantId,
-            "customerId": customerId
+            "customerId": user.apiKey.split(',')[0]
         }
       };
       const response =  axios(config)
