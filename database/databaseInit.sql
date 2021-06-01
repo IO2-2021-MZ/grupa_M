@@ -82,7 +82,7 @@ CREATE TABLE Discount_Code(
     date_from datetime NOT NULL,
     date_to datetime NOT NULL,
 
-		restaurant_id int NOT NULL,
+	restaurant_id int,
 
 	CONSTRAINT FK_Address_Restaurant FOREIGN KEY
 	(

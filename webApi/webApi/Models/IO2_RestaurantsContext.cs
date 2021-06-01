@@ -133,6 +133,7 @@ namespace webApi.Models
                 entity.HasOne(d => d.Restaurant)
                     .WithMany(p => p.DiscountCodes)
                     .HasForeignKey(d => d.RestaurantId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Address_Restaurant");
             });
 
