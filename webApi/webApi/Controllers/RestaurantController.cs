@@ -290,7 +290,7 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpPost("activate")]
-        [Authorize(Role.admin)]
+        [Authorize(Role.admin, Role.restaurateur)]
         public ActionResult ActivateRestaurant([FromQuery] int id)
         {
             _restaurantService.ActivateRestaurant(id);
@@ -306,7 +306,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpPost("reactivate")]
-        [Authorize(Role.admin)]
+        [Authorize(Role.admin, Role.restaurateur)]
         public ActionResult ReactivateRestaurant([FromQuery] int id)
         {
             //id z tokenu po zalogowaniu
@@ -323,7 +323,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpPost("deactivate")]
-        [Authorize(Role.admin)]
+        [Authorize(Role.admin, Role.restaurateur)]
         public ActionResult DeactivateRestaurant([FromQuery] int id)
         {
             //id z tokenu po zalogowaniu
