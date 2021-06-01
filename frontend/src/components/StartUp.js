@@ -94,14 +94,14 @@ const tiers = [
     user: 'employee'
   },
   {
-    title: 'Restaurer',
+    title: 'Restaurateur',
     price: '30',
     description: [
       'Manage your restaurant',
     ],
     buttonText: 'Sign in',
     buttonVariant: 'contained',
-    user: 'restaurer'
+    user: 'restaurateur'
   },
 ];
 const footers = [

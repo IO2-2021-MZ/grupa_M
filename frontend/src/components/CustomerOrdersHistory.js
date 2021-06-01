@@ -128,7 +128,7 @@ function CustomerOrdersHistory(props) {
       </AppBar>
         <div>
         <Typography color="primary" variant="h4">
-            List of all orders for restaurant
+          List of all orders for customer
         </Typography>
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
