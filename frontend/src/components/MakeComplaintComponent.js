@@ -18,6 +18,7 @@ import TextField from '@material-ui/core/TextField';
 import headers from "../shared/authheader";
 import apiURL from "../shared/apiURL"
 import UserContext from "../contexts/UserContext";
+import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -56,9 +57,9 @@ const MakeComplaint = (props) => {
     const { setSnackbar } = useContext(SnackbarContext);
     const {user} = useContext(UserContext);
     const [content, setContent] = useState("");
+    const [added, setAdded] = useState(false);
     var orderId = props.orderIdd;
     const classes = useStyles();
-    console.log(props)
     const onContentChange = (event) =>{
         setContent(event.target.value);
     }
@@ -67,17 +68,18 @@ const MakeComplaint = (props) => {
         var config = {
             method: 'post',
             url: apiURL + 'complaint',
-            header: headers(user),
+            headers: headers(user),
             data: {
-                'Content': content,
-                'OrderId': props.orderIdd
+                "content": content,
+                "orderId": props.orderIdd
               }
         };
 
         try
         {
-            console.log(config);
+            console.log(headers(user));
             await axios(config);
+            setAdded(true);
         }
         catch(e)
         {
@@ -91,12 +93,25 @@ const MakeComplaint = (props) => {
     }
 
     return(
+<div>
+      { added ? 
+        <div>
+            <Typography style={{margin:150}} variant="h4">Added succesfully!</Typography>
+            <Button variant="contained" color="default" size="large">
+                <Link to="/OrdersHistory">
+                    Back
+                </Link>
+            </Button>
+        </div>
+        :
         <React.Fragment>
           <CssBaseline/>
           <AppBar>
             <Toolbar>
               <Button>
+                <Link to="/OrdersHistory">
                 <ArrowBackIcon fontSize = "large"/>
+                </Link>
               </Button>
               <Typography variant="h6" color="inherit" noWrap>
                 Make a Complaint
@@ -139,6 +154,8 @@ const MakeComplaint = (props) => {
             </Container>
           </div>
         </React.Fragment> 
+      }
+      </div>
     )
 }
 

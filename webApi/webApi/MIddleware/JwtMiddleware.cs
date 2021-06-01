@@ -26,7 +26,7 @@ namespace webApi.MIddleware
         {
             var token = context.Request.Headers["api-key"].ToString();
 
-            if (token != null && token != "")
+            if (token != null)
                 await attachAccountToContext(context, dataContext, token);
 
             await _next(context);

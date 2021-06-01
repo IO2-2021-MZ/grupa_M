@@ -37,6 +37,7 @@ namespace webApi.Services
             if (newComplaint is null) throw new BadRequestException("Bad request");
 
             var nc = _mapper.Map<Complaint>(newComplaint);
+            nc.CustomerId = userId;
             _context.Complaints.Add(nc);
             _context.SaveChanges();
 
