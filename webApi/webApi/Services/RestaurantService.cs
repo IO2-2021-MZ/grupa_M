@@ -109,6 +109,7 @@ namespace webApi.Services
 
             restaurant.AddressId = addressId;
             restaurant.DateOfJoining = DateTime.Now;
+            restaurant.State = (int)RestaurantState.Blocked;
             _context.Restaurants.Add(restaurant);
             _context.SaveChanges();
                 
