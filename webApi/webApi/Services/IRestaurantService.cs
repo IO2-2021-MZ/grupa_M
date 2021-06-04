@@ -20,8 +20,8 @@ namespace webApi.Services
         int CreateNewPositionFromMenu(int id, NewPositionFromMenu newPosition, int userId);
         void UpdatePositionFromMenu(int id, NewPositionFromMenu newPosition, int userId);
         void RemovePositionFromMenu(int id, int userId);
-        List<RestaurantC> GetAllRestaurants(int userId);
-        List<OrderR> GetAllOrdersForRestaurants(int id, int userId);
+        List<RestaurantC> GetAllRestaurants(int? userId);
+        List<OrderR> GetAllOrdersForRestaurants(int? id, int userId);
         List<ReviewR> GetAllReviewsForRestaurants(int? id, int userId);
         List<ComplaintR> GetAllComplaitsForRestaurants(int? id, int userId);
         void SetFavouriteRestaurant(int id, int userId);
@@ -30,5 +30,6 @@ namespace webApi.Services
         void DeactivateRestaurant(int id, int userId);
         void BlockRestaurant(int id);
         void UnblockRestaurant(int id);
+        IEnumerable<OrderR> OrdersArchive(int userId);
     }
 }

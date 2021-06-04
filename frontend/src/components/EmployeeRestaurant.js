@@ -171,14 +171,6 @@ export default function RestaurateurRestaurant(props) {
                       emptyIcon={<StarBorderIcon fontSize="inherit" />}
                     />
                   </Box>
-                  <Button variant="contained" color="primary">
-                    <RouterLink
-                      to={"/FinanceAndStats/" + restaurant.id}
-                      style={{ color: "#FFF" }}
-                    >
-                      Show Finances
-                    </RouterLink>
-                  </Button>
                   &nbsp; &nbsp;
                   <Button variant="contained" color="primary">
                     <RouterLink
@@ -201,11 +193,6 @@ export default function RestaurateurRestaurant(props) {
                   <Button variant="contained" color="primary">
                 <RouterLink to={"/Complaints/"+restId} style={{ color: "#FFF" }}>
                   Complaints
-                </RouterLink>
-              </Button>
-              <Button variant="contained" color="primary" style={{margin:10}}>
-                <RouterLink to={"/reviews/restaurant/"+restId} style={{ color: "#FFF" }}>
-                  Reviews
                 </RouterLink>
               </Button>
 

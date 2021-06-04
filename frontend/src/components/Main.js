@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import UserContext from '../contexts/UserContext'
-import Restaurer from "./Restaurateur";
+import Restaurateur from "./Restaurateur";
 import Admin from "./Admin";
 import Customer from "./Customer";
 import Employee from "./Employee";
@@ -13,8 +13,8 @@ function Main(){
     if(user === undefined){
         return <LogOut/>;
     }
-    if(user.role.toLowerCase() === 'restaurer' || user.role.toLowerCase() === ' restaurer'){
-        return <Restaurer />;
+    if(user.role.toLowerCase() === 'restaurateur' || user.role.toLowerCase() === ' restaurateur'){
+        return <Restaurateur />;
     }
     if(user.role.toLowerCase() === 'admin' || user.role.toLowerCase() === ' admin'){
         return <Admin/>;

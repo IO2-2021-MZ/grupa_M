@@ -96,9 +96,7 @@ import headers from "../shared/authheader";
       var config = {
           method: 'get',
           url: apiURL + 'complaint?id='+id,
-          headers: {
-            'Authorization': 'Bearer ' + user.token
-          },
+          headers: headers(user)
       }
       
       try

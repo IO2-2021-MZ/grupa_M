@@ -18,6 +18,7 @@ import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import headers from "../shared/authheader";
 import apiURL from "../shared/apiURL"
+import UserContext from "../contexts/UserContext";
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -56,7 +57,7 @@ const AllReviews = (props) => {
     const classes = useStyles();
     const restaurantId = props.RestaurantId;
     const restaurantName = props.RestaurantName;
-
+    const {user} = useContext(UserContext)
     const { setLoading } = useContext(LoadingContext);
     const { setSnackbar } = useContext(SnackbarContext);
 

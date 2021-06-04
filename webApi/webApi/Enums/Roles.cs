@@ -6,9 +6,9 @@ namespace webApi.Enums
 {
     public enum Role
     {
-        Restaurer,
-        Admin,
-        Customer,
-        Employee
+        restaurateur,
+        admin,
+        customer,
+        employee
     }
 }

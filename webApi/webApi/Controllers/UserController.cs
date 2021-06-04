@@ -41,17 +41,17 @@ namespace webApi.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Role.Admin,Role.Employee)]
+        [Authorize(Role.admin,Role.employee)]
         [HttpGet("employee")]
         public IActionResult GetEmployee([FromQuery] int? id)
         {
-            if(this.Account.Role == (int)Role.Employee && Account.Id != id)
+            if(this.Account.Role == (int)Role.employee && Account.Id != id)
             {
                 throw new  UnathorisedException("Not authorized Employye");
             }
             var user = _userService.GetUserWithId(id == null ? Account.Id : id);
             var response = _mapper.Map<Employee>(user);
-            response.isRestaurateur = user.Role == (int)Role.Restaurer ? true : false;
+            response.isRestaurateur = user.Role == (int)Role.restaurateur ? true : false;
             response.restaurant = user.Restaurant;
             return Ok(response);
         }
@@ -62,7 +62,7 @@ namespace webApi.Controllers
            
             return Ok(empolyee.Id);
         }
-        [Authorize(Role.Admin)]
+        [Authorize(Role.admin)]
         [HttpGet("admin")]
         public IActionResult GetAdmin([FromQuery] int? id)
         {
@@ -80,11 +80,11 @@ namespace webApi.Controllers
             var admin = _userService.CreateNewAdmin(value);
             return Ok(admin.Id);
         }
-        [Authorize(Role.Admin, Role.Customer)]
+        [Authorize(Role.admin, Role.customer)]
         [HttpGet("customer")]
         public IActionResult GetCustomer([FromQuery] int? id)
         {
-            if (this.Account.Role == (int)Role.Customer && Account.Id != id)
+            if (this.Account.Role == (int)Role.customer && Account.Id != id)
             {
                 throw new UnathorisedException("Not authorized Employye");
             }
@@ -109,7 +109,7 @@ namespace webApi.Controllers
         [Route("admin")]
         [Route("employee")]
         [Route("customer")]
-        [Authorize(Role.Admin)]
+        [Authorize(Role.admin)]
         public IActionResult DeleteEmployee([FromQuery] int id)
         {
              _userService.DeleteUser(id);
@@ -126,7 +126,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
-        [Authorize(Role.Admin)]
+        [Authorize(Role.admin)]
         [HttpGet]
         public IActionResult GetUser([FromQuery] int? id)
         {
@@ -158,7 +158,7 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpDelete]
-        [Authorize(Role.Admin)]
+        [Authorize(Role.admin)]
         public IActionResult DeleteUser([FromQuery] int? id)
         {
             _userService.DeleteUser(id);
@@ -173,7 +173,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response>
-        [Authorize(Role.Customer)]
+        [Authorize(Role.customer)]
         [HttpGet("customer/order/all")]
         public IActionResult GetAllOrders()
         {
@@ -190,14 +190,14 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpGet("complaint/customer/all")]
-        [Authorize(Role.Admin,Role.Customer)]
+        [Authorize(Role.admin,Role.customer)]
         public IActionResult GetAllComplaint([FromQuery] int? id)
         {
-            if(Account.Role ==(int)Role.Customer && id != null && id != Account.Id)
+            if(Account.Role ==(int)Role.customer && id != null && id != Account.Id)
             {
                 throw new UnathorisedException("Wrong Custoemr");
             }
-            else if (Account.Role == (int)Role.Admin && id == null)
+            else if (Account.Role == (int)Role.admin && id == null)
             {
                 throw new BadRequestException("Id is null");
             }
@@ -217,7 +217,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
-        [Authorize(Role.Admin)]
+        [Authorize(Role.admin)]
         [HttpGet("{role?}/all")]
         public IActionResult GetAllUsers(string role)
         {

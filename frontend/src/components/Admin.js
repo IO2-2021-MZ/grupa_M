@@ -2,7 +2,7 @@ import React from "react";
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { BrowserRouter} from 'react-router-dom';
 import AdminRestaurantList from "./AdminRestaurantList";
-import NewRabatCode from "./NewRabatCode"
+import NewRabatCode from "./NewRabatCodeAdmin"
 import RabatCodeList from "./RabatCodeList"
 import Rest from "./AdminRestaurantView";
 import FinanceAndStats from "./FinanceAndStatsComponent";

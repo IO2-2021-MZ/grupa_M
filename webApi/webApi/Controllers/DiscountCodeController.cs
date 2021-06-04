@@ -36,7 +36,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="404">Resource Not Found</response> 
         [HttpGet]
-        [Authorize(Role.Admin, Role.Customer, Role.Restaurer)]
+        [Authorize(Role.admin, Role.customer, Role.restaurateur, Role.employee)]
         public ActionResult<DiscountCodeDTO> GetDiscountCode([FromQuery] string? code)
         {
             var discountCode = _discountCodeService.GetDiscountCodeByCode(code, Account.Id);
@@ -55,7 +55,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         [HttpPost]
-        [Authorize(Role.Admin, Role.Restaurer)]
+        [Authorize(Role.admin, Role.restaurateur, Role.employee)]
         public ActionResult CreateDiscountCode([FromBody] NewDiscountCode newDiscountCode)
         {
             int id = _discountCodeService.CreateNewDiscountCode(newDiscountCode, Account.Id);
@@ -72,7 +72,7 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
         [HttpDelete]
-        [Authorize(Role.Admin, Role.Restaurer)]
+        [Authorize(Role.admin, Role.restaurateur, Role.employee)]
         public ActionResult DeleteDiscountCode([FromQuery] int id)
         {
             // Mapping example
@@ -88,7 +88,7 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response> 
         [HttpGet("all")]
-        [Authorize(Role.Admin, Role.Customer, Role.Restaurer)]
+        [Authorize(Role.admin, Role.customer, Role.restaurateur, Role.employee)]
         public ActionResult<IEnumerable<DiscountCodeDTO>> GetAllDiscountCodes()
         {
             IEnumerable<DiscountCodeDTO> discountCodes = _discountCodeService.GetAllDiscountCodes(Account.Id);

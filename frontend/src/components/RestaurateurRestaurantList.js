@@ -63,6 +63,22 @@ export default function RestaurateurRestaurantList() {
   const [rests, setRests] = useState([]);
   const { user, setUser } = useContext(UserContext);
 
+  const changeActivity2 = (id, toBeBlocked) => {
+    setLoading(true);
+
+
+    var config = {
+      method: 'post',
+      url: apiUrl + "restaurant/" + (toBeBlocked ? "deactivate" : "reactivate") + "?id=" + id,
+      headers: headers(user)
+    };
+    
+    const response =  axios(config)
+    .then(() => fetchData())
+    .catch((error) => setSnackbar(error.message));
+    
+  }
+
   async function fetchData() {
     setLoading(true);
 
@@ -202,6 +218,9 @@ export default function RestaurateurRestaurantList() {
                         Details
                       </RouterLink>
                     </Button>
+                    <Button disabled={rest.state=="Blocked"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity2(rest.id, rest.state == "Inactive" ? false : true)}>
+                      {rest.state == "Active" ? "Inactivate" : "Activate"}
+                  </Button>
                     <Button
                       variant="contained"
                       size="small"

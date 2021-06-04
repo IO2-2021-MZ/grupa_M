@@ -31,12 +31,14 @@ namespace webApi.Services
                 .FirstOrDefault();
 
             if (user is null ||
-                user.Role != (int)Role.Customer)
+                user.Role != (int)Role.customer)
                 throw new UnathorisedException("Unathourized");
 
             if (newComplaint is null) throw new BadRequestException("Bad request");
 
             var nc = _mapper.Map<Complaint>(newComplaint);
+            nc.CustomerId = userId;
+            nc.Open = true;
             _context.Complaints.Add(nc);
             _context.SaveChanges();
 
@@ -51,7 +53,7 @@ namespace webApi.Services
                 .FirstOrDefault();
 
             if (user is null ||
-                user.Role != (int)Role.Admin)
+                user.Role != (int)Role.admin)
                 throw new UnathorisedException("Unathourized");
 
             var complaintToDelete = _context.Complaints.FirstOrDefault(c => c.Id == id);
@@ -81,10 +83,12 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
+            var restrest = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+
             if (user is null ||
-                (user.Role == (int)Role.Customer && complaint.CustomerId != user.Id) ||
-                (user.Role == (int)Role.Restaurer && complaint.Order.RestaurantId != user.RestaurantId) ||
-                (user.Role == (int)Role.Employee && complaint.Order.RestaurantId != user.RestaurantId))
+                (user.Role == (int)Role.customer && complaint.CustomerId != user.Id) ||
+                (user.Role == (int)Role.restaurateur && restrest is not null && complaint.Order.RestaurantId != restrest.RestaurantId) ||
+                (user.Role == (int)Role.employee && complaint.Order.RestaurantId != user.RestaurantId))
                 throw new UnathorisedException("Unathourized");
 
             if (complaint is null) throw new NotFoundException("Resource not found");
@@ -105,11 +109,13 @@ namespace webApi.Services
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
 
+            var restrest = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+
             if (user is null ||
-                (user.Role == (int)Role.Customer ) ||
-                (user.Role == (int)Role.Admin) ||
-                (user.Role == (int)Role.Restaurer && complaint.Order.RestaurantId != user.RestaurantId) ||
-                (user.Role == (int)Role.Employee && complaint.Order.RestaurantId != user.RestaurantId))
+                (user.Role == (int)Role.customer ) ||
+                (user.Role == (int)Role.admin) ||
+                (user.Role == (int)Role.restaurateur && restrest is not null && complaint.Order.RestaurantId != restrest.RestaurantId) ||
+                (user.Role == (int)Role.employee && complaint.Order.RestaurantId != user.RestaurantId))
                 throw new UnathorisedException("Unathourized");
 
             if (response == null || response == string.Empty) return;

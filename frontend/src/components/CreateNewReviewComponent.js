@@ -19,7 +19,7 @@ import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import apiUrl from "../shared/apiURL"
 import UserContext from "../contexts/UserContext"
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Route } from 'react-router-dom';
 import headers from "../shared/authheader";
 
 const useStyles = makeStyles((theme) => ({
@@ -103,6 +103,7 @@ const CreateReview = (props) => {
  
     const saveNewReview = async () => {
       setLoading(true);
+
       var config = {
         method: 'post',
         url: apiUrl + "review",
@@ -111,7 +112,7 @@ const CreateReview = (props) => {
             "content": content,
             "rating": rating,
             "restaurantId": restaurantId,
-            "customerId": customerId
+            "customerId": user.apiKey.split(',')[0]
         }
       };
       const response =  axios(config)
@@ -139,9 +140,9 @@ const CreateReview = (props) => {
           <CssBaseline/>
           <AppBar>
             <Toolbar>
-              <Button>
-                <ArrowBackIcon fontSize = "large"/>
-              </Button>
+                <RouterLink to={"/Restaurant/" + restaurantId} style={{ color: "#FFF" }}>
+                  <ArrowBackIcon className={classes.icon}/>
+                </RouterLink>
               <Typography variant="h6" color="inherit" noWrap>
                 Create New Review
               </Typography>

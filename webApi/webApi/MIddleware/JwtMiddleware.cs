@@ -24,7 +24,7 @@ namespace webApi.MIddleware
 
         public async Task Invoke(HttpContext context, IO2_RestaurantsContext  dataContext)
         {
-            var token = context.Request.Headers["apiKey"].ToString();
+            var token = context.Request.Headers["api-key"].ToString();
 
             if (token != null)
                 await attachAccountToContext(context, dataContext, token);

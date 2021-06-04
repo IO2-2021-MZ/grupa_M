@@ -17,7 +17,7 @@ namespace webApi.Models
         public string Code { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
-        public int RestaurantId { get; set; }
+        public int? RestaurantId { get; set; }
 
         public virtual Restaurant Restaurant { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

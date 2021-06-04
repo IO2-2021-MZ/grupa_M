@@ -30,6 +30,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import headers from "../shared/authheader"
 
 const useStyles = makeStyles((theme) => ({
     icon: {
@@ -79,9 +80,7 @@ function RestaurateurOrderList(props) {
       var config = {
         method: 'get',
         url: apiUrl + "restaurant/order/all?id="+restId,
-        headers: { 
-          'Authorization': 'Bearer ' + user.token
-        }
+        headers: headers(user)
       };
       
       try
