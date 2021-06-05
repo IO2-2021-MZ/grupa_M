@@ -21,6 +21,11 @@ import SnackbarContext from '../contexts/SnackbarContext';
 import LoadingContext from '../contexts/LoadingContext';
 import Alert from '@material-ui/lab/Alert';
 import Collapse from '@material-ui/core/Collapse';
+import apiUrl from "../shared/apiURL"
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 function Copyright() {
     return (
@@ -67,6 +72,10 @@ export default function SignUpEmployee(props) {
 
     const classes = useStyles();
 
+    const [rests, setRests] = useState([]);
+
+    const [restId, setRestId] = useState(null);
+
     const { setLoading } = useContext(LoadingContext);
     const { setSnackbar } = useContext(SnackbarContext);
 
@@ -103,13 +112,22 @@ export default function SignUpEmployee(props) {
         setUserInput(userInput => { return {...userInput}});
     }
 
+    const handleChangeRestId = (event) => {
+        setRestId(event.target.value);
+        console.log(event.target.value)
+      };
+
     const handleSubmit = async () => {
+        
         let validate = true;
         for(const field in userInput){
             if(errors[field] !== ''){
                 errors[field] = '';
                 validate = false;
             }
+        }
+        if(restId == null){
+            validate = false;
         }
         if(userInput.acceptterms !== true){
             setAcceptterms(false);
@@ -120,7 +138,6 @@ export default function SignUpEmployee(props) {
             return;
         }
         setLoading(true);
-
         let signupsuccess = false;
 
         try {
@@ -131,6 +148,7 @@ export default function SignUpEmployee(props) {
                     surname : userInput.lastName,
                     email : userInput.email,
                     isRestaurateur: false,
+                    restaurantId: restId
                 }
             );
             signupsuccess = true;
@@ -153,7 +171,33 @@ export default function SignUpEmployee(props) {
         setLoading(false);
     }
 
+    async function fetchData() {
+        
+      var config = {
+        method: 'get',
+        url: apiUrl + "restaurant/all",
+      };
+      
+      try
+      {
+        const response = await axios(config);
+        setRests(response.data);        
+      }
+      catch(error)
+      {
+        console.error(error);
+                  setSnackbar({
+                      open: true,
+                      message: "Loading data failed",
+                      type: "error"
+                  });
+      }
+      
+    }
+
     useEffect(() => {
+        fetchData();
+        
         for(const field in errors){
             if(field === 'firstName'){
                 if(userInput[field].length === 0){
@@ -204,7 +248,7 @@ export default function SignUpEmployee(props) {
             errors[field] = '';
         }
         setErrors({...errors});
-    }, [userInput]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [userInput, setRests]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Container component="main" maxWidth="xs">
@@ -267,6 +311,26 @@ export default function SignUpEmployee(props) {
                                 error={errors["email"] === undefined ? false : errors["email"].length > 0}
                                 helperText={errors["email"] || ''}
                             />
+                        </Grid>
+                        <Grid item xs={12}>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-helper-label">Restaurant</InputLabel>
+                            <Select
+                            labelId="demo-simple-select-helper-label"
+                            id="demo-simple-select-helper"
+                            value={restId}
+                            onChange={handleChangeRestId}
+                            >
+                            <MenuItem value={null}>
+                                <em>None</em>
+                            </MenuItem>
+                            {rests.map(el => 
+                                <MenuItem value={el.id}>
+                                    {el.name}
+                                </MenuItem>
+                            )}
+                            </Select>
+                        </FormControl>
                         </Grid>
                         <Grid item xs={12}>
                             <FormControlLabel
