@@ -21,8 +21,10 @@ import UserContext from '../contexts/UserContext'
 
 const authorize = async (values) => {
   try{
-      const response = await axios.get(
-          apiURL + 'user/' + values.role + '/login', { params: { Email: values.email } });
+    
+    const rolle = values.role != 'restaurateur' ?  values.role : 'employee';
+    const response = await axios.get(
+          apiURL + 'user/' + rolle + '/login', { params: { Email: values.email } });
           // if role == restaurator then 'user/employee/login
       return response.data;
   }catch(error){
