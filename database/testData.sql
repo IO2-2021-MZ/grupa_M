@@ -76,7 +76,9 @@ insert into [User]
 values
 	(1, 'Michael', 'Jackson', 'abc@s1.com', 1,'2020-03-20T11:59:59', '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 1, 1),
 	(2, 'Elisabeth', 'Smith', 'abc@s2.com', 2, '2020-03-20T11:59:59', '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 2, null),
-	(3, 'Daniel', 'Craig', 'abc@s3.com', 0, '2020-03-20T11:59:59', '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 3, 1)
+	(3, 'Daniel', 'Craig', 'abc@s3.com', 0, '2020-03-20T11:59:59', '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 3, 1),
+	(4, 'Marcin', 'Stanowski', 'najman@boxing.com', 3, getdate(), '$2a$11$yJdjz6naBO1kL3O0dc1dke4BOJSuXUm8yNmnkocFRIb/GYCPSehyK', 3, 1)
+
 set identity_insert [User] off
 
 set identity_insert [Discount_Code] on
