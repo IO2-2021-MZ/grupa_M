@@ -1,6 +1,6 @@
-//const apiURL = "https://localhost:44384/";
+const apiURL = "https://localhost:44384/";
 //const apiURL = "https://restaurant-groupm.azurewebsites.net/";
 //const apiURL = "https://io2m-restaurants.azurewebsites.net/"
-const apiURL = "https://foodappwebapi.azurewebsites.net/";
+//const apiURL = "https://foodappwebapi.azurewebsites.net/";
 //const apiURL = "https://localhost:5001/";
 export default apiURL;
