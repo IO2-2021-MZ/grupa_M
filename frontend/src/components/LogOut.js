@@ -24,7 +24,7 @@ function LogOut(props){
                 <Route path='/signin/:role' component={SignInWithRole}/>
                 <Route path='/signup/admin' component={SignUpAdmin}/>
                 <Route path='/signup/customer' component={SignUpCustomer}/>
-                <Route path='/signup/restaurer' component={SignUpRestaurateur}/>
+                <Route path='/signup/restaurateur' component={SignUpRestaurateur}/>
                 <Route path='/signup/employee' component={SignUpEmployee}/>
                 <Redirect to='/startup' />
             </Switch>
