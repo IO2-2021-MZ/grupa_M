@@ -7,7 +7,7 @@ namespace webApi.Enums
 {
     public enum PaymentMethod
     {
-        Card,
-        Transfer
+        card,
+        transfer
     }
 }

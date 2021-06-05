@@ -31,7 +31,6 @@ namespace webApi.Controllers
         [HttpGet]
         public IActionResult SignIn([FromQuery] AuthenticateRequest value)
         {
-            
             var response = _accountService.Authenticate(value);
             return Ok(response);
         }

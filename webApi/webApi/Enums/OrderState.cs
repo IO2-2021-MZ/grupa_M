@@ -7,9 +7,9 @@ namespace webApi.Enums
 {
     public enum OrderState
     {
-        Unrealized,
-        Pending,
-        Completed,
-        Cancelled
+        unrealized,
+        pending,
+        completed,
+        cancelled
     }
 }

@@ -7,8 +7,8 @@ namespace webApi.Enums
 {
     public enum RestaurantState
     {
-        Active,
-        Inactive,
-        Blocked
+        active,
+        deactivated,
+        blocked
     }
 }
