@@ -200,10 +200,13 @@ export default function AdminRestaurantList() {
                   <Button variant="contained" size="small" color="primary" style={{margin:15}}>
                     <RouterLink to={"/Restaurant/" + rest.id}> 
                       Details
+                      {
+                        console.log(rest)
+                      }
                     </RouterLink>
                   </Button>
-                  <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "blocked" ? false : true)}>
-                      {rest.state == "blocked"  ? "Unblock" : "Block"}
+                  <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "blocked" || rest.state == "disabled" ? false : true)}>
+                      {rest.state == "blocked" || rest.state == "disabled" ? "Unblock" : "Block"}
                   </Button>
                   <Button disabled={rest.state=="blocked" || rest.state=="disabled"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity2(rest.id, rest.state == "deactivated" ? false : true)}>
                       {rest.state == "active" ? "Inactivate" : "Activate"}

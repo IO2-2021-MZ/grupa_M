@@ -185,7 +185,7 @@
             <response code="401">UnAuthorised</response>
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.RestaurantController.GetSectionByRestaurantsId(System.Int32)">
+        <member name="M:webApi.Controllers.RestaurantController.GetSectionByRestaurantsId(System.Nullable{System.Int32})">
             <summary>
             Returns Menu Details
             </summary>
