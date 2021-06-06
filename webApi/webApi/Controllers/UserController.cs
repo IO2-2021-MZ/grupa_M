@@ -66,9 +66,12 @@ namespace webApi.Controllers
         [HttpGet("admin")]
         public IActionResult GetAdmin([FromQuery] int? id)
         {
-            if (Account.Id != id)
+            if (id != null) // patch for group H
             {
-                throw new UnathorisedException("Not authorized Employye");
+                if (Account.Id != id)
+                {
+                    throw new UnathorisedException("Not authorized Employye");
+                }
             }
             var user = _userService.GetUserWithId(id == null ? Account.Id : id);
             var response = _mapper.Map<UserDTO>(user);
@@ -84,9 +87,12 @@ namespace webApi.Controllers
         [HttpGet("customer")]
         public IActionResult GetCustomer([FromQuery] int? id)
         {
-            if (this.Account.Role == (int)Role.customer && Account.Id != id)
+            if(id != null)
             {
-                throw new UnathorisedException("Not authorized Employye");
+                if (this.Account.Role == (int)Role.customer && Account.Id != id)
+                {
+                    throw new UnathorisedException("Not authorized Employye");
+                }
             }
             var user = _userService.GetUserWithId(id == null ? Account.Id : id);
             var response =_mapper.Map<CustomerC>(user);
@@ -189,18 +195,19 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
-        [HttpGet("complaint/customer/all")] // TODO: zamienic complaint z customer
+        [HttpGet("customer/complaint/all")]
         [Authorize(Role.admin,Role.customer)]
         public IActionResult GetAllComplaint([FromQuery] int? id) 
         {
             if(Account.Role ==(int)Role.customer && id != null && id != Account.Id)
             {
-                throw new UnathorisedException("Wrong Custoemr");
+                throw new UnathorisedException("Wrong Customer");
             }
             else if (Account.Role == (int)Role.admin && id == null)
             {
                 throw new BadRequestException("Id is null");
             }
+
             var complaints = _userService.GetAllUserComplaint(id == null ? Account.Id : id);
             List<ComplaintDTO> response = new List<ComplaintDTO>();
             foreach(var el in complaints)

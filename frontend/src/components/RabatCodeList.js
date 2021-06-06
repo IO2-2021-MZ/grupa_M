@@ -84,6 +84,7 @@ function RabatCodeList() {
       try
       {
         const response = await axios(config);
+        
         setCodes(response.data);
       }
       catch(error)
