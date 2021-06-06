@@ -66,9 +66,12 @@ namespace webApi.Controllers
         [HttpGet("admin")]
         public IActionResult GetAdmin([FromQuery] int? id)
         {
-            if (Account.Id != id)
+            if (id != null) // patch for group H
             {
-                throw new UnathorisedException("Not authorized Employye");
+                if (Account.Id != id)
+                {
+                    throw new UnathorisedException("Not authorized Employye");
+                }
             }
             var user = _userService.GetUserWithId(id == null ? Account.Id : id);
             var response = _mapper.Map<UserDTO>(user);
@@ -84,9 +87,12 @@ namespace webApi.Controllers
         [HttpGet("customer")]
         public IActionResult GetCustomer([FromQuery] int? id)
         {
-            if (this.Account.Role == (int)Role.customer && Account.Id != id)
+            if(id != null)
             {
-                throw new UnathorisedException("Not authorized Employye");
+                if (this.Account.Role == (int)Role.customer && Account.Id != id)
+                {
+                    throw new UnathorisedException("Not authorized Employye");
+                }
             }
             var user = _userService.GetUserWithId(id == null ? Account.Id : id);
             var response =_mapper.Map<CustomerC>(user);
