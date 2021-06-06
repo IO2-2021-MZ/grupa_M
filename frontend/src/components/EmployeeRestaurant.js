@@ -79,7 +79,7 @@ export default function RestaurateurRestaurant(props) {
     name: "",
     contactInformation: "",
     rating: 0.0,
-    state: "Active",
+    state: "active",
     address: {
       city: "",
       street: "",

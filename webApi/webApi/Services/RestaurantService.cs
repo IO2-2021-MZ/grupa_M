@@ -34,7 +34,7 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            restaurant.State = (int)RestaurantState.Active;
+            restaurant.State = (int)RestaurantState.active;
             _context.SaveChanges();
         }
 
@@ -46,7 +46,7 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            restaurant.State = (int)RestaurantState.Blocked;
+            restaurant.State = (int)RestaurantState.blocked;
             _context.SaveChanges();
         }
 
@@ -82,7 +82,7 @@ namespace webApi.Services
             if (newRestaurant is null) throw new BadRequestException("Bad request");
 
             var restaurant = _mapper.Map<Restaurant>(newRestaurant);
-            restaurant.State = (int)RestaurantState.Inactive;
+            restaurant.State = (int)RestaurantState.disabled;
             var address = _mapper.Map<Address>(newRestaurant.Address);
             int addressId;
 
@@ -109,7 +109,7 @@ namespace webApi.Services
 
             restaurant.AddressId = addressId;
             restaurant.DateOfJoining = DateTime.Now;
-            restaurant.State = (int)RestaurantState.Blocked;
+            restaurant.State = (int)RestaurantState.disabled;
             _context.Restaurants.Add(restaurant);
             _context.SaveChanges();
                 
@@ -157,7 +157,7 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            restaurant.State = 1;
+            restaurant.State = (int)RestaurantState.deactivated;
             _context.SaveChanges();
         }
 
@@ -307,7 +307,6 @@ namespace webApi.Services
             .Where(u => u.Id == userId)
             .FirstOrDefault();
 
-
             List<RestaurantC> restaurantDTOs = new List<RestaurantC>();
             if (user is not null && user.Role == (int)Role.employee)
                 restaurants = restaurants.Where(r => r.Id == user.RestaurantId).ToList();
@@ -324,12 +323,12 @@ namespace webApi.Services
 
             if(userId is null)
             {
-                restaurants = restaurants.Where(r => r.State == (int)RestaurantState.Active).ToList();
+                restaurants = restaurants.ToList();
                 restaurantDTOs = _mapper.Map<List<RestaurantC>>(restaurants); 
             }
             else if (user.Role == (int)Role.customer)
             {
-                restaurants = restaurants.Where(r => r.State == (int)RestaurantState.Active).ToList();
+                restaurants = restaurants.Where(r => r.State == (int)RestaurantState.active).ToList();
                 restaurantDTOs = _mapper.Map<List<RestaurantC>>(restaurants);
             }
             else
@@ -494,7 +493,7 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            restaurant.State = (int)RestaurantState.Active;
+            restaurant.State = (int)RestaurantState.active;
             _context.SaveChanges();
         }
 
@@ -563,7 +562,7 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            restaurant.State = 1;
+            restaurant.State = (int)RestaurantState.deactivated;
             _context.SaveChanges();
         }
 

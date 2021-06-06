@@ -218,8 +218,9 @@ export default function RestaurateurRestaurantList() {
                         Details
                       </RouterLink>
                     </Button>
-                    <Button disabled={rest.state=="Blocked"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity2(rest.id, rest.state == "Inactive" ? false : true)}>
-                      {rest.state == "Active" ? "Inactivate" : "Activate"}
+                    <Button disabled={rest.state=="blocked"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity2(rest.id, rest.state == "deactivated" ? false : true)}>
+                      {rest.state == "active" ? "Inactivate" : "Activate"}
+                      {console.log(rest)}
                   </Button>
                     <Button
                       variant="contained"

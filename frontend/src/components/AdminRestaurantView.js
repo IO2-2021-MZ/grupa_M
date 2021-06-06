@@ -172,11 +172,11 @@ const AdminRestaurantView = (props) => {
                   Complaints
                 </RouterLink>
               </Button>
-                  <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "Blocked" ? false : true)}>
-                      {rest.state == "Blocked"  ? "Unblock" : "Block"}
+                  <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "blocked" ? false : true)}>
+                      {rest.state == "blocked"  ? "Unblock" : "Block"}
                   </Button>
-                  <Button disabled={rest.state=="Blocked"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity2(rest.id, rest.state == "Inactive" ? false : true)}>
-                      {rest.state == "Active" ? "Inactivate" : "Activate"}
+                  <Button disabled={rest.state=="blocked"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity2(rest.id, rest.state == "deactivated" ? false : true)}>
+                      {rest.state == "active" ? "Inactivate" : "Activate"}
                   </Button>
                 
         </Container>
