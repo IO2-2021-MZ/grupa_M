@@ -13,7 +13,7 @@ namespace webApi.Services
         RestaurantC GetRestaurantById(int? id, int userId);
         int CreateNewRestaurant(NewRestaurant newRestaurant, int userId);
         void DeleteRestaurant(int id, int userId);
-        List<SectionDTO> GetSectionByRestaurantsId(int id);
+        List<SectionDTO> GetSectionByRestaurantsId(int? id, int userId);
         int CreateSection(int id, string sectionName, int userId);
         void UpdateSection(int id, string newSectionName, int userId);
         void DeleteSection(int id, int userId);

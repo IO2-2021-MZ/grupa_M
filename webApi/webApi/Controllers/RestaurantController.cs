@@ -82,9 +82,9 @@ namespace webApi.Controllers
         /// <response code="404">Resource Not Found</response> 
         [HttpGet("menu")]
         [Authorize(Role.admin, Role.customer, Role.restaurateur, Role.employee)]
-        public ActionResult<List<SectionDTO>> GetSectionByRestaurantsId([FromQuery] int id)
+        public ActionResult<List<SectionDTO>> GetSectionByRestaurantsId([FromQuery] int? id)
         {
-            List<SectionDTO> sections = _restaurantService.GetSectionByRestaurantsId(id);
+            List<SectionDTO> sections = _restaurantService.GetSectionByRestaurantsId(id, Account.Id);
             return Ok(sections);
         }
 

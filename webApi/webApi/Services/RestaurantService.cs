@@ -82,7 +82,7 @@ namespace webApi.Services
             if (newRestaurant is null) throw new BadRequestException("Bad request");
 
             var restaurant = _mapper.Map<Restaurant>(newRestaurant);
-            restaurant.State = (int)RestaurantState.deactivated;
+            restaurant.State = (int)RestaurantState.disabled;
             var address = _mapper.Map<Address>(newRestaurant.Address);
             int addressId;
 
@@ -109,7 +109,7 @@ namespace webApi.Services
 
             restaurant.AddressId = addressId;
             restaurant.DateOfJoining = DateTime.Now;
-            restaurant.State = (int)RestaurantState.blocked;
+            restaurant.State = (int)RestaurantState.disabled;
             _context.Restaurants.Add(restaurant);
             _context.SaveChanges();
                 
@@ -224,6 +224,29 @@ namespace webApi.Services
 
         public List<ComplaintR> GetAllComplaitsForRestaurants(int? id, int userId)
         {
+            if (id is null)
+            {
+                var userr = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+                if (userr is null) throw new UnathorisedException("Forbidde");
+
+                Restaurant rest = null;
+
+                if (userr.Role == (int)Role.employee)
+                {
+                    rest = _context.Restaurants.Where(r => r.Id == userr.RestaurantId).FirstOrDefault();
+                }
+                else if (userr.Role == (int)Role.admin)
+                {
+                    var userest = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+                    if (userest is null) throw new NotFoundException("Not found");
+                    rest = _context.Restaurants.Where(r => r.Id == userest.RestaurantId).FirstOrDefault();
+                }
+
+                if (rest is null) throw new NotFoundException("Not found");
+                var ccc = _context.Complaints.Include(o => o.Order).Where(c => c.Order.RestaurantId == rest.Id);
+                return _mapper.Map<List<ComplaintR>>(ccc);
+
+            }
             var restaurant = _context
                 .Restaurants
                 .Include(item => item.Orders)
@@ -442,8 +465,33 @@ namespace webApi.Services
             return restaurantDTO;
         }
 
-        public List<SectionDTO> GetSectionByRestaurantsId(int id)
+        public List<SectionDTO> GetSectionByRestaurantsId(int? id, int userId)
         {
+
+            if(id is null)
+            {
+                var user = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+                if (user is null) throw new UnathorisedException("Forbidde");
+
+                Restaurant rest = null;
+
+                if(user.Role == (int)Role.employee)
+                {
+                    rest = _context.Restaurants.Include(r => r.Sections).Where(r => r.Id == user.RestaurantId).FirstOrDefault();
+                }
+                else if(user.Role == (int)Role.admin)
+                {
+                    var userest = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+                    if (userest is null) throw new NotFoundException("Not found");
+                    rest = _context.Restaurants.Include(r => r.Sections).Where(r => r.Id == userest.RestaurantId).FirstOrDefault();
+                    
+                }
+
+                if (rest is null) throw new NotFoundException("Not found");
+                return _mapper.Map<List<SectionDTO>>(rest.Sections);
+
+            }
+
             var restaurant = _context.Restaurants.FirstOrDefault(r => r.Id == id);
 
             if (restaurant is null) throw new NotFoundException("Resource not found!");
