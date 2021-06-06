@@ -14,6 +14,7 @@ function Main(){
         return <LogOut/>;
     }
     if(user.role.toLowerCase() === 'restaurateur' || user.role.toLowerCase() === ' restaurateur'){
+        console.log(user.address);
         return <Restaurateur />;
     }
     if(user.role.toLowerCase() === 'admin' || user.role.toLowerCase() === ' admin'){

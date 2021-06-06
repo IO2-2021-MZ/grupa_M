@@ -80,7 +80,7 @@ const AddNewOrder = (props) => {
     const { user, setUser } = useContext(UserContext);
     const [added, setAdded] = useState(false);
     const { restId } = props;
-    const [userId, setUserId] = useState(user.apiKey[0])
+    const [userId, setUserId] = useState(user.apiKey.split(',')[0])
 
     const [paymentMethod, setPaymentMethod] = useState("");
     const [date, setDate] = useState("");
@@ -147,10 +147,10 @@ const AddNewOrder = (props) => {
                     "street": street,
                     "postCode": postCode
                 },
-                "discountCodeId": discountCodeId,
+                "discountcodeId": discountCodeId,
                 "customerId": userId,
                 "restaurantId": restId,
-                "positionsId": positionsIds
+                "positionsIds": positionsIds
             }
         };
         axios(config)
@@ -232,8 +232,8 @@ const AddNewOrder = (props) => {
                                                     onChange={handlePaymentMethodChange}
                                                     style={{ margin: 10 }}
                                                 >
-                                                    <MenuItem value={"Card"}>Card</MenuItem>
-                                                    <MenuItem value={"Transfer"}>Transfer</MenuItem>
+                                                    <MenuItem value={"card"}>Card</MenuItem>
+                                                    <MenuItem value={"transfer"}>Transfer</MenuItem>
                                                 </Select>
                                             </FormControl>
                                             <br />

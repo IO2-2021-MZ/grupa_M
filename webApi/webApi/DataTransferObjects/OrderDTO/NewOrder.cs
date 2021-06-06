@@ -20,7 +20,7 @@ namespace webApi.DataTransferObjects.OrderDTO
         [Required]
         public int RestaurantId { get; set; }
         [Required]
-        public int[] PositionsId { get; set; }
+        public int[] PositionsIds { get; set; }
 
     }
 }

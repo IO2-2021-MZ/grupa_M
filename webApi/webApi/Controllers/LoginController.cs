@@ -9,7 +9,6 @@ namespace webApi.Controllers
     [Route("user/admin/login")]
     [Route("user/employee/login")]
     [Route("user/customer/login")]
-    [Route("user/restaurateur/login")]
 
     public class LoginController : AuthenticativeController
     {
@@ -31,7 +30,6 @@ namespace webApi.Controllers
         [HttpGet]
         public IActionResult SignIn([FromQuery] AuthenticateRequest value)
         {
-            
             var response = _accountService.Authenticate(value);
             return Ok(response);
         }

@@ -61,10 +61,10 @@ namespace webApi.Services
             _context.Orders.Add(order);
             _context.SaveChanges();
 
-            for (int i = 0; i < newOrder.PositionsId.Length; i++)
+            for (int i = 0; i < newOrder.PositionsIds.Length; i++)
             {
                 OrderDish orderDish = new OrderDish();
-                orderDish.DishId = newOrder.PositionsId[i];
+                orderDish.DishId = newOrder.PositionsIds[i];
                 orderDish.OrderId = order.Id;
                 _context.OrderDishes.Add(orderDish);
                 var updatedOrder = _context

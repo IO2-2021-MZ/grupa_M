@@ -14,13 +14,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link as RouterLink } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
-import MuiPhoneNumber from 'material-ui-phone-number';
 import axios from 'axios';
 import apiURL from '../shared/apiURL';
 import SnackbarContext from '../contexts/SnackbarContext';
 import LoadingContext from '../contexts/LoadingContext';
 import Alert from '@material-ui/lab/Alert';
 import Collapse from '@material-ui/core/Collapse';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 function Copyright() {
     return (
@@ -53,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+      },
 }));
 
 export default function SignUpEmployee(props) {
@@ -64,12 +68,17 @@ export default function SignUpEmployee(props) {
     });
     const [errors, setErrors] = useState({});
     const [acceptterms, setAcceptterms] = useState(true);
-
+    const [restaurants,setRestaurant] = useState([]);
+    const [restId,setRestaurantId] = useState(undefined); 
+    const [executed,setExec]= useState(false);
     const classes = useStyles();
 
     const { setLoading } = useContext(LoadingContext);
     const { setSnackbar } = useContext(SnackbarContext);
-
+    const handleChangeRestId = (event) => {
+        setRestaurantId(event.target.value);
+      };
+    
     const handleChange = (event) => {
         if(event.target.name === 'acceptterms'){
             if(event.target.checked){
@@ -131,6 +140,7 @@ export default function SignUpEmployee(props) {
                     surname : userInput.lastName,
                     email : userInput.email,
                     isRestaurateur: false,
+                    restaurantId: restId,
                 }
             );
             signupsuccess = true;
@@ -203,8 +213,26 @@ export default function SignUpEmployee(props) {
             }
             errors[field] = '';
         }
+        async function fetchData(){
+            if(!executed){
+            setLoading(true);
+            try{
+                const rstaurants = await axios.get(apiURL + 'restaurant/all');
+                setRestaurant(rstaurants.data);
+            }catch(error){
+                setSnackbar({
+                    open: true,
+                    type: 'error',
+                    message: 'Could not get restaurant list'
+                });
+            }
+            setLoading(false);
+            setExec(true)
+        }
+        }
+        fetchData();
         setErrors({...errors});
-    }, [userInput]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [userInput,restaurants,setRestaurant,setSnackbar,setLoading,executed,setExec]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <Container component="main" maxWidth="xs">
@@ -267,6 +295,19 @@ export default function SignUpEmployee(props) {
                                 error={errors["email"] === undefined ? false : errors["email"].length > 0}
                                 helperText={errors["email"] || ''}
                             />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Select
+                                labelId="demo-simple-select-placeholder-label-label"
+                                id="demo-simple-select-placeholder-label"
+                                onChange={handleChangeRestId}
+                                className={classes.selectEmpty}
+                            >
+                                <MenuItem value="">
+                                    <em>No restaurant</em>
+                                </MenuItem>
+                                {restaurants.map(rest =>  <MenuItem value={rest.id}>{rest.name}</MenuItem>)}                              
+                            </Select>
                         </Grid>
                         <Grid item xs={12}>
                             <FormControlLabel

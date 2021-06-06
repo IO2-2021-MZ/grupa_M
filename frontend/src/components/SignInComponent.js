@@ -21,13 +21,17 @@ import UserContext from '../contexts/UserContext'
 
 const authorize = async (values) => {
   try{
-      const response = await axios.get(
-          apiURL + 'user/' + values.role + '/login', { params: { Email: values.email } });
+    
+    const rolle = values.role != 'restaurateur' ?  values.role : 'employee';
+    const response = await axios.get(
+          apiURL + 'user/' + rolle + '/login', { params: { Email: values.email } });
+          // if role == restaurator then 'user/employee/login
       return response.data;
   }catch(error){
       console.error(error);
   }
 }
+
 
 const TokenParse = (response) =>{
 
@@ -96,18 +100,38 @@ export default function SignIn(props) {
   const {user , setUser} = useContext(UserContext);
   const { setLoading } = useContext(LoadingContext);
   const { role } = props.role;
+  const [address, setAddress] = useState(undefined);
+
 const handleSubmit = async (values) => {
-  
   setLoading(true);
   const token =  await authorize(values);
   const usr = token.split(',');
+  var config = {
+    method: 'get',
+    url: 'https://localhost:44384/user/customer?id=' + usr[0],
+    headers: { 
+      'api-Key': token
+    }
+  };
+  try{
+    const useraddress = await axios(config);
+    setUser({
+      apiKey: token,
+      role: usr[1],
+      id: usr[0],
+      address: useraddress.data.address
+    });
+}catch(error){
   setUser({
     apiKey: token,
     role: usr[1],
-    id: usr[0]
+    id: usr[0],
+    address: undefined
   });
+}
   setLoading(false);
 }
+
 const emailChanged = (event) => {
     setEmail(event.target.value);
     if(/.+@.+\.[A-Za-z]+$/.test(event.target.value)){
