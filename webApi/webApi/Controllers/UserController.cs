@@ -189,18 +189,19 @@ namespace webApi.Controllers
         /// <response code="400">Bad Request</response> 
         /// <response code="401">UnAuthorised</response>
         /// <response code="404">Resource Not Found</response> 
-        [HttpGet("complaint/customer/all")] // TODO: zamienic complaint z customer
+        [HttpGet("customer/complaint/all")]
         [Authorize(Role.admin,Role.customer)]
         public IActionResult GetAllComplaint([FromQuery] int? id) 
         {
             if(Account.Role ==(int)Role.customer && id != null && id != Account.Id)
             {
-                throw new UnathorisedException("Wrong Custoemr");
+                throw new UnathorisedException("Wrong Customer");
             }
             else if (Account.Role == (int)Role.admin && id == null)
             {
                 throw new BadRequestException("Id is null");
             }
+
             var complaints = _userService.GetAllUserComplaint(id == null ? Account.Id : id);
             List<ComplaintDTO> response = new List<ComplaintDTO>();
             foreach(var el in complaints)
