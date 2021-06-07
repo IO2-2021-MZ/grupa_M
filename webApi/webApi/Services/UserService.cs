@@ -80,9 +80,9 @@ namespace webApi.Services
             _context.OrderDishes.RemoveRange(orders2);
             _context.SaveChanges();
 
-            var orders = _context.Orders.Where(r => r.CustomerId == user.Id);
-            _context.Complaints.RemoveRange(complaints);
-            _context.SaveChanges()
+            var orders = _context.Orders.Where(r => r.CustomerId == user.Id || r.EmployeeId == user.Id);
+            _context.Orders.RemoveRange(orders);
+            _context.SaveChanges();
 
             _context.Users.Remove(user);
             _context.SaveChanges();
