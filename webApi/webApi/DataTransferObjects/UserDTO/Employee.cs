@@ -9,6 +9,6 @@ namespace webApi.DataTransferObjects.UserDTO
     public class Employee:UserDTO
     {
         public bool isRestaurateur { get; set; }
-        public virtual Restaurant restaurant { get; set; }
+        public virtual RestaurantDTO.RestaurantDTO restaurant { get; set; }
     }
 }

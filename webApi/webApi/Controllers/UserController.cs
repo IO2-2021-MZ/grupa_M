@@ -55,7 +55,9 @@ namespace webApi.Controllers
             var user = _userService.GetUserWithId(id == null ? Account.Id : id);
             var response = _mapper.Map<Employee>(user);
             response.isRestaurateur = user.Role == (int)Role.restaurateur ? true : false;
-            response.restaurant = user.Restaurant;
+            var usr = _context.UserRests.Include(u => u.Restaurant).Where(u => u.UserId == user.Id).FirstOrDefault();
+            var mapped = _mapper.Map<RestaurantDTO>(usr == null ? user.Restaurant : usr.Restaurant);
+            response.restaurant = mapped;
             return Ok(response);
         }
         [HttpPost("employee")]
