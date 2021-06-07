@@ -64,9 +64,26 @@ namespace webApi.Services
         }
         public void DeleteUser(int? id)
         {
-            if (id == null) throw new BadRequestException("DeleteUser id is null");
+            if (id is null) throw new BadRequestException("id cannot be null");
             var user = _context.Users.SingleOrDefault(user => user.Id == id);
             if (user == null) throw new NotFoundException("User does not Exist");
+            
+            var reviews = _context.Reviews.Where(r => r.CustomerId == user.Id);
+            _context.Reviews.RemoveRange(reviews);
+            _context.SaveChanges();
+
+            var complaints = _context.Complaints.Where(r => r.CustomerId == user.Id || r.EmployeeId == user.Id);
+            _context.Complaints.RemoveRange(complaints);
+            _context.SaveChanges();
+
+            var orders2 = _context.OrderDishes.Include(o => o.Order).Where(r => r.Order.CustomerId == user.Id || r.Order.EmployeeId == user.Id);
+            _context.OrderDishes.RemoveRange(orders2);
+            _context.SaveChanges();
+
+            var orders = _context.Orders.Where(r => r.CustomerId == user.Id);
+            _context.Complaints.RemoveRange(complaints);
+            _context.SaveChanges()
+
             _context.Users.Remove(user);
             _context.SaveChanges();
         }
