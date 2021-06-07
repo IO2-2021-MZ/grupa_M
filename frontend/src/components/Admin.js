@@ -46,7 +46,7 @@ function Admin(props){
                 <Route path='/Restaurant/:id' component={RestWithId}/>
                 <Route path="/FinanceAndStats/:id" component={FinanceAndStatsWithId} />
                 <Route path='/AllUsers' component={AllUsers}/>
-                <Route path='/AllUsers/:id' component={AllUsersOfTypeWithId}/>
+                <Route path='/Users/:id' component={AllUsersOfTypeWithId}/>
                 <Redirect to='/RestaurantList' />
             </Switch>
         </BrowserRouter>

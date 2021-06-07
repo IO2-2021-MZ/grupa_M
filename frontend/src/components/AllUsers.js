@@ -113,21 +113,21 @@ export default function AllUsers() {
                 </Typography>
                     <br/>
                         <Button variant="contained" color="primary">
-                            <RouterLink to={"/AllUsers/"+"employee"}  style={{ color: "#FFF" }}>
+                            <RouterLink to={"/Users/"+"employee"}  style={{ color: "#FFF" }}>
                                 Employees
                             </RouterLink>
                         </Button>
                         &nbsp;
                         &nbsp;
                         <Button variant="contained" color="primary">
-                            <RouterLink to={"/AllUsers/"+"customer"}  style={{ color: "#FFF" }}>
+                            <RouterLink to={"/Users/"+"customer"}  style={{ color: "#FFF" }}>
                                 Customers
                             </RouterLink>
                         </Button>
                         &nbsp;
                         &nbsp;
                         <Button variant="contained" color="primary">
-                            <RouterLink to={"/AllUsers/"+"admin"}  style={{ color: "#FFF" }}>
+                            <RouterLink to={"/Users/"+"admin"}  style={{ color: "#FFF" }}>
                                 Admins
                             </RouterLink>
                         </Button>

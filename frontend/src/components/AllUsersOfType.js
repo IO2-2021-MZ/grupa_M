@@ -88,7 +88,7 @@ function AllUsersOfType(props) {
       try
       {
         const response = await axios(config);
-        
+        console.log(response.data);
         setUsersList(response.data);
       }
       catch(error)
@@ -137,11 +137,10 @@ function AllUsersOfType(props) {
                 <TableHead>
                 <TableRow>
                     {console.log(usersList)}
-                    <TableCell>User</TableCell>
-                    <TableCell align="right">Type</TableCell>
-                    <TableCell align="right">Status</TableCell>
-                    <TableCell align="right">Detail</TableCell>
-                    <TableCell align="right">Instance</TableCell>
+                    <TableCell>User role</TableCell>
+                    <TableCell align="right">Name</TableCell>
+                    <TableCell align="right">Surname</TableCell>
+                    <TableCell align="right">Email</TableCell>
                     <TableCell align="right"></TableCell>
                 </TableRow>
                 </TableHead>
@@ -149,12 +148,11 @@ function AllUsersOfType(props) {
                 {usersList.map((row) => (
                     <TableRow key={row.id}>
                     <TableCell component="th" scope="row">
-                        {row.title}
+                        {row.role}
                     </TableCell>
-                    <TableCell align="right">{row.type}</TableCell>
-                    <TableCell align="right">{row.status}</TableCell>
-                    <TableCell align="right">{row.detail}</TableCell>
-                    <TableCell align="right">{row.instance}</TableCell>
+                    <TableCell align="right">{row.name}</TableCell>
+                    <TableCell align="right">{row.surname}</TableCell>
+                    <TableCell align="right">{row.email}</TableCell>
                     <TableCell align="right">
                         <Button variant="contained" color="secondary" onClick = {() => deleteUser(row.id)}>
                             X
