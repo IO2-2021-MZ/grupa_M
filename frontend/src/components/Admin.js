@@ -7,7 +7,8 @@ import RabatCodeList from "./RabatCodeList"
 import Rest from "./AdminRestaurantView";
 import FinanceAndStats from "./FinanceAndStatsComponent";
 import AllComplaints from "./AllComplaintsComponent";
-
+import AllUsers from "./AllUsers";
+import AllUsersOfType from "./AllUsersOfType";
 
 const RestWithId = ({match}) => {
     return(
@@ -27,6 +28,12 @@ const ComplaintsWithId = ({match}) => {
     );
 }
 
+const AllUsersOfTypeWithId = ({match}) =>{
+    return(
+        <AllUsersOfType type={match.params.id}/>
+    );
+}
+
 
 function Admin(props){
     return(
@@ -38,6 +45,8 @@ function Admin(props){
                 <Route path='/NewRabatCode' component={NewRabatCode}/>
                 <Route path='/Restaurant/:id' component={RestWithId}/>
                 <Route path="/FinanceAndStats/:id" component={FinanceAndStatsWithId} />
+                <Route path='/AllUsers' component={AllUsers}/>
+                <Route path='/Users/:id' component={AllUsersOfTypeWithId}/>
                 <Redirect to='/RestaurantList' />
             </Switch>
         </BrowserRouter>

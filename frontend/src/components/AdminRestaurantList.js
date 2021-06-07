@@ -169,6 +169,11 @@ export default function AdminRestaurantList() {
                   Discount codes
                 </RouterLink>
               </Button>
+              <Button variant="contained" color="default">
+                <RouterLink to="/AllUsers">
+                  Users List
+                </RouterLink>
+              </Button>
           </Container>
         </div>
         <Container className={classes.cardGrid}>
