@@ -105,6 +105,11 @@ export default function SignIn(props) {
 const handleSubmit = async (values) => {
   setLoading(true);
   const token =  await authorize(values);
+  if(token === undefined)
+  { 
+    setLoading(false);
+    return;
+  }
   const usr = token.split(',');
   var config = {
     method: 'get',
@@ -124,12 +129,7 @@ const handleSubmit = async (values) => {
       favouriteRestaurants: useraddress.data.favouriteRestaurants,
     });
 }catch(error){
-  setUser({
-    apiKey: token,
-    role: usr[1],
-    id: usr[0],
-    address: undefined
-  });
+  setUser(undefined);
 }
   setLoading(false);
 }
