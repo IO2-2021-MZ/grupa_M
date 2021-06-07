@@ -170,7 +170,7 @@ export default function AdminRestaurantList() {
                 </RouterLink>
               </Button>
               <Button variant="contained" color="default">
-                <RouterLink to="/RabatCodeList">
+                <RouterLink to="/AllUsers">
                   Users List
                 </RouterLink>
               </Button>
