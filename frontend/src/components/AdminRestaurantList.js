@@ -213,9 +213,6 @@ export default function AdminRestaurantList() {
                   <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "blocked" || rest.state == "disabled" ? false : true)}>
                       {rest.state == "blocked" || rest.state == "disabled" ? "Unblock" : "Block"}
                   </Button>
-                  <Button disabled={rest.state=="blocked" || rest.state=="disabled"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity2(rest.id, rest.state == "deactivated" ? false : true)}>
-                      {rest.state == "active" ? "Inactivate" : "Activate"}
-                  </Button>
                   <Button variant="contained" style={{margin:15}} size="small" color="secondary" onClick={() => deleteRestaurant(rest.id)}>
                       Delete
                   </Button>
