@@ -7,7 +7,7 @@ namespace webApi.DataTransferObjects.UserDTO
 {
     public class CustomerC : UserDTO
     {
-        public AddressDTO.AddressDTO address { get; set; }
-        public List<RestaurantC> favouriteRestaurants { get; set; }
+        public AddressDTO.AddressDTO Address { get; set; }
+        public List<RestaurantC> FavouriteRestaurants { get; set; }
     }
 }

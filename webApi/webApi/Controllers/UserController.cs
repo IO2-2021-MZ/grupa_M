@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using webApi.DataTransferObjects.AddressDTO;
@@ -31,6 +32,7 @@ namespace webApi.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly IO2_RestaurantsContext _context;
 
         /// <summary>
         /// User Controller constructor
@@ -39,6 +41,7 @@ namespace webApi.Controllers
         {
             _userService = userService;
             _mapper = mapper;
+            _context = context;
         }
 
         [Authorize(Role.admin,Role.employee, Role.restaurateur)]
@@ -95,12 +98,18 @@ namespace webApi.Controllers
                 }
             }
             var user = _userService.GetUserWithId(id == null ? Account.Id : id);
+            var urs = _context.UserRests.Where(ur => ur.UserId == id).Include(ur => ur.Restaurant).ToList() ;
             var response =_mapper.Map<CustomerC>(user);
-            response.address = _mapper.Map<AddressDTO>(user.Address);
-            response.favouriteRestaurants = new List<RestaurantC>();
-            foreach(var el in user.UserRests)
+            response.Address = _mapper.Map<AddressDTO>(user.Address);
+            response.FavouriteRestaurants = new List<RestaurantC>();
+
+            foreach(var el in urs)
             {
-                response.favouriteRestaurants.Add(_mapper.Map<RestaurantC>(el.Restaurant));
+                if(user.UserRests.Any(Url => Url.RestaurantId == el.RestaurantId))
+                {
+                    response.FavouriteRestaurants.Add(_mapper.Map<RestaurantC>(el.Restaurant));
+                }
+
             }
             return Ok(response);
         }

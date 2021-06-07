@@ -115,11 +115,13 @@ const handleSubmit = async (values) => {
   };
   try{
     const useraddress = await axios(config);
+    console.log(useraddress);
     setUser({
       apiKey: token,
       role: usr[1],
       id: usr[0],
-      address: useraddress.data.address
+      address: useraddress.data.address,
+      favouriteRestaurants: useraddress.data.favouriteRestaurants,
     });
 }catch(error){
   setUser({

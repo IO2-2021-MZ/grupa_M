@@ -12,6 +12,7 @@ using webApi.DataTransferObjects.UserDTO;
 using webApi.Enums;
 using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.DishDTO;
+using webApi.DataTransferObjects.RestaurantDTO;
 
 namespace webApi.Services
 {
@@ -28,13 +29,13 @@ namespace webApi.Services
         public User GetUserWithId(int? id)
         {
             if (id == null) throw new BadRequestException(" GetUser id is null");
-            return _context.Users
+           return _context.Users
                 .Include(x=> x.Restaurant)
                 .Include(x=>x.Address)
                 .Include(x=>x.UserRests)
-                    .ThenInclude(y => y.Restaurant)
+                .ThenInclude(y => y.Restaurant)
                 .SingleOrDefault(user => user.Id == id);
-           
+        
         }
         public RegisterResponse CreateNewUser(RegisterRequest newUser)
         {

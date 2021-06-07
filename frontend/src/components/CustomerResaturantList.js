@@ -112,8 +112,10 @@ export default function CustomerRestaurantList() {
 
     useEffect(() => {
         fetchData();
-    }, [setRests]);
+    }, [setRests, user]);
 
+  if(user === undefined)
+    return 
 
   return (
     <React.Fragment>
@@ -167,15 +169,16 @@ export default function CustomerRestaurantList() {
                     />
                   </Box>
                 </CardContent>
-                <CardActions>
+                <CardActions> 
                   <Button variant="contained" color="primary" size="small" style={{margin:15}}>
                     <RouterLink to={"/Restaurant/" + rest.id} style={{ color: "#FFF" }}> 
                       Details
+                      {console.log(user)}
                     </RouterLink>
                   </Button>
-                  <Button onClick={() => handleSettingFavourite(rest.id)} disabled={user?.favouriteRestaurants?.map(el => el.id)?.contains(rest.id)} variant="contained" color="primary" size="small" style={{margin:15}}>
-                      { user?.favouriteRestaurants?.map(el => el.id)?.contains(rest.id) ? "Is fav!" : "Set as fav"}
-                      {console.log(user)}
+                  <Button onClick={() => handleSettingFavourite(rest.id)} disabled={user.favouriteRestaurants.map(el => el.id).includes(rest.id)} variant="contained" color="primary" size="small" style={{margin:15}}>
+                      { user.favouriteRestaurants.map(el => el.id).includes(rest.id) ? "Is fav!" : "Set as fav"}
+                      
                   </Button>
                 </CardActions>
               </Card>

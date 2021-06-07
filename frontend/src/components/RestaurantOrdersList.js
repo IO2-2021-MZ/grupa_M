@@ -90,7 +90,7 @@ export default function RestaurantOrdersList() {
                 });
     }
     setLoading(false);
-    }
+    } 
 
     useEffect(() => {
         fetchData();

@@ -92,7 +92,7 @@ namespace webApi.Helpers
             CreateMap<User, RegisterRequest>().ReverseMap();
             CreateMap<User, NewAdministrator>().ReverseMap();
             CreateMap<User, CustomerC>()
-                .ForMember(x => x.address, opt => opt.Ignore())
+                .ForMember(x => x.Address, opt => opt.Ignore())
                 .ReverseMap();
              CreateMap<User, NewCustomer>()
                 .ForMember(x => x.address, opt => opt.Ignore())
