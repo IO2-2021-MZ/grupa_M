@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RestaurateurOrder(props) {
+export default function EmployeeOrder(props) {
   const classes = useStyles();
 
   const { orderId } = props;
@@ -205,7 +205,7 @@ export default function RestaurateurOrder(props) {
         <Toolbar>
           <Button>
             <RouterLink
-              to={"/RestaurateurOrdersList/"+restId}
+              to={"/EmployeeOrdersList/"+restId}
               style={{ color: "#FFF" }}
             >
               <ArrowBackIcon fontSize="large" />

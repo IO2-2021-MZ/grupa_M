@@ -15,8 +15,10 @@ import PatchDish from "./PatchDish"
 
 import RestaurateurOrderList from "./RestaurateurOrderList";
 import RestaurateurOrder from "./RestaurateurOrder";
-import AllComplaints from "./AllComplaintsEmployee"
-import Response from "./ComplaintResponseComponent"
+import AllComplaints from "./AllComplaintsEmployee";
+import Response from "./ComplaintResponseComponent";
+import EmployeeOrderList from "./EmployeeOrderList";
+import EmployeeOrder from "./EmployeeOrder";
 
 
 const RestaurateurRestaurantWithId = ({ match }) => {
@@ -27,12 +29,12 @@ const RestaurateurSectionsWithId = ({ match }) => {
   return <RestaurateurSections restId={match.params.id} />;
 };
 
-const RestaurateurOrdersListWithId = ({ match }) => {
-  return <RestaurateurOrderList restId={match.params.id} />;
+const EmployeeOrdersListWithId = ({ match }) => {
+  return <EmployeeOrderList restId={match.params.id} />;
 };
 
-const RestaurateurOrderWithId = ({ match }) => {
-  return <RestaurateurOrder orderId={match.params.id} />;
+const EmployeeOrderWithId = ({ match }) => {
+  return <EmployeeOrder orderId={match.params.id} />;
 };
 const ComplaintsWithId = ({match}) => {
   return(
@@ -65,8 +67,8 @@ function Restaurateur(props) {
           path="/RestaurateurSections/:id"
           component={RestaurateurSectionsWithId}
         />
-        <Route path="/RestaurateurOrdersList/:id" component={RestaurateurOrdersListWithId} />
-        <Route path="/RestaurateurOrder/:id" component={RestaurateurOrderWithId} />
+        <Route path="/EmployeeOrdersList/:id" component={EmployeeOrdersListWithId} />
+        <Route path="/EmployeeOrder/:id" component={EmployeeOrderWithId} />
         <Route path='/RabatCodeList' component={RabatCodeList}/>
         <Route path='/NewRabatCode' component={NewRabatCode}/>
         <Redirect to="/RestaurantList" />

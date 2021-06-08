@@ -183,7 +183,7 @@ export default function RestaurateurRestaurant(props) {
                   &nbsp; &nbsp;
                   <Button variant="contained" color="primary">
                     <RouterLink
-                      to={"/RestaurateurOrdersList/" + restaurant.id}
+                      to={"/EmployeeOrdersList/" + restaurant.id}
                       style={{ color: "#FFF" }}
                     >
                       Show Orders
