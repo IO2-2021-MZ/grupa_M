@@ -11,7 +11,7 @@ namespace webApi.Services
     public interface IReviewService
     {
         public ReviewDTO GetReviewById(int? id);
-        int CreateNewReview(NewReview newReview);
+        int CreateNewReview(NewReview newReview, int userId);
         bool DeleteReview(int id);
     }
 }

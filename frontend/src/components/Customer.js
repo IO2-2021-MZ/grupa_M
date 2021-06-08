@@ -10,6 +10,7 @@ import ReviewList from "./RestaurantReviewsCustomerComponent"
 import OrdersHistory from "./CustomerOrdersHistory"
 import MakeComplaint from "./MakeComplaintComponent"
 import Complaints from "./AllComplaintsComponent"
+import ComplaintList from "./CustomerComplaintList"
 
 const RestWithId = ({match}) => {
     return(
@@ -64,6 +65,7 @@ function Customer(props){
                 <Route path='/Menu/Restaurant/:id' component={RestMenuWithId}/>
                 <Route path='/reviews/restaurant/:id' component={ReviewForRestaurantWithId}/>
                 <Route path='/Complaints/:id' component = {ComplaintsWithId} />
+                <Route path='/ComplaintsList' component = {ComplaintList} />
                 <Route path="/MakeComplaint/:id" component={MakeComplaintWithId}/>
                 <Redirect to='/RestaurantList' />
             </Switch>

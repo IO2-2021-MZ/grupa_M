@@ -23,11 +23,12 @@ namespace webApi.Services
             _mapper = mapper;
         }
 
-        public int CreateNewReview(NewReview newReview)
+        public int CreateNewReview(NewReview newReview, int userId)
         {
             if (newReview is null) throw new BadRequestException("Bad request");
-
             var nr = _mapper.Map<Review>(newReview);
+            nr.CustomerId = userId;
+
             _context.Reviews.Add(nr);
             _context.SaveChanges();
 

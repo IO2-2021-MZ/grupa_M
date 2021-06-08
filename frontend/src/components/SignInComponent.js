@@ -129,7 +129,13 @@ const handleSubmit = async (values) => {
       favouriteRestaurants: useraddress.data.favouriteRestaurants,
     });
 }catch(error){
-  setUser(undefined);
+  setUser(
+    {
+      apiKey: token,
+      role: usr[1],
+      id: usr[0],
+    }
+  );
 }
   setLoading(false);
 }

@@ -11,7 +11,7 @@ namespace webApi.DataTransferObjects.ReviewDTO
         public string Content { get; set; }
         [Required]
         public decimal Rating { get; set; }
-        [Required]
+        
         public int CustomerId { get; set; }
         [Required]
         public int RestaurantId { get; set; }

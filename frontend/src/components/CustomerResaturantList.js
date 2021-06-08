@@ -142,6 +142,11 @@ export default function CustomerRestaurantList() {
               Orders history
             </RouterLink>
             </Button>
+            <Button variant="contained" color="default">
+            <RouterLink to={"/ComplaintsList"}> 
+              Complaints list
+            </RouterLink>
+            </Button>
           </Container>
         </div>
         <Container className={classes.cardGrid}>
