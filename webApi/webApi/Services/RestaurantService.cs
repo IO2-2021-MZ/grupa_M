@@ -295,7 +295,7 @@ namespace webApi.Services
 
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
 
-            if (urs.FirstOrDefault() is null) return new List<OrderR>();
+            if (urs.FirstOrDefault() is null && user.Role != (int)Role.employee) return new List<OrderR>();
 
             if (id is null)
             {
