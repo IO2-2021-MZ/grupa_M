@@ -84,9 +84,9 @@ const AddNewOrder = (props) => {
 
     const [paymentMethod, setPaymentMethod] = useState("");
     const [date, setDate] = useState("");
-    const [street, setStreet] = useState("");
-    const [city, setCity] = useState("");
-    const [postCode, setPostCode] = useState("");
+    const [street, setStreet] = useState(user.address.street);
+    const [city, setCity] = useState(user.address.city);
+    const [postCode, setPostCode] = useState(user.address.postCode);
     const [discountCodeString, setDiscountCodeString] = useState("");
     const [discountCode, setDiscountCode] = useState();
     const [discountCodeId, setDiscountCodeId] = useState(null);
@@ -257,7 +257,7 @@ const AddNewOrder = (props) => {
                                                 id="street-multiline-static"
                                                 label="Street"
                                                 multiline
-                                                defaultValue=""
+                                                defaultValue={user.address.street}
                                                 variant="outlined"
                                                 fullWidth={true}
                                                 onChange={handleStreetChange}
@@ -267,7 +267,7 @@ const AddNewOrder = (props) => {
                                                 id="city-multiline-static"
                                                 label="City"
                                                 multiline
-                                                defaultValue=""
+                                                defaultValue={user.address.city}
                                                 variant="outlined"
                                                 fullWidth={true}
                                                 onChange={handleCityChange}
@@ -277,7 +277,7 @@ const AddNewOrder = (props) => {
                                                 id="PostCode-multiline-static"
                                                 label="PostCode"
                                                 multiline
-                                                defaultValue=""
+                                                defaultValue={user.address.postCode}
                                                 variant="outlined"
                                                 fullWidth={true}
                                                 onChange={handlePostCodeChange}

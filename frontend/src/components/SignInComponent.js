@@ -18,6 +18,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { purple } from '@material-ui/core/colors';
 import Paper from '@material-ui/core/Paper';
 import UserContext from '../contexts/UserContext'
+import headers from '../shared/authheader'
 
 const authorize = async (values) => {
   try{
@@ -113,7 +114,7 @@ const handleSubmit = async (values) => {
   const usr = token.split(',');
   var config = {
     method: 'get',
-    url: 'https://localhost:44384/user/customer?id=' + usr[0],
+    url: apiURL + 'user/customer?id=' + usr[0],
     headers: { 
       'api-Key': token
     }
@@ -129,6 +130,7 @@ const handleSubmit = async (values) => {
       favouriteRestaurants: useraddress.data.favouriteRestaurants,
     });
 }catch(error){
+  console.log("niedobrze przy logowaniu")
   setUser(
     {
       apiKey: token,

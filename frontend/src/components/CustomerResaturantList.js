@@ -64,16 +64,25 @@ export default function CustomerRestaurantList() {
   const { setSnackbar } = useContext(SnackbarContext);
   const [rests, setRests] = useState([]);
   const {user, setUser} = useContext(UserContext);
+  const [loaded, setLoaded] = useState(false);
+  const backup = user;
+  const token_backup = user.token;
 
   const handleSettingFavourite = (restId) => {
     setLoading(true);
 
+    console.log(user)
+    console.log(backup)
     var config = {
       method: 'post',
       url: apiUrl + "restaurant/favourite?id=" + restId,
-      headers: headers(user)
+      headers: {
+        "api-key": user.id + "," + user.role
+      }
     };
-        
+    console.log(user)
+    console.log(backup)
+    console.log(config)
     axios(config)
     .then(() => fetchData())
     .catch((error) => setSnackbar({
@@ -89,9 +98,42 @@ export default function CustomerRestaurantList() {
     var config = {
       method: 'get',
       url: apiUrl + "restaurant/all",
-      headers: headers(user)
+      headers: {
+        "api-key": user.id + "," + user.role
+      }
+      
     };
     
+    var config2 = {
+      method: 'get',
+      url: apiUrl + "user/customer?id=" + user.id,
+      headers: {
+        "api-key": user.id + "," + user.role
+      }
+    };
+
+      try{
+        console.log(config2)
+        const useraddress = await axios(config2);
+        console.log(useraddress);
+        if( loaded && user.favouriteRestaurants.length == useraddress.data.favouriteRestaurants.length)
+        {
+          console.log("finito")
+          setLoading(false)
+          return;
+        }
+        setUser({
+          apiKey: user.id + "," + user.role,
+          role: user.role,
+          id: user.id,
+          address: useraddress.data.address,
+          favouriteRestaurants: useraddress.data.favouriteRestaurants,
+        });
+      }catch(error){
+        console.log(error)
+      ;
+    }
+
     try
     {
       const response = await axios(config);
@@ -107,12 +149,13 @@ export default function CustomerRestaurantList() {
                     type: "error"
                 });
     }
+    setLoaded(true);
     setLoading(false);
     }
 
     useEffect(() => {
         fetchData();
-    }, [setRests, user]);
+    }, [setRests, user, setUser, setLoading, setSnackbar]);
 
   if(user === undefined)
     return 
@@ -178,7 +221,6 @@ export default function CustomerRestaurantList() {
                   <Button variant="contained" color="primary" size="small" style={{margin:15}}>
                     <RouterLink to={"/Restaurant/" + rest.id} style={{ color: "#FFF" }}> 
                       Details
-                      {console.log(user)}
                     </RouterLink>
                   </Button>
                   <Button onClick={() => handleSettingFavourite(rest.id)} disabled={user.favouriteRestaurants.map(el => el.id).includes(rest.id)} variant="contained" color="primary" size="small" style={{margin:15}}>
