@@ -420,20 +420,45 @@ namespace webApi.Services
 
         public RestaurantC GetRestaurantById(int? id, int userId)
         {
-            var restaurant = _context
-                            .Restaurants
-                            .Include(item => item.Address)
-                            .FirstOrDefault(r => r.Id == id);
+            Restaurant restaurant;
+            User user;
+            UserRest urs;
+            if (id != null)
+            {
+                restaurant = _context
+                           .Restaurants
+                           .Include(item => item.Address)
+                           .FirstOrDefault(r => r.Id == id);
 
-            var user = _context
-                .Users
-                .Where(u => u.Id == userId)
-                .FirstOrDefault();
+                user = _context
+                   .Users
+                   .Where(u => u.Id == userId)
+                   .FirstOrDefault();
 
-            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+                urs = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
 
-            if (user is null || (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.employee && user.RestaurantId != id)) 
-                throw new UnathorisedException("Unathourized");
+                if (user is null || (user.Role == (int)Role.restaurateur && urs.RestaurantId != id) || (user.Role == (int)Role.employee && user.RestaurantId != id))
+                    throw new UnathorisedException("Unathourized");
+            }
+            else
+            {
+                // pod grupe F obsluga bez id
+                user = _context
+                   .Users
+                   .Where(u => u.Id == userId)
+                   .FirstOrDefault();
+
+                urs = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
+
+                if (!((user.Role == (int)Role.restaurateur || user.Role == (int)Role.employee) && urs != null))
+                    throw new UnathorisedException("Unathourized");
+
+                restaurant = _context
+                                   .Restaurants
+                                   .Include(item => item.Address)
+                                   .FirstOrDefault(r => r.Id == urs.RestaurantId);
+                // ------
+            }
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 

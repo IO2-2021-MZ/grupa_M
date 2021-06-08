@@ -57,6 +57,7 @@ namespace webApi.Controllers
             response.isRestaurateur = user.Role == (int)Role.restaurateur ? true : false;
             var usr = _context.UserRests.Include(u => u.Restaurant).Where(u => u.UserId == user.Id).FirstOrDefault();
             var mapped = _mapper.Map<RestaurantDTO>(usr == null ? user.Restaurant : usr.Restaurant);
+            // tutaj trzeba dodac adres
             response.restaurant = mapped;
             return Ok(response);
         }
