@@ -94,7 +94,7 @@ export default function RestaurateurRestaurant(props) {
     console.log(restId);
     var config = {
       method: "get",
-      url: apiUrl + "restaurant?id=" + restId,
+      url: apiUrl + "restaurant",
       headers: headers(user),
     };
 

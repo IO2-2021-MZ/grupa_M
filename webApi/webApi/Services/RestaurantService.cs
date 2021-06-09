@@ -26,8 +26,18 @@ namespace webApi.Services
             _mapper = mapper;
         }
 
-        public void ActivateRestaurant(int id)
+        public void ActivateRestaurant(int? id, int userId)
         {
+
+            if (id == null)
+            {
+                var uuu = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+                if (uuu is null | uuu.Role != (int)Role.restaurateur) throw new UnathorisedException("Forbidden");
+                var urs = _context.UserRests.Include(ur => ur.Restaurant).Where(ur => ur.UserId == userId).FirstOrDefault();
+                if (urs is null) throw new NotFoundException("Notfound");
+                id = urs.RestaurantId;
+            }
+
             var restaurant = _context
                 .Restaurants
                 .FirstOrDefault(item => item.Id == id);
@@ -119,8 +129,18 @@ namespace webApi.Services
             return restaurant.Id;
         }
 
-        public int CreateSection(int id, string sectionName, int userId)
+        public int CreateSection(int? id, string sectionName, int userId)
         {
+
+            if (id == null)
+            {
+                var uuu = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+                if (uuu is null | uuu.Role != (int)Role.restaurateur) throw new UnathorisedException("Forbidden");
+                var urss = _context.UserRests.Include(ur => ur.Restaurant).Where(ur => ur.UserId == userId).FirstOrDefault();
+                if (urss is null) throw new NotFoundException("Notfound");
+                id = urss.RestaurantId;
+            }
+
             if (sectionName is null || sectionName == string.Empty) throw new BadRequestException("Bad request");
 
             var restaurant = _context.Restaurants.FirstOrDefault(item => item.Id == id);
@@ -130,7 +150,7 @@ namespace webApi.Services
             var section = new Section()
             {
                 Name = sectionName,
-                RestaurantId = id
+                RestaurantId = id.Value
             };
 
             var urs = _context.UserRests.Where(ur => ur.UserId == userId);
@@ -149,8 +169,17 @@ namespace webApi.Services
             return section.Id;
         }
 
-        public void DeactivateRestaurant(int id, int userId)
+        public void DeactivateRestaurant(int? id, int userId)
         {
+            if (id == null)
+            {
+                var uuu = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+                if (uuu is null | uuu.Role != (int)Role.restaurateur) throw new UnathorisedException("Forbidden");
+                var urs = _context.UserRests.Include(ur => ur.Restaurant).Where(ur => ur.UserId == userId).FirstOrDefault();
+                if (urs is null) throw new NotFoundException("Notfound");
+                id = urs.RestaurantId;
+            }
+
             var restaurant = _context
                 .Restaurants
                 .FirstOrDefault(item => item.Id == id);
@@ -161,7 +190,7 @@ namespace webApi.Services
             _context.SaveChanges();
         }
 
-        public void DeleteRestaurant(int id, int userId)
+        public void DeleteRestaurant(int? id, int userId)
         {
             var restaurant = _context
                 .Restaurants
@@ -205,7 +234,7 @@ namespace webApi.Services
 
         public void DeleteSection(int id, int userId)
         {
-            var section = _context.Sections.FirstOrDefault(s => s.Id == id);
+            var section = _context.Sections.Include(s => s.Dishes).ThenInclude(d => d.OrderDishes).FirstOrDefault(s => s.Id == id);
 
             var user = _context
                     .Users
@@ -218,6 +247,13 @@ namespace webApi.Services
 
             if (user is null || !urs.Any(ur => ur.RestaurantId == section.RestaurantId)) throw new UnathorisedException("Unauthorized");
 
+            foreach (var od in section.Dishes)
+            {
+                _context.OrderDishes.RemoveRange(od.OrderDishes);
+                _context.SaveChanges();
+            }
+            _context.Dishes.RemoveRange(section.Dishes);
+            _context.SaveChanges();
             _context.Sections.Remove(section);
             _context.SaveChanges();
         }
@@ -235,7 +271,7 @@ namespace webApi.Services
                 {
                     rest = _context.Restaurants.Where(r => r.Id == userr.RestaurantId).FirstOrDefault();
                 }
-                else if (userr.Role == (int)Role.admin)
+                else if (userr.Role == (int)Role.restaurateur)
                 {
                     var userest = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
                     if (userest is null) throw new NotFoundException("Not found");
@@ -504,7 +540,7 @@ namespace webApi.Services
                 {
                     rest = _context.Restaurants.Include(r => r.Sections).Where(r => r.Id == user.RestaurantId).FirstOrDefault();
                 }
-                else if(user.Role == (int)Role.admin)
+                else if(user.Role == (int)Role.restaurateur)
                 {
                     var userest = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
                     if (userest is null) throw new NotFoundException("Not found");
@@ -558,8 +594,16 @@ namespace webApi.Services
             return ordersDTO;
         }
 
-        public void ReactivateRestaurant(int id, int userId)
+        public void ReactivateRestaurant(int? id, int userId)
         {
+            if(id == null)
+            {
+                var uuu = _context.Users.Where(u => u.Id == userId).FirstOrDefault();
+                if (uuu is null | uuu.Role != (int)Role.restaurateur) throw new UnathorisedException("Forbidden");
+                var urs = _context.UserRests.Include(ur => ur.Restaurant).Where(ur => ur.UserId == userId).FirstOrDefault();
+                if (urs is null) throw new NotFoundException("Notfound");
+                id = urs.RestaurantId;
+            }
             var restaurant = _context
                .Restaurants
                .FirstOrDefault(item => item.Id == id);

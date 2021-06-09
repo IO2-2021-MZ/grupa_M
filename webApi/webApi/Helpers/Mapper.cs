@@ -31,7 +31,7 @@ namespace webApi.Helpers
 
             //Review Mappers
             CreateMap<Review, NewReview>().ReverseMap();
-
+            CreateMap<Review, ReviewR>().ReverseMap();
             CreateMap<Review, ReviewDTO>().ReverseMap();
 
             //Order Mapper

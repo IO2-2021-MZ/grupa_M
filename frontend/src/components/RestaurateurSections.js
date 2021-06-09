@@ -80,7 +80,7 @@ export default function SectionsList(props) {
     setLoading(true);
     var config = {
       method: "get",
-      url: apiUrl + "restaurant/menu?id=" + restId,
+      url: apiUrl + "restaurant/menu",
       headers: headers(user)
     };
 

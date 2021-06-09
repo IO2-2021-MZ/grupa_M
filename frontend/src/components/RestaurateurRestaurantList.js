@@ -69,14 +69,15 @@ export default function RestaurateurRestaurantList() {
 
     var config = {
       method: 'post',
-      url: apiUrl + "restaurant/" + (toBeBlocked ? "deactivate" : "reactivate") + "?id=" + id,
+      url: apiUrl + "restaurant/" + (toBeBlocked ? "deactivate" : "reactivate"),
       headers: headers(user)
     };
-    
+    console.log(1)
     const response =  axios(config)
     .then(() => fetchData())
+    .then(() => console.log(3))
     .catch((error) => setSnackbar(error.message));
-    
+    console.log(2)
   }
 
   async function fetchData() {

@@ -12,11 +12,11 @@ namespace webApi.Services
     {
         RestaurantC GetRestaurantById(int? id, int userId);
         int CreateNewRestaurant(NewRestaurant newRestaurant, int userId);
-        void DeleteRestaurant(int id, int userId);
+        void DeleteRestaurant(int? id, int userId);  
         List<SectionDTO> GetSectionByRestaurantsId(int? id, int userId);
-        int CreateSection(int id, string sectionName, int userId);
+        int CreateSection(int? id, string sectionName, int userId);//
         void UpdateSection(int id, string newSectionName, int userId);
-        void DeleteSection(int id, int userId);
+        void DeleteSection(int id, int userId); 
         int CreateNewPositionFromMenu(int id, NewPositionFromMenu newPosition, int userId);
         void UpdatePositionFromMenu(int id, NewPositionFromMenu newPosition, int userId);
         void RemovePositionFromMenu(int id, int userId);
@@ -25,9 +25,9 @@ namespace webApi.Services
         List<ReviewR> GetAllReviewsForRestaurants(int? id, int userId);
         List<ComplaintR> GetAllComplaitsForRestaurants(int? id, int userId);
         void SetFavouriteRestaurant(int id, int userId);
-        void ActivateRestaurant(int id);
-        void ReactivateRestaurant(int id, int userId);
-        void DeactivateRestaurant(int id, int userId);
+        void ActivateRestaurant(int? id, int userId); 
+        void ReactivateRestaurant(int? id, int userId); 
+        void DeactivateRestaurant(int? id, int userId); 
         void BlockRestaurant(int id);
         void UnblockRestaurant(int id);
         IEnumerable<OrderR> OrdersArchive(int userId);
