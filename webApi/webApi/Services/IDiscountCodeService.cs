@@ -11,7 +11,7 @@ namespace webApi.Services
     public interface IDiscountCodeService
     {
         public DiscountCodeDTO GetDiscountCodeByCode(string? code, int userId);
-        int CreateNewDiscountCode(NewDiscountCode newDiscountCode, int userId);
+        int CreateNewDiscountCode(NewDiscountCode newDiscountCode, int userId, int? restaurantId);
         bool DeleteDiscountCode(int id, int userId);
         IEnumerable<DiscountCodeDTO> GetAllDiscountCodes(int userId);
     }

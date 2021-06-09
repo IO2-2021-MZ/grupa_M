@@ -58,7 +58,7 @@ namespace webApi.Controllers
         [Authorize(Role.admin, Role.restaurateur, Role.employee)]
         public ActionResult CreateDiscountCode([FromBody] NewDiscountCode newDiscountCode)
         {
-            int id = _discountCodeService.CreateNewDiscountCode(newDiscountCode, Account.Id);
+            int id = _discountCodeService.CreateNewDiscountCode(newDiscountCode, Account.Id, Account.RestaurantId);
             return Ok($"/discountCode/{id}");
         }
 

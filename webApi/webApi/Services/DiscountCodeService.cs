@@ -26,7 +26,7 @@ namespace webApi.Services
             _mapper = mapper;
         }
 
-        public int CreateNewDiscountCode(NewDiscountCode newDiscountCode, int userId)
+        public int CreateNewDiscountCode(NewDiscountCode newDiscountCode, int userId, int? restaurantId)
         {
             if (newDiscountCode is null) throw new BadRequestException("Bad request");
 
@@ -43,6 +43,8 @@ namespace webApi.Services
                 throw new UnathorisedException("Forbidden");
 
             var ndc = _mapper.Map<DiscountCode>(newDiscountCode);
+            if(restaurantId != null) newDiscountCode.RestaurantId = restaurantId.Value;
+
             _context.DiscountCodes.Add(ndc);
             _context.SaveChanges();
 
