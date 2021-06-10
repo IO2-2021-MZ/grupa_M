@@ -500,6 +500,7 @@ namespace webApi.Services
                 restaurant = _context
                                    .Restaurants
                                    .Include(item => item.Address)
+                                   .Include(item => item.Reviews)
                                    .FirstOrDefault(r => r.Id == urs.RestaurantId);
                 // ------
             }
@@ -528,8 +529,8 @@ namespace webApi.Services
                 };
                 ((RestaurantDTO)restaurantDTO).AggregatePayment = orders.Count() == 0 ? 0 : orders.Sum(func);
             }
+            restaurantDTO.Rating = restaurant.Reviews.Count == 0 ? 0 : restaurant.Reviews.Average(r => r.Rating);
 
-            
 
             return restaurantDTO;
         }

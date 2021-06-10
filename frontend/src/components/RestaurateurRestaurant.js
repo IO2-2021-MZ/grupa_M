@@ -90,8 +90,6 @@ export default function RestaurateurRestaurant(props) {
 
   async function fetchData() {
     setLoading(true);
-    console.log(props);
-    console.log(restId);
     var config = {
       method: "get",
       url: apiUrl + "restaurant",

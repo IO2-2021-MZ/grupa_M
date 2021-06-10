@@ -91,7 +91,6 @@ export default function RestaurateurRestaurantList() {
 
     try {
       const response = await axios(config);
-      setRests(response.data);
     } catch (error) {
       console.error(error);
       setSnackbar({
