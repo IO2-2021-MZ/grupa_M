@@ -51,7 +51,7 @@ namespace webApi.Controllers
         [Authorize(Role.restaurateur)]
         public ActionResult CreateRestaurant([FromBody] NewRestaurant newRestaurant)
         {
-            int id = _restaurantService.CreateNewRestaurant(newRestaurant, Account.Id);
+            int id = _restaurantService.CreateNewRestaurant(newRestaurant, Account.Id, Account.Address, Account.AddressId);
             return Ok($"/restaurant/{id}");
         }
 
