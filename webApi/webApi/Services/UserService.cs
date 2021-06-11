@@ -84,6 +84,11 @@ namespace webApi.Services
             _context.Orders.RemoveRange(orders);
             _context.SaveChanges();
 
+            // DELETE USER RESTS
+            var rests = _context.UserRests.Where(r => r.UserId == user.Id);
+            _context.UserRests.RemoveRange(rests);
+            _context.SaveChanges();
+
             _context.Users.Remove(user);
             _context.SaveChanges();
         }
