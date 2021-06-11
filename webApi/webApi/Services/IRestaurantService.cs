@@ -5,14 +5,13 @@ using webApi.DataTransferObjects.OrderDTO;
 using webApi.DataTransferObjects.RestaurantDTO;
 using webApi.DataTransferObjects.ReviewDTO;
 using webApi.DataTransferObjects.SectionDTO;
-using webApi.Models;
 
 namespace webApi.Services
 {
     public interface IRestaurantService
     {
         RestaurantC GetRestaurantById(int? id, int userId);
-        int CreateNewRestaurant(NewRestaurant newRestaurant, int userId, Address address, int? userAdressId);
+        int CreateNewRestaurant(NewRestaurant newRestaurant, int userId);
         void DeleteRestaurant(int? id, int userId);  
         List<SectionDTO> GetSectionByRestaurantsId(int? id, int userId);
         int CreateSection(int? id, string sectionName, int userId);//

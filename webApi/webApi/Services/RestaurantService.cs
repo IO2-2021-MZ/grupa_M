@@ -87,33 +87,25 @@ namespace webApi.Services
             return dish.Id;
         }
 
-        public int CreateNewRestaurant(NewRestaurant newRestaurant, int userId, Address userAddress, int? userAdressId)
+        public int CreateNewRestaurant(NewRestaurant newRestaurant, int userId)
         {
             if (newRestaurant is null) throw new BadRequestException("Bad request");
 
             var restaurant = _mapper.Map<Restaurant>(newRestaurant);
             restaurant.State = (int)RestaurantState.disabled;
-           
+            var address = _mapper.Map<Address>(newRestaurant.Address);
+            int addressId;
 
             restaurant.AggregatePayment = 0.0m;
             restaurant.Owing = 24.99m;
 
-            var address = _mapper.Map<Address>(newRestaurant.Address);
-            int addressId;
             Address add = _context.Addresses.FirstOrDefault(a => a.City == address.City && a.PostCode == address.PostCode && a.Street == address.Street);
 
             if (add is null)
             {
-                if(userAddress != null && userAdressId != null)
-                {
-                    add = userAddress;
-                    addressId = userAddress.Id;
-                }else
-                {
-                    _context.Addresses.Add(address);
-                    _context.SaveChanges();
-                    addressId = address.Id;
-                }
+                _context.Addresses.Add(address);
+                _context.SaveChanges();
+                addressId = address.Id;
             }
             else
             {
