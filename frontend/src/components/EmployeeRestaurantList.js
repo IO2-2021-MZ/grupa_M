@@ -187,7 +187,6 @@ export default function RestaurateurRestaurantList() {
                       size="small"
                       color="primary"
                       style={{ margin: 15 }}
-                      disabled={rest.state=="blocked" || rest.state=="disabled"}
                     >
                       <RouterLink
                         to={"/Restaurant/" + rest.id}
