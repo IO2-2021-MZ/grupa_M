@@ -552,7 +552,7 @@ namespace webApi.Services
                 {
                     var userest = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
                     if (userest is null) throw new NotFoundException("Not found");
-                    rest = _context.Restaurants.Include(r => r.Sections).Where(r => r.Id == userest.RestaurantId).FirstOrDefault();
+                    rest = _context.Restaurants.Include(r => r.Sections).ThenInclude(s => s.Dishes).Where(r => r.Id == userest.RestaurantId).FirstOrDefault();
                     
                 }
 
