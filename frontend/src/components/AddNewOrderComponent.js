@@ -242,7 +242,7 @@ const AddNewOrder = (props) => {
                                                     id="datetime-local"
                                                     label="Date"
                                                     type="datetime-local"
-                                                    defaultValue="2017-05-24T10:30"
+                                                    defaultValue="2017-06-11T10:30"
                                                     className={classes.textField}
                                                     InputLabelProps={{
                                                         shrink: true,
