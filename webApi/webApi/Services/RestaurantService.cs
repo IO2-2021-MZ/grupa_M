@@ -472,6 +472,7 @@ namespace webApi.Services
                 restaurant = _context
                            .Restaurants
                            .Include(item => item.Address)
+                           .Include(item => item.Reviews)
                            .FirstOrDefault(r => r.Id == id);
 
                 user = _context
@@ -509,7 +510,10 @@ namespace webApi.Services
 
             RestaurantC restaurantDTO;
             if (user.Role == (int)Role.customer)
+            {
                 restaurantDTO = _mapper.Map<RestaurantC>(restaurant);
+                restaurantDTO.Rating = restaurant.Reviews.Count == 0 ? 0 : restaurant.Reviews.Average(r => r.Rating);
+            }
             else
             {
                 restaurantDTO = _mapper.Map<RestaurantDTO>(restaurant);
@@ -521,16 +525,17 @@ namespace webApi.Services
                     return dish.Price;
                 };
 
-                Func<Order,decimal> func = o =>
-                {
-                    var orderDishes = _context.OrderDishes.Where(od => od.OrderId == o.Id).ToList();
-                    if (orderDishes.Count() == 0) return 0;
-                    return orderDishes.Sum(func1);
-                };
+                Func<Order, decimal> func = o =>
+                 {
+                     var orderDishes = _context.OrderDishes.Where(od => od.OrderId == o.Id).ToList();
+                     if (orderDishes.Count() == 0) return 0;
+                     return orderDishes.Sum(func1);
+                 };
                 ((RestaurantDTO)restaurantDTO).AggregatePayment = orders.Count() == 0 ? 0 : orders.Sum(func);
+                restaurantDTO.Rating = restaurant.Reviews.Count == 0 ? 0 : restaurant.Reviews.Average(r => r.Rating);
             }
-            restaurantDTO.Rating = restaurant.Reviews.Count == 0 ? 0 : restaurant.Reviews.Average(r => r.Rating);
 
+            
 
             return restaurantDTO;
         }
@@ -553,7 +558,7 @@ namespace webApi.Services
                 {
                     var userest = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
                     if (userest is null) throw new NotFoundException("Not found");
-                    rest = _context.Restaurants.Include(r => r.Sections).Where(r => r.Id == userest.RestaurantId).FirstOrDefault();
+                    rest = _context.Restaurants.Include(r => r.Sections).ThenInclude(s => s.Dishes).Where(r => r.Id == userest.RestaurantId).FirstOrDefault();
                     
                 }
 

@@ -91,6 +91,7 @@ export default function RestaurateurRestaurantList() {
 
     try {
       const response = await axios(config);
+      setRests(response.data);
     } catch (error) {
       console.error(error);
       setSnackbar({
@@ -210,6 +211,7 @@ export default function RestaurateurRestaurantList() {
                       size="small"
                       color="primary"
                       style={{ margin: 15 }}
+                      disabled={rest.state=="blocked" || rest.state=="disabled"}
                     >
                       <RouterLink
                         to={"/Restaurant/" + rest.id}
