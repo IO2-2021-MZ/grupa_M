@@ -134,7 +134,7 @@ export default function AdminRestaurantList() {
 
       var config = {
         method: 'post',
-        url: apiUrl + "restaurant/" + (toBeBlocked ? "deactivate" : "reactivate") + "?id=" + id,
+        url: apiUrl + "restaurant/" + (toBeBlocked ? "deactivate" : "activate") + "?id=" + id,
         headers: headers(user)
       };
       
@@ -210,8 +210,15 @@ export default function AdminRestaurantList() {
                       }
                     </RouterLink>
                   </Button>
-                  <Button variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity(rest.id, rest.state == "blocked" || rest.state == "disabled" ? false : true)}>
+                  <Button variant="contained" style={{margin:15}} size="small" color="primary" 
+                          disabled={rest.state == "disabled" ? true : false}
+                          onClick={() => changeActivity(rest.id, rest.state == "blocked" || rest.state == "disabled" ? false : true)}>
                       {rest.state == "blocked" || rest.state == "disabled" ? "Unblock" : "Block"}
+                  </Button>
+                  <Button variant="contained" style={{margin:15}} size="small" color="primary" 
+                          disabled={rest.state != "disabled" ? true : false}
+                          onClick={() => changeActivity2(rest.id, rest.state == "blocked" || rest.state == "disabled" ? false : true)}>
+                      {rest.state == "disabled" ? "Activate" : "Activate"}
                   </Button>
                   <Button variant="contained" style={{margin:15}} size="small" color="secondary" onClick={() => deleteRestaurant(rest.id)}>
                       Delete
