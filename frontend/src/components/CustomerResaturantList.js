@@ -203,7 +203,7 @@ export default function CustomerRestaurantList() {
                     {rest.name}
                   </Typography>
                   <Typography gutterBottom variant="subtitle1">
-                    {rest.address.postCode + " " + rest.address.city + ", " + rest.address.street}
+                    {rest.address.postcode + " " + rest.address.city + ", " + rest.address.street}
                   </Typography>
                   <Typography gutterBottom variant="subtitle1">
                     {rest.contactInformation}

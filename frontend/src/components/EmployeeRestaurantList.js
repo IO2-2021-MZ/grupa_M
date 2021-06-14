@@ -68,7 +68,7 @@ export default function RestaurateurRestaurantList() {
 
     var config = {
       method: "get",
-      url: apiUrl + "restaurant/all",
+      url: apiUrl + "restaurant",
       headers: headers(user)
     };
 
@@ -147,10 +147,9 @@ export default function RestaurateurRestaurantList() {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={10}>
-            {rests.map((rest) => (
               <Grid
                 item
-                key={rest.id}
+                key={rests.id}
                 xs={12}
                 sm={12}
                 md={12}
@@ -159,22 +158,22 @@ export default function RestaurateurRestaurantList() {
                 <Card className={classes.card}>
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {rest.name}
+                      {rests.name}
                     </Typography>
                     <Typography gutterBottom variant="subtitle1">
-                      {rest.address.postCode +
+                      {rests.address?.postcode +
                         " " +
-                        rest.address.city +
+                        rests.address?.city +
                         ", " +
-                        rest.address.street}
+                        rests.address?.street}
                     </Typography>
                     <Typography gutterBottom variant="subtitle1">
-                      {rest.contactInformation}
+                      {rests.contactInformation}
                     </Typography>
                     <Box component="fieldset" mb={3} borderColor="transparent">
                       <Rating
-                        name={"customized-empty" + rest.id}
-                        value={rest.rating}
+                        name={"customized-empty" + rests.id}
+                        value={rests.rating}
                         precision={0.5}
                         readOnly
                         emptyIcon={<StarBorderIcon fontSize="inherit" />}
@@ -187,10 +186,10 @@ export default function RestaurateurRestaurantList() {
                       size="small"
                       color="primary"
                       style={{ margin: 15 }}
-                      disabled={rest.state=="blocked" || rest.state=="disabled"}
+                      disabled={rests.state=="blocked" || rests.state=="disabled"}
                     >
                       <RouterLink
-                        to={"/Restaurant/" + rest.id}
+                        to={"/Restaurant/" + rests.id}
                         style={{ color: "#FFF" }}
                       >
                         Details
@@ -199,7 +198,6 @@ export default function RestaurateurRestaurantList() {
                   </CardActions>
                 </Card>
               </Grid>
-            ))}
           </Grid>
         </Container>
       </main>

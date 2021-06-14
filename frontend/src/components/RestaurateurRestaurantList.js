@@ -60,7 +60,7 @@ export default function RestaurateurRestaurantList() {
   const classes = useStyles();
   const { setLoading } = useContext(LoadingContext);
   const { setSnackbar } = useContext(SnackbarContext);
-  const [rests, setRests] = useState([]);
+  const [rests, setRests] = useState(undefined);
   const { user, setUser } = useContext(UserContext);
 
   const changeActivity2 = (id, toBeBlocked) => {
@@ -85,7 +85,7 @@ export default function RestaurateurRestaurantList() {
 
     var config = {
       method: "get",
-      url: apiUrl + "restaurant/all",
+      url: apiUrl + "restaurant",
       headers: headers(user)
     };
 
@@ -159,7 +159,7 @@ export default function RestaurateurRestaurantList() {
                 </RouterLink>
               </Button>
               &nbsp; &nbsp;
-              {rests.length == 0 ?
+              {rests === undefined ?
               <Button variant="contained" color="default">
                 <RouterLink to="/AddNewRestaurant">
                   Add new restaurant
@@ -170,11 +170,11 @@ export default function RestaurateurRestaurantList() {
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
+          {rests ? 
           <Grid container spacing={10}>
-            {rests.map((rest) => (
               <Grid
                 item
-                key={rest.id}
+                key={rests.id}
                 xs={12}
                 sm={12}
                 md={12}
@@ -183,22 +183,22 @@ export default function RestaurateurRestaurantList() {
                 <Card className={classes.card}>
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {rest.name}
+                      {rests.name}
                     </Typography>
                     <Typography gutterBottom variant="subtitle1">
-                      {rest.address.postCode +
+                    {rests.address?.postcode +
                         " " +
-                        rest.address.city +
+                        rests.address?.city +
                         ", " +
-                        rest.address.street}
+                        rests.address?.street}
                     </Typography>
                     <Typography gutterBottom variant="subtitle1">
-                      {rest.contactInformation}
+                      {rests.contactInformation}
                     </Typography>
                     <Box component="fieldset" mb={3} borderColor="transparent">
                       <Rating
-                        name={"customized-empty" + rest.id}
-                        value={rest.rating}
+                        name={"customized-empty" + rests.id}
+                        value={rests.rating}
                         precision={0.5}
                         readOnly
                         emptyIcon={<StarBorderIcon fontSize="inherit" />}
@@ -211,33 +211,33 @@ export default function RestaurateurRestaurantList() {
                       size="small"
                       color="primary"
                       style={{ margin: 15 }}
-                      disabled={rest.state=="blocked" || rest.state=="disabled"}
+                      disabled={rests.state=="blocked" || rests.state=="disabled"}
                     >
                       <RouterLink
-                        to={"/Restaurant/" + rest.id}
+                        to={"/Restaurant/" + rests.id}
                         style={{ color: "#FFF" }}
                       >
                         Details
                       </RouterLink>
                     </Button>
-                    <Button disabled={ rest.state=="blocked" || rest.state=="disabled"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity2(rest.id, rest.state == "deactivated" ? false : true)}>
-                      {rest.state == "active" ? "Inactivate" : "Activate"}
-                      {console.log(rest)}
+                    <Button disabled={ rests.state=="blocked" || rests.state=="disabled"} variant="contained" style={{margin:15}} size="small" color="primary" onClick={() => changeActivity2(rests.id, rests.state == "deactivated" ? false : true)}>
+                      {rests.state == "active" ? "Inactivate" : "Activate"}
+                      {console.log(rests)}
                   </Button>
                     <Button
                       variant="contained"
                       size="small"
                       color="secondary"
                       style={{ margin: 15 }}
-                      onClick = {() => deleteRestaurant(rest.id)}
+                      onClick = {() => deleteRestaurant(rests.id)}
                     >
                       DELETE
                     </Button>
                   </CardActions>
                 </Card>
               </Grid>
-            ))}
           </Grid>
+          : <div></div>}
         </Container>
       </main>
     </React.Fragment>

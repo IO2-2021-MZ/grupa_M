@@ -74,7 +74,7 @@ function RabatCodeList() {
   
     async function fetchData() {
       setLoading(true);
-  
+
       var config = {
         method: 'get',
         url: apiUrl + "discountCode/all",
