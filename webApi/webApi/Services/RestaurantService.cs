@@ -500,6 +500,7 @@ namespace webApi.Services
                     throw new UnathorisedException("Unathourized");
             }
             else
+
             {
                 // pod grupe F obsluga bez id
                 user = _context

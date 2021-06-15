@@ -58,16 +58,23 @@ namespace webApi.Controllers
             if(response.isRestaurateur == true)
             {
                 var usr = _context.UserRests.Include(u => u.Restaurant).Where(u => u.UserId == user.Id).FirstOrDefault();
-                var mapped = _mapper.Map<RestaurantDTO>(usr == null ? user.Restaurant : usr.Restaurant);
-                int restaurantAddresId = usr == null ? user.Restaurant.AddressId : usr.Restaurant.AddressId;
-                var address = _context
-                    .Addresses
-                    .Where(a => a.Id == restaurantAddresId)
-                    .FirstOrDefault();
-                var addresDto = _mapper.Map<AddressDTO>(address);
-                mapped.Address = addresDto;
+                if (usr == null)
+                {
+                    response.restaurant = null;
+                }
+                else
+                {
+                    var mapped = _mapper.Map<RestaurantDTO>(usr == null ? user.Restaurant : usr.Restaurant);
+                    int restaurantAddresId = usr == null ? user.Restaurant.AddressId : usr.Restaurant.AddressId;
+                    var address = _context
+                        .Addresses
+                        .Where(a => a.Id == restaurantAddresId)
+                        .FirstOrDefault();
+                    var addresDto = _mapper.Map<AddressDTO>(address);
+                    mapped.Address = addresDto;
 
-                response.restaurant = mapped;
+                    response.restaurant = mapped;
+                }
             }
             else
             {
