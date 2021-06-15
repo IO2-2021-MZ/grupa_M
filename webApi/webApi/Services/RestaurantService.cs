@@ -349,6 +349,8 @@ namespace webApi.Services
             var restaurant = _context
                 .Restaurants
                 .Include(item => item.Orders)
+                .ThenInclude(item => item.OrderDishes)
+                .ThenInclude(item => item.Dish)
                 .FirstOrDefault(item => item.Id == id);
 
             if (user is null || (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.employee && user.RestaurantId != id)) 
@@ -357,6 +359,15 @@ namespace webApi.Services
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
             var orderDTOs = _mapper.Map<List<OrderR>>(restaurant.Orders);
+            foreach(var o in orderDTOs)
+            {
+                o.Positions = new List<PositionFromMenuDTO>();
+                var ord = restaurant.Orders.Where(od => od.Id == o.Id).FirstOrDefault();
+                foreach(var c in  ord.OrderDishes)
+                {
+                    o.Positions.Add(_mapper.Map<PositionFromMenuDTO>(c.Dish));
+                }
+            }
 
             return orderDTOs;
         }
@@ -467,7 +478,7 @@ namespace webApi.Services
 
         public RestaurantC GetRestaurantById(int? id, int userId)
         {
-            Restaurant restaurant;
+            Restaurant restaurant = null;
             User user;
             UserRest urs;
             if (id != null)
@@ -498,14 +509,23 @@ namespace webApi.Services
 
                 urs = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
 
-                if (!((user.Role == (int)Role.restaurateur || user.Role == (int)Role.employee) && urs != null))
+                if (user.Role == (int)Role.employee && user.RestaurantId == null)
+                    throw new UnathorisedException("Unathourized");
+                else if(user.Role == (int)Role.restaurateur && urs == null)
                     throw new UnathorisedException("Unathourized");
 
+                if(user.Role == (int)Role.restaurateur)
                 restaurant = _context
                                    .Restaurants
                                    .Include(item => item.Address)
                                    .Include(item => item.Reviews)
                                    .FirstOrDefault(r => r.Id == urs.RestaurantId);
+                else if(user.Role == (int)Role.employee)
+                    restaurant = _context
+                                   .Restaurants
+                                   .Include(item => item.Address)
+                                   .Include(item => item.Reviews)
+                                   .FirstOrDefault(r => r.Id == user.RestaurantId);
                 // ------
             }
 

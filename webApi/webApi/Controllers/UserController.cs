@@ -55,9 +55,9 @@ namespace webApi.Controllers
             var user = _userService.GetUserWithId(id == null ? Account.Id : id);
             var response = _mapper.Map<Employee>(user);
             response.isRestaurateur = user.Role == (int)Role.restaurateur ? true : false;
-            var usr = _context.UserRests.Include(u => u.Restaurant).Where(u => u.UserId == user.Id).FirstOrDefault();
-            if(usr != null)
+            if(response.isRestaurateur == true)
             {
+                var usr = _context.UserRests.Include(u => u.Restaurant).Where(u => u.UserId == user.Id).FirstOrDefault();
                 var mapped = _mapper.Map<RestaurantDTO>(usr == null ? user.Restaurant : usr.Restaurant);
                 int restaurantAddresId = usr == null ? user.Restaurant.AddressId : usr.Restaurant.AddressId;
                 var address = _context
@@ -68,6 +68,10 @@ namespace webApi.Controllers
                 mapped.Address = addresDto;
 
                 response.restaurant = mapped;
+            }
+            else
+            {
+
             }
             
             return Ok(response);

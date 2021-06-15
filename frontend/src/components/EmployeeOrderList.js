@@ -88,6 +88,7 @@ function EmployeeOrderList(props) {
         const response = await axios(config);
         console.log(response);
         setOrders(response.data);
+        console.log(response.data);
       }
       catch(error)
       {
