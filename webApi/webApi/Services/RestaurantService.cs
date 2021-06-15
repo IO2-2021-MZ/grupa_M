@@ -511,8 +511,8 @@ namespace webApi.Services
 
                 if (user.Role == (int)Role.employee && user.RestaurantId == null)
                     throw new UnathorisedException("Unathourized");
-                else if(user.Role == (int)Role.restaurateur && urs == null)
-                    throw new UnathorisedException("Unathourized");
+                else if (user.Role == (int)Role.restaurateur && urs == null)
+                    throw new NotFoundException("Not found");
 
                 if(user.Role == (int)Role.restaurateur)
                 restaurant = _context

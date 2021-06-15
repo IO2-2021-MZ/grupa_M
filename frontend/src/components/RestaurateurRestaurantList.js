@@ -76,7 +76,7 @@ export default function RestaurateurRestaurantList() {
     const response =  axios(config)
     .then(() => fetchData())
     .then(() => console.log(3))
-    .catch((error) => setSnackbar(error.message));
+    .catch((error) => { setSnackbar(error.message)});
     console.log(2)
   }
 
@@ -93,12 +93,8 @@ export default function RestaurateurRestaurantList() {
       const response = await axios(config);
       setRests(response.data);
     } catch (error) {
-      console.error(error);
-      setSnackbar({
-        open: true,
-        message: "Loading data failed",
-        type: "error",
-      });
+      console.log(error);
+      ;
     }
     setLoading(false);
   }
