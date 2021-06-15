@@ -195,7 +195,7 @@
             <response code="400">Bad Request</response> 
             <response code="404">Resource Not Found</response> 
         </member>
-        <member name="M:webApi.Controllers.RestaurantController.CreateSection(System.Int32,System.String)">
+        <member name="M:webApi.Controllers.RestaurantController.CreateSection(System.Nullable{System.Int32},System.String)">
             <summary>
             Creates New Section
             </summary>

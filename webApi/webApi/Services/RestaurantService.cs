@@ -343,7 +343,7 @@ namespace webApi.Services
 
             if (id is null)
             {
-                id = urs.FirstOrDefault().UserId;
+                id = urs.FirstOrDefault().RestaurantId;
             }
 
             var restaurant = _context
@@ -432,19 +432,22 @@ namespace webApi.Services
 
         public List<ReviewR> GetAllReviewsForRestaurants(int? id, int userId )
         {
-            var restaurant = _context
-               .Restaurants
-               .Include(item => item.Reviews)
-               .FirstOrDefault(item => item.Id == id);
-
             var user = _context
                 .Users
                 .Where(u => u.Id == userId)
                 .FirstOrDefault();
             
-            var urs = _context.UserRests.Where(ur => ur.UserId == userId);
+            var urs = _context.UserRests.Where(ur => ur.UserId == userId).FirstOrDefault();
 
-            if (user is null || (user.Role == (int)Role.restaurateur && !urs.Any(ur => ur.RestaurantId == id)) || (user.Role == (int)Role.employee && user.RestaurantId != id))
+            if (id is null)
+                id = urs.RestaurantId;
+
+            var restaurant = _context
+               .Restaurants
+               .Include(item => item.Reviews)
+               .FirstOrDefault(item => item.Id == id);
+
+            if (user is null || (user.Role == (int)Role.restaurateur && !(urs.RestaurantId == id)) || (user.Role == (int)Role.employee && user.RestaurantId != id))
                 throw new UnathorisedException("Unathourized");
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
@@ -693,7 +696,7 @@ namespace webApi.Services
 
             if (restaurant is null) throw new NotFoundException("Resource not found");
 
-            restaurant.State = (int)RestaurantState.deactivated;
+            restaurant.State = (int)RestaurantState.active;
             _context.SaveChanges();
         }
 

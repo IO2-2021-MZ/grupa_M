@@ -52,7 +52,7 @@ namespace webApi.Controllers
         public ActionResult CreateRestaurant([FromBody] NewRestaurant newRestaurant)
         {
             int id = _restaurantService.CreateNewRestaurant(newRestaurant, Account.Id, Account.Address, Account.AddressId);
-            return Ok($"/restaurant/{id}");
+            return Ok(id);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace webApi.Controllers
         /// <response code="401">UnAuthorised</response> 
         [HttpPost("menu/section")]
         [Authorize(Role.restaurateur)]
-        public ActionResult CreateSection([FromQuery] int id,[FromQuery] string section)
+        public ActionResult CreateSection([FromQuery] int? id,[FromQuery] string section)
         {
             //id z tokenu po zalogowaniu
             int sectionId = _restaurantService.CreateSection(id, section, Account.Id);
