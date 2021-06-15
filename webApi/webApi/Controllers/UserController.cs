@@ -48,6 +48,8 @@ namespace webApi.Controllers
         [HttpGet("employee")]
         public IActionResult GetEmployee([FromQuery] int? id)
         {
+            if (id is null)
+                id = Account.Id;
             if(this.Account.Role == (int)Role.employee && Account.Id != id)
             {
                 throw new  UnathorisedException("Not authorized Employye");
@@ -78,9 +80,16 @@ namespace webApi.Controllers
             }
             else
             {
-
+                var addr = _context
+                        .Addresses
+                        .Where(a => a.Id == user.Restaurant.AddressId)
+                        .FirstOrDefault();
+                var addrDTO = _mapper.Map<AddressDTO>(addr);
+                response.restaurant.Address = addrDTO;
             }
             
+            
+
             return Ok(response);
         }
         [HttpPost("employee")]

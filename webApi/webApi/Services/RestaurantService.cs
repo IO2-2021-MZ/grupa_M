@@ -342,12 +342,20 @@ namespace webApi.Services
             if (urs.FirstOrDefault() is null && user.Role != (int)Role.employee) return new List<OrderR>();
 
             if (id is null)
+                if (user.RestaurantId != null)
+                    id = user.RestaurantId;
+
+            if (id is null)
             {
                 id = urs.FirstOrDefault().RestaurantId;
             }
 
             var restaurant = _context
                 .Restaurants
+                .Include(item => item.Orders)
+                .ThenInclude(item => item.Address)
+                .Include(item => item.Orders)
+                .ThenInclude(item => item.DiscountCode)
                 .Include(item => item.Orders)
                 .ThenInclude(item => item.OrderDishes)
                 .ThenInclude(item => item.Dish)
@@ -363,10 +371,19 @@ namespace webApi.Services
             {
                 o.Positions = new List<PositionFromMenuDTO>();
                 var ord = restaurant.Orders.Where(od => od.Id == o.Id).FirstOrDefault();
+                var regularPrice = 0.0;
+                var finalPrice = 0.0;
                 foreach(var c in  ord.OrderDishes)
                 {
                     o.Positions.Add(_mapper.Map<PositionFromMenuDTO>(c.Dish));
+                    regularPrice += (double)c.Dish.Price;
                 }
+                if (o.DiscountCode != null)
+                    finalPrice = regularPrice * (100 - o.DiscountCode.Percent) * 0.01;
+                else
+                    finalPrice = regularPrice;
+                o.OriginalPrice = (decimal)regularPrice;
+                o.FinalPrice = (decimal)finalPrice;
             }
 
             return orderDTOs;
