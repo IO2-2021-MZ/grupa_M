@@ -129,6 +129,7 @@ export default function RestaurateurOrder(props) {
     var config = {
       method: "get",
       url: apiUrl + "order?id=" + orderId,
+      //url: apiUrl + "order",
       headers: headers(user),
     };
 

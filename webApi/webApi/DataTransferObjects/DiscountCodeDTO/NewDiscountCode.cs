@@ -1,7 +1,9 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using webApi.DataTransferObjects.OrderDTO;
 using webApi.Models;
@@ -18,6 +20,6 @@ namespace webApi.DataTransferObjects.DiscountCodeDTO
         public DateTime DateTo { get; set; }
         public int? RestaurantId { get; set; }
         [Required]
-        public int Percent { get; set; }
+        public double Percent { get; set; }
     }
 }
